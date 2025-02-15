@@ -66,9 +66,7 @@
 
 @implementation GTMSessionFetcher (GTMSessionFetcherLogging)
 
-// This should only be accessed within @synchronized([GTMSessionFetcher class]) blocks
-// to ensure thread safety. Even if not manually toggled, multiple fetches can lazy
-// initialize things in parallel causing issues.
+// fetchers come and fetchers go, but statics are forever
 static BOOL gIsLoggingEnabled = NO;
 static BOOL gIsLoggingToFile = YES;
 static NSString *gLoggingDirectoryPath = nil;
@@ -77,165 +75,141 @@ static NSString *gLoggingDateStamp = nil;
 static NSString *gLoggingProcessName = nil;
 
 + (void)setLoggingDirectory:(NSString *)path {
-  @synchronized([GTMSessionFetcher class]) {
-    gLoggingDirectoryPath = [path copy];
-  }
+  gLoggingDirectoryPath = [path copy];
 }
 
 + (NSString *)loggingDirectory {
-  @synchronized([GTMSessionFetcher class]) {
-    if (!gLoggingDirectoryPath) {
-      NSArray *paths = nil;
+  if (!gLoggingDirectoryPath) {
+    NSArray *paths = nil;
 #if TARGET_IPHONE_SIMULATOR
-      // default to a directory called GTMHTTPDebugLogs into a sandbox-safe
-      // directory that a developer can find easily, the application home
-      paths = @[ NSHomeDirectory() ];
+    // default to a directory called GTMHTTPDebugLogs into a sandbox-safe
+    // directory that a developer can find easily, the application home
+    paths = @[ NSHomeDirectory() ];
 #elif TARGET_OS_IPHONE
-      // Neither ~/Desktop nor ~/Home is writable on an actual iOS, watchOS, or tvOS device.
-      // Put it in ~/Documents.
-      paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    // Neither ~/Desktop nor ~/Home is writable on an actual iOS, watchOS, or tvOS device.
+    // Put it in ~/Documents.
+    paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 #else
-      // default to a directory called GTMHTTPDebugLogs in the desktop folder
-      paths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
+    // default to a directory called GTMHTTPDebugLogs in the desktop folder
+    paths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
 #endif
 
-      NSString *desktopPath = paths.firstObject;
-      if (desktopPath) {
-        NSString *const kGTMLogFolderName = @"GTMHTTPDebugLogs";
-        NSString *logsFolderPath = [desktopPath stringByAppendingPathComponent:kGTMLogFolderName];
+    NSString *desktopPath = paths.firstObject;
+    if (desktopPath) {
+      NSString *const kGTMLogFolderName = @"GTMHTTPDebugLogs";
+      NSString *logsFolderPath = [desktopPath stringByAppendingPathComponent:kGTMLogFolderName];
 
-        NSFileManager *fileMgr = [NSFileManager defaultManager];
-        BOOL isDir;
-        BOOL doesFolderExist = [fileMgr fileExistsAtPath:logsFolderPath isDirectory:&isDir];
-        if (!doesFolderExist) {
-          // make the directory
-          doesFolderExist = [fileMgr createDirectoryAtPath:logsFolderPath
-                               withIntermediateDirectories:YES
-                                                attributes:nil
-                                                     error:NULL];
-          if (doesFolderExist) {
-            // The directory has been created. Exclude it from backups.
-            NSURL *pathURL = [NSURL fileURLWithPath:logsFolderPath isDirectory:YES];
-            [pathURL setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:NULL];
-          }
-        }
-
+      NSFileManager *fileMgr = [NSFileManager defaultManager];
+      BOOL isDir;
+      BOOL doesFolderExist = [fileMgr fileExistsAtPath:logsFolderPath isDirectory:&isDir];
+      if (!doesFolderExist) {
+        // make the directory
+        doesFolderExist = [fileMgr createDirectoryAtPath:logsFolderPath
+                             withIntermediateDirectories:YES
+                                              attributes:nil
+                                                   error:NULL];
         if (doesFolderExist) {
-          // it's there; store it in the global
-          gLoggingDirectoryPath = [logsFolderPath copy];
+          // The directory has been created. Exclude it from backups.
+          NSURL *pathURL = [NSURL fileURLWithPath:logsFolderPath isDirectory:YES];
+          [pathURL setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:NULL];
         }
       }
+
+      if (doesFolderExist) {
+        // it's there; store it in the global
+        gLoggingDirectoryPath = [logsFolderPath copy];
+      }
     }
-    return gLoggingDirectoryPath;
   }
+  return gLoggingDirectoryPath;
 }
 
 + (void)setLogDirectoryForCurrentRun:(NSString *)logDirectoryForCurrentRun {
-  @synchronized([GTMSessionFetcher class]) {
-    // Set the path for this run's logs.
-    gLogDirectoryForCurrentRun = [logDirectoryForCurrentRun copy];
-  }
+  // Set the path for this run's logs.
+  gLogDirectoryForCurrentRun = [logDirectoryForCurrentRun copy];
 }
 
 + (NSString *)logDirectoryForCurrentRun {
-  @synchronized([GTMSessionFetcher class]) {
-    // make a directory for this run's logs, like SyncProto_logs_10-16_01-56-58PM
-    if (gLogDirectoryForCurrentRun) return gLogDirectoryForCurrentRun;
+  // make a directory for this run's logs, like SyncProto_logs_10-16_01-56-58PM
+  if (gLogDirectoryForCurrentRun) return gLogDirectoryForCurrentRun;
 
-    NSString *parentDir = [self loggingDirectory];
-    NSString *logNamePrefix = [self processNameLogPrefix];
-    NSString *dateStamp = [self loggingDateStamp];
-    NSString *dirName = [NSString stringWithFormat:@"%@%@", logNamePrefix, dateStamp];
-    NSString *logDirectory = [parentDir stringByAppendingPathComponent:dirName];
+  NSString *parentDir = [self loggingDirectory];
+  NSString *logNamePrefix = [self processNameLogPrefix];
+  NSString *dateStamp = [self loggingDateStamp];
+  NSString *dirName = [NSString stringWithFormat:@"%@%@", logNamePrefix, dateStamp];
+  NSString *logDirectory = [parentDir stringByAppendingPathComponent:dirName];
 
-    if (gIsLoggingToFile) {
-      NSFileManager *fileMgr = [NSFileManager defaultManager];
-      // Be sure that the first time this app runs, it's not writing to a preexisting folder
-      static BOOL gShouldReuseFolder = NO;
-      if (!gShouldReuseFolder) {
-        gShouldReuseFolder = YES;
-        NSString *origLogDir = logDirectory;
-        for (int ctr = 2; ctr < 20; ++ctr) {
-          if (![fileMgr fileExistsAtPath:logDirectory]) break;
+  if (gIsLoggingToFile) {
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    // Be sure that the first time this app runs, it's not writing to a preexisting folder
+    static BOOL gShouldReuseFolder = NO;
+    if (!gShouldReuseFolder) {
+      gShouldReuseFolder = YES;
+      NSString *origLogDir = logDirectory;
+      for (int ctr = 2; ctr < 20; ++ctr) {
+        if (![fileMgr fileExistsAtPath:logDirectory]) break;
 
-          // append a digit
-          logDirectory = [origLogDir stringByAppendingFormat:@"_%d", ctr];
-        }
+        // append a digit
+        logDirectory = [origLogDir stringByAppendingFormat:@"_%d", ctr];
       }
-      if (![fileMgr createDirectoryAtPath:logDirectory
-              withIntermediateDirectories:YES
-                               attributes:nil
-                                    error:NULL])
-        return nil;
     }
-    gLogDirectoryForCurrentRun = logDirectory;
-
-    return gLogDirectoryForCurrentRun;
+    if (![fileMgr createDirectoryAtPath:logDirectory
+            withIntermediateDirectories:YES
+                             attributes:nil
+                                  error:NULL])
+      return nil;
   }
+  gLogDirectoryForCurrentRun = logDirectory;
+
+  return gLogDirectoryForCurrentRun;
 }
 
 + (void)setLoggingEnabled:(BOOL)isLoggingEnabled {
-  @synchronized([GTMSessionFetcher class]) {
-    gIsLoggingEnabled = isLoggingEnabled;
-  }
+  gIsLoggingEnabled = isLoggingEnabled;
 }
 
 + (BOOL)isLoggingEnabled {
-  @synchronized([GTMSessionFetcher class]) {
-    return gIsLoggingEnabled;
-  }
+  return gIsLoggingEnabled;
 }
 
 + (void)setLoggingToFileEnabled:(BOOL)isLoggingToFileEnabled {
-  @synchronized([GTMSessionFetcher class]) {
-    gIsLoggingToFile = isLoggingToFileEnabled;
-  }
+  gIsLoggingToFile = isLoggingToFileEnabled;
 }
 
 + (BOOL)isLoggingToFileEnabled {
-  @synchronized([GTMSessionFetcher class]) {
-    return gIsLoggingToFile;
-  }
+  return gIsLoggingToFile;
 }
 
 + (void)setLoggingProcessName:(NSString *)processName {
-  @synchronized([GTMSessionFetcher class]) {
-    gLoggingProcessName = [processName copy];
-  }
+  gLoggingProcessName = [processName copy];
 }
 
 + (NSString *)loggingProcessName {
-  @synchronized([GTMSessionFetcher class]) {
-    // get the process name (once per run) replacing spaces with underscores
-    if (!gLoggingProcessName) {
-      NSString *procName = [[NSProcessInfo processInfo] processName];
-      gLoggingProcessName = [procName stringByReplacingOccurrencesOfString:@" " withString:@"_"];
-    }
-    return gLoggingProcessName;
+  // get the process name (once per run) replacing spaces with underscores
+  if (!gLoggingProcessName) {
+    NSString *procName = [[NSProcessInfo processInfo] processName];
+    gLoggingProcessName = [procName stringByReplacingOccurrencesOfString:@" " withString:@"_"];
   }
+  return gLoggingProcessName;
 }
 
 + (void)setLoggingDateStamp:(NSString *)dateStamp {
-  @synchronized([GTMSessionFetcher class]) {
-    gLoggingDateStamp = [dateStamp copy];
-  }
+  gLoggingDateStamp = [dateStamp copy];
 }
 
 + (NSString *)loggingDateStamp {
-  @synchronized([GTMSessionFetcher class]) {
-    // We'll pick one date stamp per run, so a run that starts at a later second
-    // will get a unique results html file
-    if (!gLoggingDateStamp) {
-      // produce a string like 08-21_01-41-23PM
+  // We'll pick one date stamp per run, so a run that starts at a later second
+  // will get a unique results html file
+  if (!gLoggingDateStamp) {
+    // produce a string like 08-21_01-41-23PM
 
-      NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-      [formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-      [formatter setDateFormat:@"M-dd_hh-mm-ssa"];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+    [formatter setDateFormat:@"M-dd_hh-mm-ssa"];
 
-      gLoggingDateStamp = [formatter stringFromDate:[NSDate date]];
-    }
-    return gLoggingDateStamp;
+    gLoggingDateStamp = [formatter stringFromDate:[NSDate date]];
   }
+  return gLoggingDateStamp;
 }
 
 + (NSString *)processNameLogPrefix {

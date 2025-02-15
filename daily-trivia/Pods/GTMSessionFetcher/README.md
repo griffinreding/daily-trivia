@@ -24,5 +24,5 @@ Features include:
 - Fully independent of other projects
 
 **To get started** please read
-[USING.md](USING.md)
+[USING.md](https://github.com/google/google-api-objectivec-client-for-rest/blob/main/USING.md)
 for detailed information.

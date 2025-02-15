@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import GoogleSignInSwift
+import GoogleSignIn
 
 struct LoginView: View {
     @State private var email: String = ""
@@ -33,7 +35,7 @@ struct LoginView: View {
                 .cornerRadius(8)
             
             HStack {
-                
+                GoogleSignInButton(action: handleSignInButton)
             }
             
             Button(action: {
@@ -75,6 +77,19 @@ struct LoginView: View {
             Spacer()
         }
         .padding()
+    }
+    
+    func handleSignInButton() {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+        guard let rootViewController = windowScene.windows.first?.rootViewController else { return }
+        
+        GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController) { signInResult, error in
+                guard let result = signInResult else {
+                    // Inspect error
+                    return
+                }
+                // If sign in succeeded, display the app's main content View.
+            }
     }
 }
 

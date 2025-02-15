@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import Firebase
+import GoogleSignIn
 
 @main
 struct daily_triviaApp: App {
@@ -28,13 +29,24 @@ struct daily_triviaApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
-
+    
     var body: some Scene {
         
         WindowGroup {
 //            ContentView()
             LoginView()
+                .onOpenURL { url in
+                    // Pass the URL to Google Sign-In to handle authentication callbacks.
+                    let handled = GIDSignIn.sharedInstance.handle(url)
+                    print("URL handled: \(handled)")
+                }
+                .onAppear {
+                    GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
+                        // Check if `user` exists; otherwise, do something with `error`
+                    }
+                }
         }
         .modelContainer(sharedModelContainer)
+        
     }
 }

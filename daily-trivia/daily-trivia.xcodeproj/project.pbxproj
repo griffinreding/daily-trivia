@@ -51,12 +51,20 @@
 			);
 			target = AE2BA6762D60FA2C00AEA03D /* daily-triviaUITests */;
 		};
+		AE7DA2B42D614D8300E7218B /* Exceptions for "daily-trivia" folder in "daily-trivia" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = AE2BA65A2D60FA2A00AEA03D /* daily-trivia */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AE2BA65D2D60FA2A00AEA03D /* daily-trivia */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				AE7DA2B42D614D8300E7218B /* Exceptions for "daily-trivia" folder in "daily-trivia" target */,
 				AE7DA2282D61366E00E7218B /* Exceptions for "daily-trivia" folder in "daily-triviaTests" target */,
 				AE7DA2292D61366E00E7218B /* Exceptions for "daily-trivia" folder in "daily-triviaUITests" target */,
 			);
@@ -65,15 +73,11 @@
 		};
 		AE2BA6702D60FA2C00AEA03D /* daily-triviaTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = "daily-triviaTests";
 			sourceTree = "<group>";
 		};
 		AE2BA67A2D60FA2C00AEA03D /* daily-triviaUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = "daily-triviaUITests";
 			sourceTree = "<group>";
 		};
@@ -156,7 +160,6 @@
 				AE2BA6582D60FA2A00AEA03D /* Frameworks */,
 				AE2BA6592D60FA2A00AEA03D /* Resources */,
 				3E97D5493A7CF81F6722CE3A /* [CP] Embed Pods Frameworks */,
-				AED6E5C476CEB6B73B3EAD80 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -296,23 +299,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-daily-trivia/Pods-daily-trivia-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AED6E5C476CEB6B73B3EAD80 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-daily-trivia/Pods-daily-trivia-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-daily-trivia/Pods-daily-trivia-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-daily-trivia/Pods-daily-trivia-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F98A9C7CF0FE95FA5C1F358B /* [CP] Check Pods Manifest.lock */ = {
@@ -508,11 +494,13 @@
 				DEVELOPMENT_TEAM = VRR7Y73882;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "daily-trivia/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -538,11 +526,13 @@
 				DEVELOPMENT_TEAM = VRR7Y73882;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "daily-trivia/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
