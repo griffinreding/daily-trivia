@@ -65,11 +65,15 @@
 		};
 		AE2BA6702D60FA2C00AEA03D /* daily-triviaTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = "daily-triviaTests";
 			sourceTree = "<group>";
 		};
 		AE2BA67A2D60FA2C00AEA03D /* daily-triviaUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = "daily-triviaUITests";
 			sourceTree = "<group>";
 		};
@@ -152,6 +156,7 @@
 				AE2BA6582D60FA2A00AEA03D /* Frameworks */,
 				AE2BA6592D60FA2A00AEA03D /* Resources */,
 				3E97D5493A7CF81F6722CE3A /* [CP] Embed Pods Frameworks */,
+				AED6E5C476CEB6B73B3EAD80 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -291,6 +296,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-daily-trivia/Pods-daily-trivia-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AED6E5C476CEB6B73B3EAD80 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-daily-trivia/Pods-daily-trivia-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-daily-trivia/Pods-daily-trivia-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-daily-trivia/Pods-daily-trivia-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F98A9C7CF0FE95FA5C1F358B /* [CP] Check Pods Manifest.lock */ = {
