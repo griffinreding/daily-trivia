@@ -1,0 +1,563 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		AE2BA66E2D60FA2C00AEA03D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AE2BA6532D60FA2A00AEA03D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AE2BA65A2D60FA2A00AEA03D;
+			remoteInfo = "daily-trivia";
+		};
+		AE2BA6782D60FA2C00AEA03D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AE2BA6532D60FA2A00AEA03D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AE2BA65A2D60FA2A00AEA03D;
+			remoteInfo = "daily-trivia";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		AE2BA65B2D60FA2A00AEA03D /* daily-trivia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "daily-trivia.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE2BA66D2D60FA2C00AEA03D /* daily-triviaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "daily-triviaTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE2BA6772D60FA2C00AEA03D /* daily-triviaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "daily-triviaUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		AE2BA65D2D60FA2A00AEA03D /* daily-trivia */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "daily-trivia";
+			sourceTree = "<group>";
+		};
+		AE2BA6702D60FA2C00AEA03D /* daily-triviaTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "daily-triviaTests";
+			sourceTree = "<group>";
+		};
+		AE2BA67A2D60FA2C00AEA03D /* daily-triviaUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "daily-triviaUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AE2BA6582D60FA2A00AEA03D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE2BA66A2D60FA2C00AEA03D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE2BA6742D60FA2C00AEA03D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AE2BA6522D60FA2A00AEA03D = {
+			isa = PBXGroup;
+			children = (
+				AE2BA65D2D60FA2A00AEA03D /* daily-trivia */,
+				AE2BA6702D60FA2C00AEA03D /* daily-triviaTests */,
+				AE2BA67A2D60FA2C00AEA03D /* daily-triviaUITests */,
+				AE2BA65C2D60FA2A00AEA03D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AE2BA65C2D60FA2A00AEA03D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AE2BA65B2D60FA2A00AEA03D /* daily-trivia.app */,
+				AE2BA66D2D60FA2C00AEA03D /* daily-triviaTests.xctest */,
+				AE2BA6772D60FA2C00AEA03D /* daily-triviaUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AE2BA65A2D60FA2A00AEA03D /* daily-trivia */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AE2BA6812D60FA2C00AEA03D /* Build configuration list for PBXNativeTarget "daily-trivia" */;
+			buildPhases = (
+				AE2BA6572D60FA2A00AEA03D /* Sources */,
+				AE2BA6582D60FA2A00AEA03D /* Frameworks */,
+				AE2BA6592D60FA2A00AEA03D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AE2BA65D2D60FA2A00AEA03D /* daily-trivia */,
+			);
+			name = "daily-trivia";
+			packageProductDependencies = (
+			);
+			productName = "daily-trivia";
+			productReference = AE2BA65B2D60FA2A00AEA03D /* daily-trivia.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AE2BA66C2D60FA2C00AEA03D /* daily-triviaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AE2BA6842D60FA2C00AEA03D /* Build configuration list for PBXNativeTarget "daily-triviaTests" */;
+			buildPhases = (
+				AE2BA6692D60FA2C00AEA03D /* Sources */,
+				AE2BA66A2D60FA2C00AEA03D /* Frameworks */,
+				AE2BA66B2D60FA2C00AEA03D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AE2BA66F2D60FA2C00AEA03D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				AE2BA6702D60FA2C00AEA03D /* daily-triviaTests */,
+			);
+			name = "daily-triviaTests";
+			packageProductDependencies = (
+			);
+			productName = "daily-triviaTests";
+			productReference = AE2BA66D2D60FA2C00AEA03D /* daily-triviaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		AE2BA6762D60FA2C00AEA03D /* daily-triviaUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AE2BA6872D60FA2C00AEA03D /* Build configuration list for PBXNativeTarget "daily-triviaUITests" */;
+			buildPhases = (
+				AE2BA6732D60FA2C00AEA03D /* Sources */,
+				AE2BA6742D60FA2C00AEA03D /* Frameworks */,
+				AE2BA6752D60FA2C00AEA03D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AE2BA6792D60FA2C00AEA03D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				AE2BA67A2D60FA2C00AEA03D /* daily-triviaUITests */,
+			);
+			name = "daily-triviaUITests";
+			packageProductDependencies = (
+			);
+			productName = "daily-triviaUITests";
+			productReference = AE2BA6772D60FA2C00AEA03D /* daily-triviaUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AE2BA6532D60FA2A00AEA03D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					AE2BA65A2D60FA2A00AEA03D = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					AE2BA66C2D60FA2C00AEA03D = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = AE2BA65A2D60FA2A00AEA03D;
+					};
+					AE2BA6762D60FA2C00AEA03D = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = AE2BA65A2D60FA2A00AEA03D;
+					};
+				};
+			};
+			buildConfigurationList = AE2BA6562D60FA2A00AEA03D /* Build configuration list for PBXProject "daily-trivia" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AE2BA6522D60FA2A00AEA03D;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = AE2BA65C2D60FA2A00AEA03D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AE2BA65A2D60FA2A00AEA03D /* daily-trivia */,
+				AE2BA66C2D60FA2C00AEA03D /* daily-triviaTests */,
+				AE2BA6762D60FA2C00AEA03D /* daily-triviaUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AE2BA6592D60FA2A00AEA03D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE2BA66B2D60FA2C00AEA03D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE2BA6752D60FA2C00AEA03D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AE2BA6572D60FA2A00AEA03D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE2BA6692D60FA2C00AEA03D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE2BA6732D60FA2C00AEA03D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AE2BA66F2D60FA2C00AEA03D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AE2BA65A2D60FA2A00AEA03D /* daily-trivia */;
+			targetProxy = AE2BA66E2D60FA2C00AEA03D /* PBXContainerItemProxy */;
+		};
+		AE2BA6792D60FA2C00AEA03D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AE2BA65A2D60FA2A00AEA03D /* daily-trivia */;
+			targetProxy = AE2BA6782D60FA2C00AEA03D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		AE2BA67F2D60FA2C00AEA03D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AE2BA6802D60FA2C00AEA03D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AE2BA6822D60FA2C00AEA03D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"daily-trivia/Preview Content\"";
+				DEVELOPMENT_TEAM = VRR7Y73882;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "glr.daily-trivia";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AE2BA6832D60FA2C00AEA03D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"daily-trivia/Preview Content\"";
+				DEVELOPMENT_TEAM = VRR7Y73882;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "glr.daily-trivia";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		AE2BA6852D60FA2C00AEA03D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VRR7Y73882;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "glr.daily-triviaTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/daily-trivia.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/daily-trivia";
+			};
+			name = Debug;
+		};
+		AE2BA6862D60FA2C00AEA03D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VRR7Y73882;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "glr.daily-triviaTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/daily-trivia.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/daily-trivia";
+			};
+			name = Release;
+		};
+		AE2BA6882D60FA2C00AEA03D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VRR7Y73882;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "glr.daily-triviaUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "daily-trivia";
+			};
+			name = Debug;
+		};
+		AE2BA6892D60FA2C00AEA03D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VRR7Y73882;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "glr.daily-triviaUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "daily-trivia";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AE2BA6562D60FA2A00AEA03D /* Build configuration list for PBXProject "daily-trivia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE2BA67F2D60FA2C00AEA03D /* Debug */,
+				AE2BA6802D60FA2C00AEA03D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AE2BA6812D60FA2C00AEA03D /* Build configuration list for PBXNativeTarget "daily-trivia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE2BA6822D60FA2C00AEA03D /* Debug */,
+				AE2BA6832D60FA2C00AEA03D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AE2BA6842D60FA2C00AEA03D /* Build configuration list for PBXNativeTarget "daily-triviaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE2BA6852D60FA2C00AEA03D /* Debug */,
+				AE2BA6862D60FA2C00AEA03D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AE2BA6872D60FA2C00AEA03D /* Build configuration list for PBXNativeTarget "daily-triviaUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE2BA6882D60FA2C00AEA03D /* Debug */,
+				AE2BA6892D60FA2C00AEA03D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AE2BA6532D60FA2A00AEA03D /* Project object */;
+}
