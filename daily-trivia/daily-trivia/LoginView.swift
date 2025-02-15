@@ -10,7 +10,9 @@ import SwiftUI
 struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var showingAlert: Bool = false
+    @State private var isShowingMissingInputAlert: Bool = false
+    @State private var isShowingLogInAlert: Bool = false
+    @State var alertErrorMessage: String = ""
 
     var body: some View {
         VStack(spacing: 20) {
@@ -35,12 +37,21 @@ struct LoginView: View {
             }
             
             Button(action: {
-                // Validate credentials
                 if email.isEmpty || password.isEmpty {
-                    showingAlert = true
+                    isShowingMissingInputAlert = true
                 } else {
-                    // Handle successful login here
-                    print("Attempt login with \(email)")
+                    Task {
+                        do {
+                            let user = try await AuthService.shared.signIn(email: email,
+                                                                           password: password)
+                            // Update UI for successful login.
+                            print("Logged in as: \(user.id)")
+                        } catch {
+                            alertErrorMessage = error.localizedDescription
+                            isShowingLogInAlert = true
+                            print("Login error: \(error.localizedDescription)")
+                        }
+                    }
                 }
             }) {
                 Text("Login")
@@ -50,9 +61,14 @@ struct LoginView: View {
                     .background(Color.blue)
                     .cornerRadius(8)
             }
-            .alert(isPresented: $showingAlert) {
+            .alert(isPresented: $isShowingMissingInputAlert) {
                 Alert(title: Text("Missing Information"),
                       message: Text("Please enter your email and password."),
+                      dismissButton: .default(Text("OK")))
+            }
+            .alert(isPresented: $isShowingLogInAlert) {
+                Alert(title: Text("Login Error"),
+                      message: Text(alertErrorMessage),
                       dismissButton: .default(Text("OK")))
             }
             

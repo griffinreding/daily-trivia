@@ -32,7 +32,8 @@ struct daily_triviaApp: App {
     var body: some Scene {
         
         WindowGroup {
-            ContentView()
+//            ContentView()
+            LoginView()
         }
         .modelContainer(sharedModelContainer)
     }
