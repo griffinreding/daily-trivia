@@ -2,18 +2,8 @@
 # platform :ios, '9.0'
 
 target 'daily-trivia' do
-  # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
-
-  # Pods for daily-trivia
-
-  target 'daily-triviaTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'daily-triviaUITests' do
-    # Pods for testing
-  end
-
+  pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
+  
+  use_modular_headers!
 end

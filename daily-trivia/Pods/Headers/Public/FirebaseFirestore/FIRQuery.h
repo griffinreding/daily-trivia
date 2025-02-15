@@ -1,0 +1,1 @@
+../../../FirebaseFirestore/FirebaseFirestoreInternal/FirebaseFirestore/FIRQuery.h

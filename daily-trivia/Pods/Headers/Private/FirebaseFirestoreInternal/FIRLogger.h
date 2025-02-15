@@ -1,0 +1,1 @@
+../../../FirebaseFirestoreInternal/FirebaseCore/Extension/FIRLogger.h

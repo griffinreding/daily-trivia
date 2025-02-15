@@ -1,0 +1,1 @@
+../../../Target Support Files/FirebaseFirestoreInternal/FirebaseFirestoreInternal-umbrella.h

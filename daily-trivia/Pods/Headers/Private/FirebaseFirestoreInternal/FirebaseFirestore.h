@@ -1,0 +1,1 @@
+../../../FirebaseFirestoreInternal/Firestore/Source/Public/FirebaseFirestore/FirebaseFirestore.h

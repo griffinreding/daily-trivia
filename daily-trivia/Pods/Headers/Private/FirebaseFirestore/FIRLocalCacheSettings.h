@@ -1,0 +1,1 @@
+../../../FirebaseFirestore/FirebaseFirestoreInternal/FirebaseFirestore/FIRLocalCacheSettings.h

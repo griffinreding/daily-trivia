@@ -1,0 +1,1 @@
+../../../../../../../../../../gRPC-Core/src/core/ext/upb-gen/envoy/annotations/deprecation.upb_minitable.h

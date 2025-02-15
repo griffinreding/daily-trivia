@@ -1,0 +1,17 @@
+CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
+CONFIGURATION_BUILD_DIR = ${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuth
+GCC_C_LANGUAGE_STANDARD = c99
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/FirebaseAuth" "${PODS_ROOT}/Headers/Public" "${PODS_TARGET_SRCROOT}" "${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH_ACTUAL}"
+OTHER_CFLAGS = $(inherited) -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Public/FirebaseAppCheckInterop/FirebaseAppCheckInterop.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Public/FirebaseAuthInterop/FirebaseAuthInterop.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Public/FirebaseCore/FirebaseCore.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Public/FirebaseCoreExtension/FirebaseCoreExtension.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Public/GTMSessionFetcher/GTMSessionFetcher.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Public/GoogleUtilities/GoogleUtilities.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Public/RecaptchaInterop/RecaptchaInterop.modulemap"
+OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS -Xcc -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.modulemap" -Xcc -fmodule-map-file="${PODS_ROOT}/Headers/Public/FirebaseAppCheckInterop/FirebaseAppCheckInterop.modulemap" -Xcc -fmodule-map-file="${PODS_ROOT}/Headers/Public/FirebaseAuthInterop/FirebaseAuthInterop.modulemap" -Xcc -fmodule-map-file="${PODS_ROOT}/Headers/Public/FirebaseCore/FirebaseCore.modulemap" -Xcc -fmodule-map-file="${PODS_ROOT}/Headers/Public/FirebaseCoreExtension/FirebaseCoreExtension.modulemap" -Xcc -fmodule-map-file="${PODS_ROOT}/Headers/Public/GTMSessionFetcher/GTMSessionFetcher.modulemap" -Xcc -fmodule-map-file="${PODS_ROOT}/Headers/Public/GoogleUtilities/GoogleUtilities.modulemap" -Xcc -fmodule-map-file="${PODS_ROOT}/Headers/Public/RecaptchaInterop/RecaptchaInterop.modulemap" -import-underlying-module -Xcc -fmodule-map-file="${SRCROOT}/${MODULEMAP_FILE}"
+PODS_BUILD_DIR = ${BUILD_DIR}
+PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+PODS_DEVELOPMENT_LANGUAGE = ${DEVELOPMENT_LANGUAGE}
+PODS_ROOT = ${SRCROOT}
+PODS_TARGET_SRCROOT = ${PODS_ROOT}/FirebaseAuth
+PODS_XCFRAMEWORKS_BUILD_DIR = $(PODS_CONFIGURATION_BUILD_DIR)/XCFrameworkIntermediates
+PRODUCT_BUNDLE_IDENTIFIER = org.cocoapods.${PRODUCT_NAME:rfc1034identifier}
+SKIP_INSTALL = YES
+SWIFT_INCLUDE_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreInternal"
+USE_RECURSIVE_SCRIPT_INPUTS_IN_SCRIPT_PHASES = YES

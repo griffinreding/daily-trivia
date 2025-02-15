@@ -1,0 +1,1 @@
+../../../Target Support Files/FirebaseAuthInterop/FirebaseAuthInterop-umbrella.h

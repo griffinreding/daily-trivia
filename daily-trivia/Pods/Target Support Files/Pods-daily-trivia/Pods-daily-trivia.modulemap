@@ -1,0 +1,6 @@
+module Pods_daily_trivia {
+  umbrella header "Pods-daily-trivia-umbrella.h"
+
+  export *
+  module * { export * }
+}

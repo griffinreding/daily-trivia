@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F7585589C1EC1C18D7747AB1 /* libPods-daily-trivia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73FB93CE6926B271922D6629 /* libPods-daily-trivia.a */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		AE2BA66E2D60FA2C00AEA03D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2B568A3A2EA549F906967331 /* Pods-daily-trivia.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-daily-trivia.release.xcconfig"; path = "Target Support Files/Pods-daily-trivia/Pods-daily-trivia.release.xcconfig"; sourceTree = "<group>"; };
+		5DAED2934BD75E9AFE087922 /* Pods-daily-trivia.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-daily-trivia.debug.xcconfig"; path = "Target Support Files/Pods-daily-trivia/Pods-daily-trivia.debug.xcconfig"; sourceTree = "<group>"; };
+		73FB93CE6926B271922D6629 /* libPods-daily-trivia.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-daily-trivia.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE2BA65B2D60FA2A00AEA03D /* daily-trivia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "daily-trivia.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE2BA66D2D60FA2C00AEA03D /* daily-triviaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "daily-triviaTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE2BA6772D60FA2C00AEA03D /* daily-triviaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "daily-triviaUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7585589C1EC1C18D7747AB1 /* libPods-daily-trivia.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +80,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B60A51E5E86B1BB13E985D6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5DAED2934BD75E9AFE087922 /* Pods-daily-trivia.debug.xcconfig */,
+				2B568A3A2EA549F906967331 /* Pods-daily-trivia.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		A9B0856912852A776291A7C2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				73FB93CE6926B271922D6629 /* libPods-daily-trivia.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AE2BA6522D60FA2A00AEA03D = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +104,8 @@
 				AE2BA6702D60FA2C00AEA03D /* daily-triviaTests */,
 				AE2BA67A2D60FA2C00AEA03D /* daily-triviaUITests */,
 				AE2BA65C2D60FA2A00AEA03D /* Products */,
+				7B60A51E5E86B1BB13E985D6 /* Pods */,
+				A9B0856912852A776291A7C2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,9 +126,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AE2BA6812D60FA2C00AEA03D /* Build configuration list for PBXNativeTarget "daily-trivia" */;
 			buildPhases = (
+				F98A9C7CF0FE95FA5C1F358B /* [CP] Check Pods Manifest.lock */,
 				AE2BA6572D60FA2A00AEA03D /* Sources */,
 				AE2BA6582D60FA2A00AEA03D /* Frameworks */,
 				AE2BA6592D60FA2A00AEA03D /* Resources */,
+				A03B7AEFB7155F2651326DAC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -111,8 +140,6 @@
 				AE2BA65D2D60FA2A00AEA03D /* daily-trivia */,
 			);
 			name = "daily-trivia";
-			packageProductDependencies = (
-			);
 			productName = "daily-trivia";
 			productReference = AE2BA65B2D60FA2A00AEA03D /* daily-trivia.app */;
 			productType = "com.apple.product-type.application";
@@ -134,8 +161,6 @@
 				AE2BA6702D60FA2C00AEA03D /* daily-triviaTests */,
 			);
 			name = "daily-triviaTests";
-			packageProductDependencies = (
-			);
 			productName = "daily-triviaTests";
 			productReference = AE2BA66D2D60FA2C00AEA03D /* daily-triviaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -157,8 +182,6 @@
 				AE2BA67A2D60FA2C00AEA03D /* daily-triviaUITests */,
 			);
 			name = "daily-triviaUITests";
-			packageProductDependencies = (
-			);
 			productName = "daily-triviaUITests";
 			productReference = AE2BA6772D60FA2C00AEA03D /* daily-triviaUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -230,6 +253,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A03B7AEFB7155F2651326DAC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-daily-trivia/Pods-daily-trivia-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-daily-trivia/Pods-daily-trivia-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-daily-trivia/Pods-daily-trivia-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F98A9C7CF0FE95FA5C1F358B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-daily-trivia-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AE2BA6572D60FA2A00AEA03D /* Sources */ = {
@@ -390,6 +455,7 @@
 		};
 		AE2BA6822D60FA2C00AEA03D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5DAED2934BD75E9AFE087922 /* Pods-daily-trivia.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -419,6 +485,7 @@
 		};
 		AE2BA6832D60FA2C00AEA03D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2B568A3A2EA549F906967331 /* Pods-daily-trivia.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
