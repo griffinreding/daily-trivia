@@ -1,1 +1,0 @@
-../../../../../../../../../../../gRPC-Core/src/core/ext/upb-gen/envoy/admin/v3/certs.upb_minitable.h

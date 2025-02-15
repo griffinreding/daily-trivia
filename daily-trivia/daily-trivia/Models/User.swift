@@ -6,8 +6,14 @@
 //
 
 import Foundation
+import FirebaseAuth
 
-struct User: Codable {
+class User: Codable {
     let email: String
     let id: UUID
+    
+    init(firebaseUser: FirebaseAuth.User) {
+        self.id = UUID(uuidString: firebaseUser.uid) ?? UUID()
+        self.email = firebaseUser.email ?? ""
+    }
 }

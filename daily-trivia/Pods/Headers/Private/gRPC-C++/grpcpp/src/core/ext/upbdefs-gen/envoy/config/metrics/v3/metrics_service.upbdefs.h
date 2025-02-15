@@ -1,1 +1,0 @@
-../../../../../../../../../../../../gRPC-C++/src/core/ext/upbdefs-gen/envoy/config/metrics/v3/metrics_service.upbdefs.h

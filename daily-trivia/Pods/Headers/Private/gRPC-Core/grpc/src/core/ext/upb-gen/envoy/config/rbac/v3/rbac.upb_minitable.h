@@ -1,1 +1,0 @@
-../../../../../../../../../../../../gRPC-Core/src/core/ext/upb-gen/envoy/config/rbac/v3/rbac.upb_minitable.h

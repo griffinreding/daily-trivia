@@ -1,5 +1,5 @@
 
-module grpc {
+framework module grpc {
   umbrella header "grpc.h"
 
 header "byte_buffer.h"

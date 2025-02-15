@@ -1,1 +1,0 @@
-../../../../../../../../gRPC-C++/src/core/xds/xds_client/xds_resource_type_impl.h

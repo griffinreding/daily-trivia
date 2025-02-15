@@ -1,1 +1,0 @@
-../../../../../../../../../../gRPC-C++/src/core/ext/upb-gen/google/rpc/status.upb_minitable.h

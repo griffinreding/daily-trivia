@@ -1,1 +1,0 @@
-../../../FirebaseFirestore/FirebaseFirestoreInternal/FirebaseFirestore/FIRCollectionReference.h

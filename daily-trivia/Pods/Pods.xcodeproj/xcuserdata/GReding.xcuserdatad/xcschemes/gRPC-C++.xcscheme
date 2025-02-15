@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1C5E43B0A9555E7C2E43A6D7C8A23CF6"
-               BuildableName = "libgRPC-C++.a"
+               BuildableName = "grpcpp.framework"
                BlueprintName = "gRPC-C++"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

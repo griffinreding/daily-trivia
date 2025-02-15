@@ -1,1 +1,0 @@
-../../../../../../../../../../../../gRPC-C++/src/core/ext/upbdefs-gen/envoy/data/accesslog/v3/accesslog.upbdefs.h

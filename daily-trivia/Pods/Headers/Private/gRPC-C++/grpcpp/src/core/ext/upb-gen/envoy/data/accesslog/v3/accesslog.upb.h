@@ -1,1 +1,0 @@
-../../../../../../../../../../../../gRPC-C++/src/core/ext/upb-gen/envoy/data/accesslog/v3/accesslog.upb.h

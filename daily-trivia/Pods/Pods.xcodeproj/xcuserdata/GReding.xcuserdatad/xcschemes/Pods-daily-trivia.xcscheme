@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3D165D8CB2D47DF5E98C7DF62B4112EF"
-               BuildableName = "libPods-daily-trivia.a"
+               BuildableName = "Pods_daily_trivia.framework"
                BlueprintName = "Pods-daily-trivia"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

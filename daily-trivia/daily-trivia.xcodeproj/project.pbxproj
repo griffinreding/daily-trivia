@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F7585589C1EC1C18D7747AB1 /* libPods-daily-trivia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73FB93CE6926B271922D6629 /* libPods-daily-trivia.a */; };
+		A525ACD8E629503163E5C91E /* Pods_daily_trivia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11D11AA60BDA5F325E24EE60 /* Pods_daily_trivia.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,17 +28,38 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		11D11AA60BDA5F325E24EE60 /* Pods_daily_trivia.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_daily_trivia.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B568A3A2EA549F906967331 /* Pods-daily-trivia.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-daily-trivia.release.xcconfig"; path = "Target Support Files/Pods-daily-trivia/Pods-daily-trivia.release.xcconfig"; sourceTree = "<group>"; };
 		5DAED2934BD75E9AFE087922 /* Pods-daily-trivia.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-daily-trivia.debug.xcconfig"; path = "Target Support Files/Pods-daily-trivia/Pods-daily-trivia.debug.xcconfig"; sourceTree = "<group>"; };
-		73FB93CE6926B271922D6629 /* libPods-daily-trivia.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-daily-trivia.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE2BA65B2D60FA2A00AEA03D /* daily-trivia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "daily-trivia.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE2BA66D2D60FA2C00AEA03D /* daily-triviaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "daily-triviaTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE2BA6772D60FA2C00AEA03D /* daily-triviaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "daily-triviaUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		AE7DA2282D61366E00E7218B /* Exceptions for "daily-trivia" folder in "daily-triviaTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"GoogleService-Info.plist",
+			);
+			target = AE2BA66C2D60FA2C00AEA03D /* daily-triviaTests */;
+		};
+		AE7DA2292D61366E00E7218B /* Exceptions for "daily-trivia" folder in "daily-triviaUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"GoogleService-Info.plist",
+			);
+			target = AE2BA6762D60FA2C00AEA03D /* daily-triviaUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AE2BA65D2D60FA2A00AEA03D /* daily-trivia */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AE7DA2282D61366E00E7218B /* Exceptions for "daily-trivia" folder in "daily-triviaTests" target */,
+				AE7DA2292D61366E00E7218B /* Exceptions for "daily-trivia" folder in "daily-triviaUITests" target */,
+			);
 			path = "daily-trivia";
 			sourceTree = "<group>";
 		};
@@ -59,7 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7585589C1EC1C18D7747AB1 /* libPods-daily-trivia.a in Frameworks */,
+				A525ACD8E629503163E5C91E /* Pods_daily_trivia.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,7 +113,7 @@
 		A9B0856912852A776291A7C2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				73FB93CE6926B271922D6629 /* libPods-daily-trivia.a */,
+				11D11AA60BDA5F325E24EE60 /* Pods_daily_trivia.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -130,7 +151,7 @@
 				AE2BA6572D60FA2A00AEA03D /* Sources */,
 				AE2BA6582D60FA2A00AEA03D /* Frameworks */,
 				AE2BA6592D60FA2A00AEA03D /* Resources */,
-				A03B7AEFB7155F2651326DAC /* [CP] Copy Pods Resources */,
+				3E97D5493A7CF81F6722CE3A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -255,21 +276,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		A03B7AEFB7155F2651326DAC /* [CP] Copy Pods Resources */ = {
+		3E97D5493A7CF81F6722CE3A /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-daily-trivia/Pods-daily-trivia-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-daily-trivia/Pods-daily-trivia-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-daily-trivia/Pods-daily-trivia-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-daily-trivia/Pods-daily-trivia-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-daily-trivia/Pods-daily-trivia-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-daily-trivia/Pods-daily-trivia-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F98A9C7CF0FE95FA5C1F358B /* [CP] Check Pods Manifest.lock */ = {
@@ -371,7 +392,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -434,7 +455,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

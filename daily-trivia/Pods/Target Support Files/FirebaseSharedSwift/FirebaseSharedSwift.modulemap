@@ -1,4 +1,4 @@
-module FirebaseSharedSwift {
+framework module FirebaseSharedSwift {
   umbrella header "FirebaseSharedSwift-umbrella.h"
 
   export *

@@ -1,1 +1,0 @@
-../../../../../../../../../../../../../../gRPC-C++/src/core/ext/upb-gen/envoy/extensions/filters/http/stateful_session/v3/stateful_session.upb_minitable.h

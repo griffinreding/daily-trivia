@@ -1,1 +1,0 @@
-../../../../../../../../../../../../gRPC-C++/src/core/ext/upb-gen/envoy/type/matcher/v3/metadata.upb_minitable.h

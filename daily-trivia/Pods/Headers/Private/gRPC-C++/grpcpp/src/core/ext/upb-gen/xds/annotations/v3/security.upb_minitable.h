@@ -1,1 +1,0 @@
-../../../../../../../../../../../gRPC-C++/src/core/ext/upb-gen/xds/annotations/v3/security.upb_minitable.h

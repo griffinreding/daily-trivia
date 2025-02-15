@@ -1,1 +1,0 @@
-../../../../../../../../../../../../gRPC-Core/src/core/ext/upb-gen/envoy/config/core/v3/http_uri.upb_minitable.h

@@ -1,1 +1,0 @@
-../../../FirebaseFirestoreInternal/Firestore/Source/Public/FirebaseFirestore/FIRFieldPath.h

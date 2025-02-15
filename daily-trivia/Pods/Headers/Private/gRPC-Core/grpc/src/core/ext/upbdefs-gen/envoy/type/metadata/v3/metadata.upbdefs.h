@@ -1,1 +1,0 @@
-../../../../../../../../../../../../gRPC-Core/src/core/ext/upbdefs-gen/envoy/type/metadata/v3/metadata.upbdefs.h

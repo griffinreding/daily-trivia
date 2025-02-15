@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8EC0F2618965C875A96BFDBEE5D9734C"
-               BuildableName = "libFirebaseAuthInterop.a"
+               BuildableName = "FirebaseAuthInterop.framework"
                BlueprintName = "FirebaseAuthInterop"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

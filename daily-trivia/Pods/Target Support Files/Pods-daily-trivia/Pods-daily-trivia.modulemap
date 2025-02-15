@@ -1,4 +1,4 @@
-module Pods_daily_trivia {
+framework module Pods_daily_trivia {
   umbrella header "Pods-daily-trivia-umbrella.h"
 
   export *

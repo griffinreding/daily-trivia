@@ -1,4 +1,4 @@
-module openssl_grpc {
+framework module openssl_grpc {
   umbrella header "BoringSSL-GRPC-umbrella.h"
 
   export *

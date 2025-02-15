@@ -1,1 +1,0 @@
-../../../../../../../../../../../../gRPC-Core/src/core/ext/upb-gen/src/proto/grpc/gcp/altscontext.upb.h

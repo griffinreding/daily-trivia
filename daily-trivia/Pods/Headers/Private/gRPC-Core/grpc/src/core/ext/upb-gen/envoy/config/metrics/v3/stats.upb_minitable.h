@@ -1,1 +1,0 @@
-../../../../../../../../../../../../gRPC-Core/src/core/ext/upb-gen/envoy/config/metrics/v3/stats.upb_minitable.h

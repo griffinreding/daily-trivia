@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FE1DE31D91C32501251AE9687CDC2E0F"
-               BuildableName = "libFirebaseCoreExtension.a"
+               BuildableName = "FirebaseCoreExtension.framework"
                BlueprintName = "FirebaseCoreExtension"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

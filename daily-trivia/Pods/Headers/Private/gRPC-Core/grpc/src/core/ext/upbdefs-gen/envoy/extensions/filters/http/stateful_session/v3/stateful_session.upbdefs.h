@@ -1,1 +1,0 @@
-../../../../../../../../../../../../../../gRPC-Core/src/core/ext/upbdefs-gen/envoy/extensions/filters/http/stateful_session/v3/stateful_session.upbdefs.h

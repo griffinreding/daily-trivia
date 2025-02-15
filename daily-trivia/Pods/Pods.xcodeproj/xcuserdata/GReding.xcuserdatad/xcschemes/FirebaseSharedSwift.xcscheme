@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "94706DD5BBE215339DF893D4434E1084"
-               BuildableName = "libFirebaseSharedSwift.a"
+               BuildableName = "FirebaseSharedSwift.framework"
                BlueprintName = "FirebaseSharedSwift"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

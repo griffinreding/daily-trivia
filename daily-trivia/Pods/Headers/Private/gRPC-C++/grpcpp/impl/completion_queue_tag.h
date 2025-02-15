@@ -1,1 +1,0 @@
-../../../../../gRPC-C++/include/grpcpp/impl/completion_queue_tag.h

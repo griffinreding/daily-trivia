@@ -1,1 +1,0 @@
-../../../../../../../../../../../gRPC-C++/src/core/ext/upb-gen/xds/annotations/v3/versioning.upb_minitable.h

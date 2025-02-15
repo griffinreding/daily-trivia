@@ -1,4 +1,4 @@
-module RecaptchaInterop {
+framework module RecaptchaInterop {
   umbrella header "RecaptchaInterop-umbrella.h"
 
   export *

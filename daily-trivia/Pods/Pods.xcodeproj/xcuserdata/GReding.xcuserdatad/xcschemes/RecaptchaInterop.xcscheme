@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "962124A759E27BE4799ED74362BED884"
-               BuildableName = "libRecaptchaInterop.a"
+               BuildableName = "RecaptchaInterop.framework"
                BlueprintName = "RecaptchaInterop"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

@@ -1,1 +1,0 @@
-../../../../../../../../gRPC-C++/src/core/xds/grpc/certificate_provider_store.h
