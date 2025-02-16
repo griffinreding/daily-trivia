@@ -12,6 +12,15 @@ import GoogleSignIn
 
 class AuthService {
     static let shared = AuthService()
+    var currentUser: User?
+    
+    init() {
+        if let firebaseUser = Auth.auth().currentUser {
+            currentUser = User(firebaseUser: firebaseUser)
+        } else {
+            currentUser = nil
+        }
+    }
     
     func signUp(email: String, password: String) {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
@@ -38,49 +47,51 @@ class AuthService {
         }
     }
     
-//    func signInWithGoogle() {
-//            // Retrieve the clientID from Firebase configuration.
-//            guard let clientID = FirebaseApp.app()?.options.clientID else {
-//                print("Missing client ID")
-//                return
-//            }
-//            
-//            // Create a GIDConfiguration with your client ID.
-//            let config = GIDConfiguration(clientID: clientID)
-//            
-//            // Get the root view controller to present the Google Sign-In UI.
-//            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-//                  let rootVC = windowScene.windows.first?.rootViewController else {
-//                print("Unable to get root view controller.")
-//                return
-//            }
-//            
-//            // Start the sign-in flow.
-//            GIDSignIn.sharedInstance.signIn(with: config, presenting: rootVC) { user, error in
-//                if let error = error {
-//                    print("Google Sign-In Error: \(error.localizedDescription)")
-//                    return
-//                }
-//                
-//                guard let authentication = user?.authentication,
-//                      let idToken = authentication.idToken else {
-//                    print("Failed to get authentication tokens.")
-//                    return
-//                }
-//                
-//                // Create a Firebase credential.
-//                let credential = GoogleAuthProvider.credential(withIDToken: idToken,
-//                                                               accessToken: authentication.accessToken)
-//                
-//                // Sign in to Firebase with the Google credential.
-//                Auth.auth().signIn(with: credential) { authResult, error in
-//                    if let error = error {
-//                        print("Firebase Sign-In Error: \(error.localizedDescription)")
-//                    } else if let user = authResult?.user {
-//                        print("User signed in with Google: \(user.uid)")
-//                        // Transition to the main app view here, e.g., update an app state.
-//                    }
-//                }
-//            }
-//        }
+    func createUserAccountIfNeeded(for firebaseUser: FirebaseAuth.User) async throws {
+        let db = Firestore.firestore()
+        let userRef = db.collection("users").document(firebaseUser.uid)
+        
+        let snapshot = try await userRef.getDocumentAsync()
+        if snapshot.exists {
+            print("User document already exists.")
+            return
+        } else {
+            let userData: [String: Any] = [
+                "email": firebaseUser.email ?? "",
+                "displayName": firebaseUser.displayName ?? "",
+                "createdAt": FieldValue.serverTimestamp()
+                // Add additional default fields as needed.
+            ]
+            try await userRef.setDataAsync(userData)
+            print("User document successfully created!")
+        }
+    }
+    
+    func createUserAccountFromGoogleIfNeeded(for googleUser: GIDGoogleUser) async throws {
+        let db = Firestore.firestore()
+        let userRef = db.collection("users").document(googleUser.idToken?.tokenString ?? "this won't be found")
+        
+        let snapshot = try await userRef.getDocumentAsync()
+        if snapshot.exists {
+            print("User document already exists.")
+            return
+        } else {
+            var id: String
+            
+            if let googleToken = googleUser.idToken?.tokenString {
+                id = googleToken
+            } else {
+                id = UUID().uuidString
+            }
+            
+            let userData: [String: Any] = [
+                "email": googleUser.profile?.email ?? "",
+                "id": id,
+                "createdAt": FieldValue.serverTimestamp()
+            ]
+            try await userRef.setDataAsync(userData)
+            print("User document successfully created!")
+        }
+    }
+        
 }

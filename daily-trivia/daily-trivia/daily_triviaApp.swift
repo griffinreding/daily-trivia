@@ -33,7 +33,6 @@ struct daily_triviaApp: App {
     var body: some Scene {
         
         WindowGroup {
-//            ContentView()
             LoginView()
                 .onOpenURL { url in
                     // Pass the URL to Google Sign-In to handle authentication callbacks.
@@ -41,8 +40,15 @@ struct daily_triviaApp: App {
                     print("URL handled: \(handled)")
                 }
                 .onAppear {
-                    GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-                        // Check if `user` exists; otherwise, do something with `error`
+                    if let user = Auth.auth().currentUser {
+                        AuthService.shared.currentUser = User(firebaseUser: user)
+                    } else {
+                        GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
+                            // Check if `user` exists; otherwise, do something with `error`
+                            if let user = user {
+                                AuthService.shared.currentUser = User(googleUser: user)
+                            }
+                        }
                     }
                 }
         }

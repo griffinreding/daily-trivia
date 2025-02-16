@@ -6,9 +6,12 @@
 //
 
 import Foundation
+import FirebaseFirestoreSwift
 
-struct TriviaQuestion: Codable {
+struct Question: Codable, Identifiable {
+    @DocumentID var id: String { date }
     let question: String
-    let answer: String
-    let id: UUID
+    let choices: [String]?
+    let correctAnswer: String
+    let date: String
 }

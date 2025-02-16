@@ -80,15 +80,34 @@ struct LoginView: View {
     }
     
     func handleSignInButton() {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
-        guard let rootViewController = windowScene.windows.first?.rootViewController else { return }
-        
-        GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController) { signInResult, error in
-                guard let result = signInResult else {
-                    // Inspect error
-                    return
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+            guard let rootViewController = windowScene.windows.first?.rootViewController else { return }
+            
+            //        GIDSignIn.sharedInstance.sign
+            
+            GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController) { signInResult, error in
+                Task {
+                    do {
+                        guard let result = signInResult else {
+                            // Inspect error
+                            return
+                        }
+                        
+                        // If sign in succeeded, display the app's main content View.
+                        let user = result.user
+                        try await AuthService.shared.createUserAccountFromGoogleIfNeeded(for: user)
+                        //create firebase user if necessary
+                        
+                        self.alertErrorMessage = "Successfully signed in with Google user: \(user.idToken?.tokenString ?? "")"
+                        self.isShowingLogInAlert = true
+                    }
+                    catch {
+                        //do stuff
+                        self.alertErrorMessage = "Error creating firebase account after google sign in: \(error.localizedDescription)"
+                        self.isShowingLogInAlert = true
+                    }
                 }
-                // If sign in succeeded, display the app's main content View.
+                
             }
     }
 }
