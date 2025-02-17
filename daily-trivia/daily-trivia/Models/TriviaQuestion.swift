@@ -6,7 +6,6 @@
 //
 
 import Foundation
-//import FirebaseFirestoreSwift
 
 struct TriviaQuestion: Codable, Identifiable {
     var id: String { date }
