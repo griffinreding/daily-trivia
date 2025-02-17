@@ -22,6 +22,7 @@ class AuthService {
         }
     }
     
+    //do this for creating an account in firebase instead using firestore
     func signUp(email: String, password: String) {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error {
