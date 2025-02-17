@@ -38,15 +38,17 @@ struct LoginView: View {
                 GoogleSignInButton(action: handleSignInButton)
             }
             
-            Button(action: {
+            Button {
                 if email.isEmpty || password.isEmpty {
                     isShowingMissingInputAlert = true
                 } else {
                     Task {
                         do {
+                            
+                            
                             let user = try await AuthService.shared.signIn(email: email,
                                                                            password: password)
-                            // Update UI for successful login.
+                            
                             print("Logged in as: \(user.id)")
                         } catch {
                             alertErrorMessage = error.localizedDescription
@@ -55,7 +57,7 @@ struct LoginView: View {
                         }
                     }
                 }
-            }) {
+            } label: {
                 Text("Login")
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -91,7 +93,7 @@ struct LoginView: View {
                         guard let result = signInResult else {
                             // Inspect error
                             return
-                        }
+                        } 
                         
                         // If sign in succeeded, display the app's main content View.
                         let user = result.user

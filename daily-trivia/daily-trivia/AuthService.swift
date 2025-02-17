@@ -38,10 +38,12 @@ class AuthService {
             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
                 if let error = error {
                     continuation.resume(throwing: error)
+                    print("Login error: \(error.localizedDescription)")
                 } else if let user = authResult?.user {
                     continuation.resume(returning: User(firebaseUser: user))
                 } else {
                     let unknownError = NSError(domain: "SignInError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
+                    print("Unknown login error: \(unknownError.localizedDescription)")
                     continuation.resume(throwing: unknownError)
                 }
             }
@@ -70,11 +72,16 @@ class AuthService {
     
     func createUserAccountFromGoogleIfNeeded(for googleUser: GIDGoogleUser) async throws {
         let db = Firestore.firestore()
-        let userRef = db.collection("users").document(googleUser.idToken?.tokenString ?? "this won't be found")
+        let userRef = db.collection("users").document(googleUser.profile?.email ?? "this won't be found")
         
         let snapshot = try await userRef.getDocumentAsync()
+        
+        
         if snapshot.exists {
-            print("User document already exists.")
+            //this works, user already exists
+            let user = try snapshot.data(as: User.self)
+            
+            print("User document already exists for \(user.email)")
             return
         } else {
             var id: String
