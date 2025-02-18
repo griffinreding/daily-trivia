@@ -16,19 +16,11 @@ class GameService {
         let db = Firestore.firestore()
         // Here we use the date as the document ID
         //write code to get the current date from a Date() object as a string in the format "yyyy-MM-dd"
-        let currentDate = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-
-        let date = dateFormatter.string(from: currentDate).replacingOccurrences(of: "-", with: "")
+        let currentDate = Date().dateFormattedForDb()
         
-        print("documentId searched for: \(date)")
+        print("documentId searched for: \(currentDate)")
         
-        let docRef = db.collection("questions").document(date)
-        
-//        let asdf = try await db.collection("questions").whereField("id", isEqualTo: date).getDocuments()
-//        
-//        print(asdf)
+        let docRef = db.collection("questions").document(currentDate)
         
         let snapshot = try await docRef.getDocumentAsync()
         if snapshot.exists {

@@ -6,15 +6,18 @@
 //
 
 import SwiftUI
-import Firebase
+import FirebaseFunctions
 import FirebaseFirestore
+
 
 struct TriviaGameView: View {
     @State private var question: TriviaQuestion?
     @State private var isLoading: Bool = true
+    @State private var isShowingAlert: Bool = false
     @State private var errorMessage: String?
     @State private var answerText: String = ""
     @State private var submitResult: String?
+    @State private var resultMessage: String?
     
     lazy var functions = Functions.functions()
     
@@ -41,7 +44,10 @@ struct TriviaGameView: View {
                 
                 Button(action: {
                     Task {
-                        await submitAnswer()
+//                        if let user = AuthService.shared.currentUser {
+                            //need to figure out what to do with the result dictionary
+                            await submitAnswer(userId: "123", userAnswer: answerText, date: question.date)
+//                        }
                     }
                 }, label: {
                     Text("Submit Answer")
@@ -65,6 +71,11 @@ struct TriviaGameView: View {
             }
         }
         .padding()
+        .alert(isPresented: $isShowingAlert) {
+            Alert(title: Text("Error"),
+                  message: Text(errorMessage ?? "An error occurred."),
+                  dismissButton: .default(Text("OK")))
+        }
         .task {
             await loadQuestion()
         }
@@ -81,50 +92,65 @@ struct TriviaGameView: View {
         }
     }
     
-    func submitAnswer() async {
-            guard let question = question else { return }
+    func submitAnswer(userId: String, userAnswer: String, date: String) async /*-> Result<[String: Any], Error>*/ {
+        let functions = Functions.functions()
+        let data = ["userId": userId, "userAnswer": userAnswer, "date": date]
+        
+        do {
+            // Call the Cloud Function "submitAnswer"
+            let result = try await functions.httpsCallable("submitAnswer").call(data)
             
-            // Create the request payload.
-            let payload: [String: Any] = [
-                "userId": "testUserID", // Replace with the actual authenticated user's ID.
-                "userAnswer": answerText,
-                "date": question.date // Ensure this matches the Firestore document ID.
-            ]
-            
-            guard let url = URL(string: cloudFunctionURL) else {
-                resultMessage = "Invalid function URL."
-                return
-            }
-            
-            do {
-                // Create and configure the URLRequest.
-                var request = URLRequest(url: url)
-                request.httpMethod = "POST"
-                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-                request.httpBody = try JSONSerialization.data(withJSONObject: payload)
-                
-                // Perform the network request.
-                let (data, _) = try await URLSession.shared.data(for: request)
-                // Decode the response.
-                if let jsonResponse = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-                   let correct = jsonResponse["correct"] as? Bool {
-                    
-                    if correct {
-                        resultMessage = "Correct!"
-                    } else {
-                        if let correctAnswer = jsonResponse["correctAnswer"] as? String {
-                            resultMessage = "Wrong answer. The correct answer is: \(correctAnswer)"
-                        } else {
-                            resultMessage = "Wrong answer."
-                        }
-                    }
+            // Process the response
+            if let data = result.data as? [String: Any],
+               let correct = data["correct"] as? Bool {
+                if correct {
+                    errorMessage = "Correct!"
+                    isShowingAlert = true
+                } else if let correctAnswer = data["correctAnswer"] as? String {
+                    errorMessage = "Wrong answer. The correct answer is: \(correctAnswer)"
+                    isShowingAlert = true
                 } else {
-                    resultMessage = "Unexpected response from server."
+                    errorMessage = "Wrong answer."
+                    isShowingAlert = true
                 }
-            } catch {
-                resultMessage = "Submission failed: \(error.localizedDescription)"
+            } else {
+                errorMessage = "Unexpected response from server."
+                isShowingAlert = true
+            }
+        } catch let error as NSError {
+            // Check if this error comes from Firebase Functions
+            if error.domain == FunctionsErrorDomain {
+                // Retrieve a functions-specific error code and details
+                let errorCode = FunctionsErrorCode(rawValue: error.code)
+                let errorDetails = error.userInfo[FunctionsErrorDetailsKey] ?? "No additional details."
+                errorMessage = "Error (\(errorCode?.rawValue ?? error.code)): \(error.localizedDescription)\nDetails: \(errorDetails)"
+                isShowingAlert = true
+            } else {
+                errorMessage = "Submission failed: \(error.localizedDescription)"
             }
         }
+    }
+        
+        
+        
+        
+        
+//        return await withCheckedContinuation { continuation in
+//            functions.httpsCallable("submitAnswer").call(data) { result, error in
+//                if let data = result?.data as? [String: Any],
+//                   let correct = data["correct"] as? Bool {
+//                    if correct {
+//                        resultMessage = "Correct!"
+//                    } else if let correctAnswer = data["correctAnswer"] as? String {
+//                        resultMessage = "Wrong answer. The correct answer is: \(correctAnswer)"
+//                    } else {
+//                        resultMessage = "Wrong answer."
+//                    }
+//                } else {
+//                    resultMessage = "Unexpected response from server."
+//                }
+//            }
+//        }
 }
 
 struct QuestionAnswerView_Previews: PreviewProvider {

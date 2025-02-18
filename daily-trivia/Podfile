@@ -4,6 +4,7 @@
 target 'daily-trivia' do
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
+  pod 'FirebaseFunctions'
   pod 'GoogleSignIn'
   pod 'GoogleSignInSwiftSupport'
   
