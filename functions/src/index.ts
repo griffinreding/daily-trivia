@@ -13,61 +13,70 @@ import * as admin from "firebase-admin";
 admin.initializeApp();
 const db = admin.firestore();
 
-export const getTodayQuestion = functions.https.onRequest(async (_req, res): Promise<void> => {
-    try {
-        const today = new Date().toISOString().split("T")[0]; // Format YYYY-MM-DD
-        const questionRef = db.collection("questions").doc(today);
-        const questionDoc = await questionRef.get();
+// export const getTodayQuestion = functions.https.onRequest(async (_req, res): Promise<void> => {
+//     try {
+//         const today = new Date().toISOString().split("T")[0]; // Format YYYY-MM-DD
+//         const questionRef = db.collection("questions").doc(today);
+//         const questionDoc = await questionRef.get();
 
-        if (!questionDoc.exists) {
-            res.status(404).json({ error: "No question for today" });
-            return;  // Explicitly return to handle all paths
-        }
+//         if (!questionDoc.exists) {
+//             res.status(404).json({ error: "No question for today" });
+//             return;  // Explicitly return to handle all paths
+//         }
 
-        res.json(questionDoc.data());
-        return; // Ensure we return void after sending the response
-    } catch (error: unknown) {
-        const err = error instanceof Error ? error : new Error("Unknown error");
-        res.status(500).json({ error: "Internal server error", details: err.message });
-        return;
-      }
-});
-
+//         res.json(questionDoc.data());
+//         return; // Ensure we return void after sending the response
+//     } catch (error: unknown) {
+//         const err = error instanceof Error ? error : new Error("Unknown error");
+//         res.status(500).json({ error: "Internal server error", details: err.message });
+//         return;
+//       }
+// });
 
 export const submitAnswer = functions.https.onRequest(async (req, res): Promise<void> => {
     try {
-        const { userId, userAnswer } = req.body;
-
-        if (!userId || !userAnswer) {
-            res.status(400).json({ error: "Missing required fields" });
+        // Extract required fields from the request body.
+        const { userId, userAnswer, date } = req.body;
+        if (!userId || !userAnswer || !date) {
+            res.status(400).json({ error: "Missing required fields: userId, userAnswer, and date." });
             return;
         }
 
-        const today = new Date().toISOString().split("T")[0];
-        const questionRef = db.collection("questions").doc(today);
-        const questionDoc = await questionRef.get();
-
+        // Retrieve the question for the given date from the "questions" collection.
+        const questionDoc = await db.collection("questions").doc(date).get();
         if (!questionDoc.exists) {
-            res.status(404).json({ error: "No question for today" });
+            res.status(404).json({ error: "No question found for the given date." });
             return;
         }
 
-        const correctAnswer: string = questionDoc.data()?.correctAnswer;
-        const isCorrect = userAnswer.trim().toLowerCase() === correctAnswer.toLowerCase();
+        const questionData = questionDoc.data();
+        const correctAnswer = questionData?.correctAnswer;
+        if (!correctAnswer) {
+            res.status(500).json({ error: "Question data is incomplete. Missing correctAnswer field." });
+            return;
+        }
 
-        // Save response
+        // Clean and compare answers (case-insensitive).
+        const userAnswerCleaned = userAnswer.trim().toLowerCase();
+        const correctAnswerCleaned = String(correctAnswer).trim().toLowerCase();
+        const isCorrect = userAnswerCleaned === correctAnswerCleaned;
+
+        // Record the user's response in a "responses" collection.
         await db.collection("responses").add({
             userId,
-            date: today,
+            date,
             userAnswer,
             correct: isCorrect,
+            timestamp: admin.firestore.FieldValue.serverTimestamp()
         });
 
-        res.json({ correct: isCorrect });
-        return;
+        // Return the result. If incorrect, include the correct answer.
+        res.json({
+            correct: isCorrect,
+            correctAnswer: isCorrect ? null : correctAnswer
+        });
     } catch (error: unknown) {
         const err = error instanceof Error ? error : new Error("Unknown error");
         res.status(500).json({ error: "Internal server error", details: err.message });
-        return;
-      }
+    }
 });

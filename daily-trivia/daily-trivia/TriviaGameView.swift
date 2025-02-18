@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 import FirebaseFirestore
 
 struct TriviaGameView: View {
@@ -14,6 +15,10 @@ struct TriviaGameView: View {
     @State private var errorMessage: String?
     @State private var answerText: String = ""
     @State private var submitResult: String?
+    
+    lazy var functions = Functions.functions()
+    
+    let cloudFunctionURL = "https://<us-central1>-<your-project-id>.cloudfunctions.net/submitAnswer"
     
     var body: some View {
         VStack(spacing: 20) {
@@ -67,13 +72,7 @@ struct TriviaGameView: View {
     
     func loadQuestion() async {
         do {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "M/d/yyyy"
-            let today = formatter.string(from: Date())
-            
-            print("Date searched for \(today)")
-            
-            self.question = try await GameService.shared.fetchQuestion(for: today)
+            self.question = try await GameService.shared.fetchTodaysQuestion()
             
             isLoading = false
         }
@@ -82,17 +81,50 @@ struct TriviaGameView: View {
         }
     }
     
-    // Call a cloud function to submit the answer instead of doing it locally
     func submitAnswer() async {
-        guard let question = question else { return }
-        let cleanedAnswer = answerText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        let cleanedCorrect = question.correctAnswer.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        if cleanedAnswer == cleanedCorrect {
-            self.submitResult = "Correct!"
-        } else {
-            self.submitResult = "Wrong answer. Try again."
+            guard let question = question else { return }
+            
+            // Create the request payload.
+            let payload: [String: Any] = [
+                "userId": "testUserID", // Replace with the actual authenticated user's ID.
+                "userAnswer": answerText,
+                "date": question.date // Ensure this matches the Firestore document ID.
+            ]
+            
+            guard let url = URL(string: cloudFunctionURL) else {
+                resultMessage = "Invalid function URL."
+                return
+            }
+            
+            do {
+                // Create and configure the URLRequest.
+                var request = URLRequest(url: url)
+                request.httpMethod = "POST"
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.httpBody = try JSONSerialization.data(withJSONObject: payload)
+                
+                // Perform the network request.
+                let (data, _) = try await URLSession.shared.data(for: request)
+                // Decode the response.
+                if let jsonResponse = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let correct = jsonResponse["correct"] as? Bool {
+                    
+                    if correct {
+                        resultMessage = "Correct!"
+                    } else {
+                        if let correctAnswer = jsonResponse["correctAnswer"] as? String {
+                            resultMessage = "Wrong answer. The correct answer is: \(correctAnswer)"
+                        } else {
+                            resultMessage = "Wrong answer."
+                        }
+                    }
+                } else {
+                    resultMessage = "Unexpected response from server."
+                }
+            } catch {
+                resultMessage = "Submission failed: \(error.localizedDescription)"
+            }
         }
-    }
 }
 
 struct QuestionAnswerView_Previews: PreviewProvider {
