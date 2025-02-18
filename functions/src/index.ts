@@ -13,26 +13,6 @@ import * as admin from "firebase-admin";
 admin.initializeApp();
 const db = admin.firestore();
 
-// export const getTodayQuestion = functions.https.onRequest(async (_req, res): Promise<void> => {
-//     try {
-//         const today = new Date().toISOString().split("T")[0]; // Format YYYY-MM-DD
-//         const questionRef = db.collection("questions").doc(today);
-//         const questionDoc = await questionRef.get();
-
-//         if (!questionDoc.exists) {
-//             res.status(404).json({ error: "No question for today" });
-//             return;  // Explicitly return to handle all paths
-//         }
-
-//         res.json(questionDoc.data());
-//         return; // Ensure we return void after sending the response
-//     } catch (error: unknown) {
-//         const err = error instanceof Error ? error : new Error("Unknown error");
-//         res.status(500).json({ error: "Internal server error", details: err.message });
-//         return;
-//       }
-// });
-
 export const submitAnswer = functions.https.onRequest(async (req, res): Promise<void> => {
     try {
         // Extract required fields from the request body.

@@ -46,7 +46,7 @@ struct TriviaGameView: View {
                     Task {
 //                        if let user = AuthService.shared.currentUser {
                             //need to figure out what to do with the result dictionary
-                            await submitAnswer(userId: "123", userAnswer: answerText, date: question.date)
+                            await submitAnswer(userId: "test@test.com", userAnswer: answerText, date: question.date)
 //                        }
                     }
                 }, label: {
@@ -71,20 +71,31 @@ struct TriviaGameView: View {
             }
         }
         .padding()
+        .onAppear {
+            Task {
+                do {
+                    try await AuthService.shared.signIn(email: "test@test.com", password: "test11")
+                    await loadQuestion()
+                }
+                catch {
+                    print("")
+                }
+            }
+        }
         .alert(isPresented: $isShowingAlert) {
             Alert(title: Text("Error"),
                   message: Text(errorMessage ?? "An error occurred."),
                   dismissButton: .default(Text("OK")))
         }
-        .task {
-            await loadQuestion()
-        }
+//        .task {
+//            await loadQuestion()
+//        }
     }
     
     func loadQuestion() async {
         do {
             self.question = try await GameService.shared.fetchTodaysQuestion()
-            
+            print(self.question)
             isLoading = false
         }
         catch {
