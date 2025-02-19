@@ -10,6 +10,7 @@ import GoogleSignInSwift
 import GoogleSignIn
 
 struct LoginView: View {
+    @EnvironmentObject private var appState: AppState
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isShowingMissingInputAlert: Bool = false
@@ -44,9 +45,7 @@ struct LoginView: View {
                 } else {
                     Task {
                         do {
-                            
-                            
-                            let user = try await AuthService.shared.signIn(email: email,
+                            let user = try await AuthService(appState: appState).signIn(email: email,
                                                                            password: password)
                             
                             print("Logged in as: \(user.id)")
@@ -97,7 +96,7 @@ struct LoginView: View {
                         
                         // If sign in succeeded, display the app's main content View.
                         let user = result.user
-                        try await AuthService.shared.createUserAccountFromGoogleIfNeeded(for: user)
+                        try await AuthService(appState: appState).createUserAccountFromGoogleIfNeeded(for: user)
                         //create firebase user if necessary
                         
                         self.alertErrorMessage = "Successfully signed in with Google user: \(user.idToken?.tokenString ?? "")"

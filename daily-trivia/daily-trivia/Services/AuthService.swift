@@ -11,15 +11,10 @@ import FirebaseAuth
 import GoogleSignIn
 
 class AuthService {
-    static let shared = AuthService()
-    var currentUser: User?
+    private let appState: AppState
     
-    init() {
-        if let firebaseUser = Auth.auth().currentUser {
-            currentUser = User(firebaseUser: firebaseUser)
-        } else {
-            currentUser = nil
-        }
+    init(appState: AppState) {
+        self.appState = appState
     }
     
     //do this for creating an account in firebase instead using firestore
@@ -40,7 +35,7 @@ class AuthService {
                     continuation.resume(throwing: error)
                     print("Login error: \(error.localizedDescription)")
                 } else if let user = authResult?.user {
-                    self.currentUser = User(firebaseUser: user)
+                    self.appState.currentUser = User(firebaseUser: user)
                     continuation.resume(returning: User(firebaseUser: user))
                 } else {
                     let unknownError = NSError(domain: "SignInError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])

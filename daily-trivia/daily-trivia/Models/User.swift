@@ -9,7 +9,7 @@ import Foundation
 import FirebaseAuth
 import GoogleSignIn
 
-class User: Codable {
+class User: Codable, Equatable {
     let email: String
     let id: String
     
@@ -29,5 +29,10 @@ class User: Codable {
         } else {
             self.id = UUID().uuidString
         }
+    }
+    
+    //make this conform to equatable by comparing emails
+    static func == (lhs: User, rhs: User) -> Bool {
+        return lhs.email == rhs.email
     }
 }

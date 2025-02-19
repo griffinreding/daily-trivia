@@ -9,13 +9,15 @@ import Foundation
 import FirebaseFirestore
 
 class GameService {
+    private var appState: AppState
     
-    static let shared = GameService()
+    init(appState: AppState) {
+        self.appState = appState
+    }
     
     func fetchTodaysQuestion() async throws -> TriviaQuestion? {
         let db = Firestore.firestore()
-        // Here we use the date as the document ID
-        //write code to get the current date from a Date() object as a string in the format "yyyy-MM-dd"
+
         let currentDate = Date().dateFormattedForDb()
         
         print("documentId searched for: \(currentDate)")
@@ -34,7 +36,7 @@ class GameService {
     
     func checkResponseExists(for datefordb: String) async -> Bool {
         // Get the current user's email from Firebase Auth.
-        guard let userEmail = AuthService.shared.currentUser?.email else {
+        guard let userEmail = appState.currentUser?.email else {
             print("User email not available")
             return false
         }

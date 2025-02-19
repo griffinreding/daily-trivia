@@ -11,6 +11,7 @@ import FirebaseFirestore
 
 
 struct TriviaGameView: View {
+    @EnvironmentObject private var appState: AppState
     @State private var question: TriviaQuestion?
     @State private var isLoading: Bool = true
     @State private var isShowingAlert: Bool = false
@@ -72,8 +73,8 @@ struct TriviaGameView: View {
         .onAppear {
             Task {
                 do {
-                    try await AuthService.shared.signIn(email: "test@test.com", password: "test11") //For testing only
-                    if await GameService.shared.checkResponseExists(for: Date().dateFormattedForDb()) {
+                    try await AuthService(appState: appState).signIn(email: "test@test.com", password: "test11") //For testing only
+                    if await GameService(appState: appState).checkResponseExists(for: Date().dateFormattedForDb()) {
                         answerAlreadyRecorded = true
                     }
                     await loadQuestion()
@@ -92,7 +93,7 @@ struct TriviaGameView: View {
     
     func loadQuestion() async {
         do {
-            self.question = try await GameService.shared.fetchTodaysQuestion()
+            self.question = try await GameService(appState: appState).fetchTodaysQuestion()
             print(self.question)
             isLoading = false
         }
@@ -110,7 +111,7 @@ struct TriviaGameView: View {
 
         let db = Firestore.firestore()
 
-        guard let userEmail = AuthService.shared.currentUser?.email else {
+        guard let userEmail = appState.currentUser?.email else {
             print("User email not available")
             return
         }

@@ -33,14 +33,21 @@ struct daily_triviaApp: App {
                     }
                     .onAppear {
                         if let user = Auth.auth().currentUser {
-                            AuthService.shared.currentUser = User(firebaseUser: user)
+                            appState.currentUser = User(firebaseUser: user)
                         } else {
                             GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
                                 // Check if `user` exists; otherwise, do something with `error`
                                 if let user = user {
-                                    AuthService.shared.currentUser = User(googleUser: user)
+                                    appState.currentUser = User(googleUser: user)
                                 }
                             }
+                        }
+                    }
+                    .onChange(of: self.appState.currentUser) { user in
+                        if let user = user {
+                            appState.isUserLoggedIn = true
+                        } else {
+                            appState.isUserLoggedIn = false
                         }
                     }
             }
