@@ -31,5 +31,32 @@ class GameService {
             return nil
         }
     }
+    
+    func checkResponseExists(for datefordb: String) async -> Bool {
+        // Get the current user's email from Firebase Auth.
+        guard let userEmail = AuthService.shared.currentUser?.email else {
+            print("User email not available")
+            return false
+        }
+        
+        let db = Firestore.firestore()
+        
+        do {
+            let querySnapshot = try await db.collection("responses")
+                .whereField("userEmail", isEqualTo: userEmail)
+                .getDocuments()
+
+            for document in querySnapshot.documents {
+                if let answerDate = document.data()["date"] as? String {
+                    return datefordb == answerDate
+                }
+            }
+        } catch {
+            print("Error fetching responses: \(error.localizedDescription)")
+            return false
+        }
+        
+        return false
+    }
 }
 

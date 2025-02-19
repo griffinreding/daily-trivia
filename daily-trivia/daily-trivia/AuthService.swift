@@ -40,6 +40,7 @@ class AuthService {
                     continuation.resume(throwing: error)
                     print("Login error: \(error.localizedDescription)")
                 } else if let user = authResult?.user {
+                    self.currentUser = User(firebaseUser: user)
                     continuation.resume(returning: User(firebaseUser: user))
                 } else {
                     let unknownError = NSError(domain: "SignInError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])

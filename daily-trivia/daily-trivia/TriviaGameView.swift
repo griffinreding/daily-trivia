@@ -18,10 +18,9 @@ struct TriviaGameView: View {
     @State private var answerText: String = ""
     @State private var submitResult: String?
     @State private var resultMessage: String?
+    @State private var answerAlreadyRecorded: Bool = false
     
     lazy var functions = Functions.functions()
-    
-    let cloudFunctionURL = "https://<us-central1>-<your-project-id>.cloudfunctions.net/submitAnswer"
     
     var body: some View {
         VStack(spacing: 20) {
@@ -32,6 +31,8 @@ struct TriviaGameView: View {
                     .foregroundColor(.red)
                     .multilineTextAlignment(.center)
                     .padding()
+            } else if answerAlreadyRecorded {
+                Text("You have already submitted an answer for today.")
             } else if let question = question {
                 Text(question.question)
                     .font(.title)
@@ -44,10 +45,7 @@ struct TriviaGameView: View {
                 
                 Button(action: {
                     Task {
-//                        if let user = AuthService.shared.currentUser {
-                            //need to figure out what to do with the result dictionary
-                            await submitAnswer(userId: "test@test.com", userAnswer: answerText, date: question.date)
-//                        }
+                        await submitAnswer()
                     }
                 }, label: {
                     Text("Submit Answer")
@@ -74,7 +72,10 @@ struct TriviaGameView: View {
         .onAppear {
             Task {
                 do {
-                    try await AuthService.shared.signIn(email: "test@test.com", password: "test11")
+                    try await AuthService.shared.signIn(email: "test@test.com", password: "test11") //For testing only
+                    if await GameService.shared.checkResponseExists(for: Date().dateFormattedForDb()) {
+                        answerAlreadyRecorded = true
+                    }
                     await loadQuestion()
                 }
                 catch {
@@ -87,9 +88,6 @@ struct TriviaGameView: View {
                   message: Text(errorMessage ?? "An error occurred."),
                   dismissButton: .default(Text("OK")))
         }
-//        .task {
-//            await loadQuestion()
-//        }
     }
     
     func loadQuestion() async {
@@ -102,43 +100,41 @@ struct TriviaGameView: View {
             
         }
     }
-    
-    func submitAnswer(userId: String, userAnswer: String, date: String) async /*-> Result<[String: Any], Error>*/ {
-        let functions = Functions.functions()
-        let data = ["userId": userId, "userAnswer": userAnswer, "date": date]
+    func submitAnswer() async {
+        guard let question = question else { return }
+        
+        let userAnswerClean = answerText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let correctAnswerClean = question.correctAnswer.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let isCorrect = userAnswerClean == correctAnswerClean
+        
+
+        let db = Firestore.firestore()
+
+        guard let userEmail = AuthService.shared.currentUser?.email else {
+            print("User email not available")
+            return
+        }
+        // Use the user's email as the document ID.
+        let responseData: [String: Any] = [
+            "userEmail": userEmail,
+            "date": question.date,
+            "userAnswer": answerText,
+            "answerOutcome": isCorrect,
+            "timestamp": FieldValue.serverTimestamp()
+        ]
         
         do {
-            // Call the Cloud Function "submitAnswer"
-            let result = try await functions.httpsCallable("submitAnswer").call(data)
-            
-            // Process the response
-            if let data = result.data as? [String: Any],
-               let correct = data["correct"] as? Bool {
-                if correct {
-                    errorMessage = "Correct!"
-                    isShowingAlert = true
-                } else if let correctAnswer = data["correctAnswer"] as? String {
-                    errorMessage = "Wrong answer. The correct answer is: \(correctAnswer)"
-                    isShowingAlert = true
-                } else {
-                    errorMessage = "Wrong answer."
-                    isShowingAlert = true
-                }
-            } else {
-                errorMessage = "Unexpected response from server."
-                isShowingAlert = true
-            }
-        } catch let error as NSError {
-            // Check if this error comes from Firebase Functions
-            if error.domain == FunctionsErrorDomain {
-                // Retrieve a functions-specific error code and details
-                let errorCode = FunctionsErrorCode(rawValue: error.code)
-                let errorDetails = error.userInfo[FunctionsErrorDetailsKey] ?? "No additional details."
-                errorMessage = "Error (\(errorCode?.rawValue ?? error.code)): \(error.localizedDescription)\nDetails: \(errorDetails)"
-                isShowingAlert = true
-            } else {
-                errorMessage = "Submission failed: \(error.localizedDescription)"
-            }
+            try await db.collection("responses").document(userEmail).setData(responseData)
+            print("Response recorded for user \(userEmail).")
+        } catch {
+            print("Error recording response: \(error.localizedDescription)")
+        }
+        
+        // Provide feedback locally.
+        if isCorrect {
+            print("Correct Answer")
+        } else {
+            print("Wrong Answer")
         }
     }
         
