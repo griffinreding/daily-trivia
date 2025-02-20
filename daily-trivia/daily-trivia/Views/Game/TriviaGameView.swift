@@ -19,7 +19,7 @@ struct TriviaGameView: View {
     @State private var answerText: String = ""
     @State private var submitResult: String?
     @State private var resultMessage: String?
-    @State private var answerAlreadyRecorded: Bool = false
+    @State private var previouslySubmittedAnswer: SubmittedAnswer?
     @State private var warnedAboutEmptyAnswer: Bool = false
     
     lazy var functions = Functions.functions()
@@ -29,8 +29,9 @@ struct TriviaGameView: View {
             VStack(spacing: 20) {
                 if isLoading {
                     ProgressView("Loading...")
-                } else if answerAlreadyRecorded {
+                } else if let answer = previouslySubmittedAnswer {
                     Text("You have already submitted an answer for today.")
+                    Text("Your answer of \(answer.userAnswer), was \(answer.answerOutcome ? "correct!" : "incorrect.")")
                 } else if let question = question {
                     Text(question.question)
                         .font(.title)
@@ -78,8 +79,9 @@ struct TriviaGameView: View {
             .onAppear {
                 Task {
                     isLoading = true
-                    if await GameService().checkResponseExists(for: Date().dateFormattedForDb(), email: authService.currentUser?.email) {
-                        answerAlreadyRecorded = true
+                    if let answer = await GameService().checkResponseExists(for: Date().dateFormattedForDb(),
+                                                                            email: authService.currentUser?.email) {
+                        previouslySubmittedAnswer = answer
                         isLoading = false
                     }
                     await loadQuestion()
@@ -148,6 +150,12 @@ struct TriviaGameView: View {
         
         do {
             try await db.collection("responses").document(userEmail).setData(responseData)
+            
+            previouslySubmittedAnswer = SubmittedAnswer(date: question.date,
+                                                        answerOutcome: isCorrect,
+                                                        userAnswer: answerText)
+                                                        
+            
             print("Response recorded for user \(userEmail).")
         } catch {
             isLoading = false

@@ -8,6 +8,7 @@
 import Foundation
 
 struct SubmittedAnswer: Codable {
-    let questionId: UUID
+    let date: String
     let answerOutcome: Bool
+    let userAnswer: String
 }
