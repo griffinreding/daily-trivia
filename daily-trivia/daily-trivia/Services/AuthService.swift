@@ -9,15 +9,13 @@ import Foundation
 import Firebase
 import FirebaseAuth
 import GoogleSignIn
+import SwiftUI
 
 class AuthService {
-    private let appState: AppState
-    
-    init(appState: AppState) {
-        self.appState = appState
-    }
-    
+    @ObservedObject var appState = AppState.shared
+
     //do this for creating an account in firebase instead using firestore
+    @MainActor
     func signUp(email: String, password: String) {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error {
@@ -28,6 +26,7 @@ class AuthService {
         }
     }
     
+    @MainActor
     func signIn(email: String, password: String) async throws -> User {
         try await withCheckedThrowingContinuation { continuation in
             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
@@ -46,6 +45,7 @@ class AuthService {
         }
     }
     
+    @MainActor
     func createUserAccountIfNeeded(for firebaseUser: FirebaseAuth.User) async throws {
         let db = Firestore.firestore()
         let userRef = db.collection("users").document(firebaseUser.uid)
@@ -66,6 +66,7 @@ class AuthService {
         }
     }
     
+    @MainActor
     func createUserAccountFromGoogleIfNeeded(for googleUser: GIDGoogleUser) async throws {
         let db = Firestore.firestore()
         let userRef = db.collection("users").document(googleUser.profile?.email ?? "this won't be found")
@@ -76,6 +77,8 @@ class AuthService {
         if snapshot.exists {
             //this works, user already exists
             let user = try snapshot.data(as: User.self)
+            
+            appState.currentUser = user
             
             print("User document already exists for \(user.email)")
             return
@@ -94,6 +97,7 @@ class AuthService {
                 "createdAt": FieldValue.serverTimestamp()
             ]
             try await userRef.setDataAsync(userData)
+            appState.currentUser = User(googleUser: googleUser)
             print("User document successfully created!")
         }
     }

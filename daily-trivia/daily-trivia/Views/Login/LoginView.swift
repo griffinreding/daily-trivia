@@ -10,7 +10,7 @@ import GoogleSignInSwift
 import GoogleSignIn
 
 struct LoginView: View {
-    @EnvironmentObject private var appState: AppState
+    @EnvironmentObject var appState: AppState
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isShowingMissingInputAlert: Bool = false
@@ -45,7 +45,7 @@ struct LoginView: View {
                 } else {
                     Task {
                         do {
-                            let user = try await AuthService(appState: appState).signIn(email: email,
+                            let user = try await AuthService().signIn(email: email,
                                                                            password: password)
                             
                             print("Logged in as: \(user.id)")
@@ -84,31 +84,30 @@ struct LoginView: View {
             guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
             guard let rootViewController = windowScene.windows.first?.rootViewController else { return }
             
-            //        GIDSignIn.sharedInstance.sign
-            
             GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController) { signInResult, error in
                 Task {
                     do {
                         guard let result = signInResult else {
-                            // Inspect error
+                            alertErrorMessage = "Error signing in with Google: \(error?.localizedDescription ?? "Unknown error")"
+                            isShowingLogInAlert = true
                             return
-                        } 
+                        }
                         
-                        // If sign in succeeded, display the app's main content View.
+                        guard result.user.profile?.email != nil else {
+                            alertErrorMessage = "Unable to get email from Google sign in. Please ensure your sharing settings allow it."
+                            isShowingLogInAlert = true
+                            return
+                        }
+                        
                         let user = result.user
-                        try await AuthService(appState: appState).createUserAccountFromGoogleIfNeeded(for: user)
-                        //create firebase user if necessary
-                        
-                        self.alertErrorMessage = "Successfully signed in with Google user: \(user.idToken?.tokenString ?? "")"
-                        self.isShowingLogInAlert = true
+                        try await AuthService().createUserAccountFromGoogleIfNeeded(for: user)
+                        appState.currentUser = User(googleUser: user)
                     }
                     catch {
-                        //do stuff
                         self.alertErrorMessage = "Error creating firebase account after google sign in: \(error.localizedDescription)"
                         self.isShowingLogInAlert = true
                     }
                 }
-                
             }
     }
 }

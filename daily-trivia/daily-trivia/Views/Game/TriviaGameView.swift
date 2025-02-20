@@ -11,7 +11,7 @@ import FirebaseFirestore
 
 
 struct TriviaGameView: View {
-    @EnvironmentObject private var appState: AppState
+    @ObservedObject var appState = AppState.shared
     @State private var question: TriviaQuestion?
     @State private var isLoading: Bool = true
     @State private var isShowingAlert: Bool = false
@@ -20,85 +20,106 @@ struct TriviaGameView: View {
     @State private var submitResult: String?
     @State private var resultMessage: String?
     @State private var answerAlreadyRecorded: Bool = false
+    @State private var warnedAboutEmptyAnswer: Bool = false
     
     lazy var functions = Functions.functions()
     
     var body: some View {
-        VStack(spacing: 20) {
-            if isLoading {
-                ProgressView("Loading question...")
-            } else if let errorMessage = errorMessage {
-                Text("Error: \(errorMessage)")
-                    .foregroundColor(.red)
-                    .multilineTextAlignment(.center)
-                    .padding()
-            } else if answerAlreadyRecorded {
-                Text("You have already submitted an answer for today.")
-            } else if let question = question {
-                Text(question.question)
-                    .font(.title)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                
-                TextField("Enter your answer", text: $answerText)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.horizontal)
-                
-                Button(action: {
-                    Task {
-                        await submitAnswer()
+        NavigationView {
+            VStack(spacing: 20) {
+                if isLoading {
+                    ProgressView("Loading...")
+                } else if answerAlreadyRecorded {
+                    Text("You have already submitted an answer for today.")
+                } else if let question = question {
+                    Text(question.question)
+                        .font(.title)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                    
+                    TextField("Enter your answer", text: $answerText)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.horizontal)
+                    
+                    Button {
+                        Task {
+                            if answerText.isEmpty {
+                                errorMessage = "Do you really think the answer is blank? If you really want to try it I won't stop you, but this is the last warning you'll get."
+                                warnedAboutEmptyAnswer = true
+                                isShowingAlert = true
+                            } else {
+                                isLoading = true
+                                await submitAnswer()
+                                isLoading = false
+                            }
+                        }
+                    } label: {
+                        Text("Submit Answer")
+                            .bold()
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
                     }
-                }, label: {
-                    Text("Submit Answer")
-                        .bold()
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                })
-                .padding(.horizontal)
-                
-                if let result = submitResult {
-                    Text(result)
-                        .font(.headline)
-                        .foregroundColor(result == "Correct!" ? .green : .red)
-                        .padding()
+                    .padding(.horizontal)
+                    
+                    if let result = submitResult {
+                        Text(result)
+                            .font(.headline)
+                            .foregroundColor(result == "Correct!" ? .green : .red)
+                            .padding()
+                    }
+                } else {
+                    Text("No question available for today.")
                 }
-            } else {
-                Text("No question available for today.")
             }
-        }
-        .padding()
-        .onAppear {
-            Task {
-                do {
-                    try await AuthService(appState: appState).signIn(email: "test@test.com", password: "test11") //For testing only
-                    if await GameService(appState: appState).checkResponseExists(for: Date().dateFormattedForDb()) {
+            .padding()
+            .onAppear {
+                Task {
+                    isLoading = true
+                    if await GameService().checkResponseExists(for: Date().dateFormattedForDb()) {
                         answerAlreadyRecorded = true
+                        isLoading = false
                     }
                     await loadQuestion()
                 }
-                catch {
-                    print("")
+            }
+            .alert(isPresented: $isShowingAlert) {
+                Alert(title: Text("Error"),
+                      message: Text(errorMessage ?? "An error occurred."),
+                      dismissButton: .default(Text("OK")))
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Logout") {
+                        Task {
+                            do {
+                                isLoading = true
+                                try appState.logout()
+                                isLoading = false
+                            }
+                            catch {
+                                isLoading = false
+                                errorMessage = "Error logging out: \(error.localizedDescription)"
+                                isShowingAlert = true
+                            }
+                        }
+                    }
                 }
             }
-        }
-        .alert(isPresented: $isShowingAlert) {
-            Alert(title: Text("Error"),
-                  message: Text(errorMessage ?? "An error occurred."),
-                  dismissButton: .default(Text("OK")))
         }
     }
     
     func loadQuestion() async {
         do {
-            self.question = try await GameService(appState: appState).fetchTodaysQuestion()
-            print(self.question)
+            self.question = try await GameService().fetchTodaysQuestion()
             isLoading = false
         }
         catch {
-            
+            isLoading = false
+            errorMessage = error.localizedDescription
+            isShowingAlert = true
         }
     }
     func submitAnswer() async {
@@ -112,10 +133,11 @@ struct TriviaGameView: View {
         let db = Firestore.firestore()
 
         guard let userEmail = appState.currentUser?.email else {
-            print("User email not available")
+            errorMessage = "User email not available. Please log back in again and try again."
+            isShowingAlert = true
             return
         }
-        // Use the user's email as the document ID.
+
         let responseData: [String: Any] = [
             "userEmail": userEmail,
             "date": question.date,
@@ -128,37 +150,19 @@ struct TriviaGameView: View {
             try await db.collection("responses").document(userEmail).setData(responseData)
             print("Response recorded for user \(userEmail).")
         } catch {
-            print("Error recording response: \(error.localizedDescription)")
+            isLoading = false
+            errorMessage = "Error saving response: \(error.localizedDescription)"
+            isShowingAlert = true
+            return
         }
         
-        // Provide feedback locally.
+
         if isCorrect {
             print("Correct Answer")
         } else {
             print("Wrong Answer")
         }
     }
-        
-        
-        
-        
-        
-//        return await withCheckedContinuation { continuation in
-//            functions.httpsCallable("submitAnswer").call(data) { result, error in
-//                if let data = result?.data as? [String: Any],
-//                   let correct = data["correct"] as? Bool {
-//                    if correct {
-//                        resultMessage = "Correct!"
-//                    } else if let correctAnswer = data["correctAnswer"] as? String {
-//                        resultMessage = "Wrong answer. The correct answer is: \(correctAnswer)"
-//                    } else {
-//                        resultMessage = "Wrong answer."
-//                    }
-//                } else {
-//                    resultMessage = "Unexpected response from server."
-//                }
-//            }
-//        }
 }
 
 struct QuestionAnswerView_Previews: PreviewProvider {

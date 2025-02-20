@@ -12,8 +12,6 @@ import GoogleSignIn
 
 @main
 struct daily_triviaApp: App {
-    @StateObject var appState = AppState()
-    
     init() {
         FirebaseApp.configure()
     }
@@ -22,10 +20,9 @@ struct daily_triviaApp: App {
         WindowGroup {
             if appState.isUserLoggedIn {
                 TriviaGameView()
-                    .environmentObject(appState)
             } else {
                 LoginView()
-                    .environmentObject(appState)
+                    .environmentObject(AppState.shared)
                     .onOpenURL { url in
                         // Pass the URL to Google Sign-In to handle authentication callbacks.
                         let handled = GIDSignIn.sharedInstance.handle(url)
@@ -43,8 +40,8 @@ struct daily_triviaApp: App {
                             }
                         }
                     }
-                    .onChange(of: self.appState.currentUser) { user in
-                        if let user = user {
+                    .onChange(of: appState.currentUser) { user in
+                        if user != nil {
                             appState.isUserLoggedIn = true
                         } else {
                             appState.isUserLoggedIn = false
