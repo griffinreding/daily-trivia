@@ -11,8 +11,22 @@ import FirebaseAuth
 import GoogleSignIn
 import SwiftUI
 
-class AuthService {
-    @ObservedObject var appState = AppState.shared
+class AuthService: ObservableObject {
+    @Published var isUserLoggedIn: Bool = false
+    @Published var currentUser: User?
+    
+    @MainActor
+    func logout() throws {
+        if GIDSignIn.sharedInstance.currentUser != nil {
+            GIDSignIn.sharedInstance.signOut()
+            print("Signed out of Google account.")
+        }
+        
+        currentUser = nil
+        isUserLoggedIn = false
+        try Auth.auth().signOut()
+    }
+
 
     //do this for creating an account in firebase instead using firestore
     @MainActor
@@ -34,7 +48,7 @@ class AuthService {
                     continuation.resume(throwing: error)
                     print("Login error: \(error.localizedDescription)")
                 } else if let user = authResult?.user {
-                    self.appState.currentUser = User(firebaseUser: user)
+                    self.currentUser = User(firebaseUser: user)
                     continuation.resume(returning: User(firebaseUser: user))
                 } else {
                     let unknownError = NSError(domain: "SignInError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
@@ -78,7 +92,7 @@ class AuthService {
             //this works, user already exists
             let user = try snapshot.data(as: User.self)
             
-            appState.currentUser = user
+            self.currentUser = user
             
             print("User document already exists for \(user.email)")
             return
@@ -97,7 +111,7 @@ class AuthService {
                 "createdAt": FieldValue.serverTimestamp()
             ]
             try await userRef.setDataAsync(userData)
-            appState.currentUser = User(googleUser: googleUser)
+            self.currentUser = User(googleUser: googleUser)
             print("User document successfully created!")
         }
     }

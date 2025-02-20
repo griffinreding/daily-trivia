@@ -12,17 +12,20 @@ import GoogleSignIn
 
 @main
 struct daily_triviaApp: App {
+    @StateObject private var authService = AuthService()
+    
     init() {
         FirebaseApp.configure()
     }
     
     var body: some Scene {
         WindowGroup {
-            if appState.isUserLoggedIn {
+            if authService.isUserLoggedIn {
                 TriviaGameView()
+                    .environmentObject(authService)
             } else {
                 LoginView()
-                    .environmentObject(AppState.shared)
+                    .environmentObject(authService)
                     .onOpenURL { url in
                         // Pass the URL to Google Sign-In to handle authentication callbacks.
                         let handled = GIDSignIn.sharedInstance.handle(url)
@@ -30,21 +33,21 @@ struct daily_triviaApp: App {
                     }
                     .onAppear {
                         if let user = Auth.auth().currentUser {
-                            appState.currentUser = User(firebaseUser: user)
+                            authService.currentUser = User(firebaseUser: user)
                         } else {
                             GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
                                 // Check if `user` exists; otherwise, do something with `error`
                                 if let user = user {
-                                    appState.currentUser = User(googleUser: user)
+                                    authService.currentUser = User(googleUser: user)
                                 }
                             }
                         }
                     }
-                    .onChange(of: appState.currentUser) { user in
+                    .onChange(of: authService.currentUser) { user in
                         if user != nil {
-                            appState.isUserLoggedIn = true
+                            authService.isUserLoggedIn = true
                         } else {
-                            appState.isUserLoggedIn = false
+                            authService.isUserLoggedIn = false
                         }
                     }
             }

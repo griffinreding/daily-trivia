@@ -10,7 +10,6 @@ import FirebaseFirestore
 import SwiftUI
 
 class GameService {
-    @EnvironmentObject var appState: AppState
     
     //clean up cloud functions using these docs
     //https://firebase.google.com/docs/firestore/query-data/queries?hl=en&authuser=1
@@ -34,9 +33,9 @@ class GameService {
         }
     }
     
-    func checkResponseExists(for datefordb: String) async -> Bool {
+    func checkResponseExists(for datefordb: String, email: String?) async -> Bool {
         // Get the current user's email from Firebase Auth.
-        guard let userEmail = await appState.currentUser?.email else {
+        guard let userEmail = email else {
             print("User email not available")
             return false
         }

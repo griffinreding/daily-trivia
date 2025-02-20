@@ -10,7 +10,7 @@ import GoogleSignInSwift
 import GoogleSignIn
 
 struct LoginView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var authService: AuthService
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isShowingMissingInputAlert: Bool = false
@@ -101,7 +101,7 @@ struct LoginView: View {
                         
                         let user = result.user
                         try await AuthService().createUserAccountFromGoogleIfNeeded(for: user)
-                        appState.currentUser = User(googleUser: user)
+                        authService.currentUser = User(googleUser: user)
                     }
                     catch {
                         self.alertErrorMessage = "Error creating firebase account after google sign in: \(error.localizedDescription)"
