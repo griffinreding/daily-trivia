@@ -11,8 +11,10 @@ struct CorrectAnswerView: View {
     let submittedAnswer: String
     
     var body: some View {
-        VStack {
+        VStack(spacing: 24) {
             Image(systemName: "fireworks")
+                .resizable()
+                .frame(width: 100, height: 100)
             
             Text("Nailed it!")
                 
