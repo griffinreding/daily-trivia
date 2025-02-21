@@ -30,8 +30,13 @@ struct TriviaGameView: View {
                 if isLoading {
                     ProgressView("Loading...")
                 } else if let answer = previouslySubmittedAnswer {
-                    Text("You have already submitted an answer for today.")
-                    Text("Your answer of \(answer.userAnswer), was \(answer.answerOutcome ? "correct!" : "incorrect.")")
+                    if answer.answerOutcome {
+                        CorrectAnswerView(submittedAnswer: answer.userAnswer)
+                    } else {
+                        
+                    }
+//                    Text("You have already submitted an answer for today.")
+//                    Text("Your answer of \(answer.userAnswer), was \(answer.answerOutcome ? "correct!" : "incorrect.")")
                 } else if let question = question {
                     Text(question.question)
                         .font(.title)
