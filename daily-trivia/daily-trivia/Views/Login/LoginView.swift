@@ -9,13 +9,25 @@ import SwiftUI
 import GoogleSignInSwift
 import GoogleSignIn
 
+enum LoginViewAlert: Identifiable {
+        case missingInput
+        case loginError(String)
+        case registrationPrompt
+        
+        var id: String {
+            switch self {
+            case .missingInput: return "missingInput"
+            case .loginError: return "loginError"
+            case .registrationPrompt: return "registrationPrompt"
+            }
+        }
+    }
+
 struct LoginView: View {
     @EnvironmentObject var authService: AuthService
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var isShowingMissingInputAlert: Bool = false
-    @State private var isShowingLogInAlert: Bool = false
-    @State var alertErrorMessage: String = ""
+    @State private var loginViewAlert: LoginViewAlert? = nil
 
     var body: some View {
         VStack(spacing: 20) {
@@ -41,7 +53,7 @@ struct LoginView: View {
             
             Button {
                 if email.isEmpty || password.isEmpty {
-                    isShowingMissingInputAlert = true
+                    loginViewAlert = .missingInput
                 } else {
                     Task {
                         do {
@@ -50,8 +62,7 @@ struct LoginView: View {
                             
                             print("Logged in as: \(user.id)")
                         } catch {
-                            alertErrorMessage = error.localizedDescription
-                            isShowingLogInAlert = true
+                            loginViewAlert = .loginError(error.localizedDescription)
                             print("Login error: \(error.localizedDescription)")
                         }
                     }
@@ -64,20 +75,51 @@ struct LoginView: View {
                     .background(Color.blue)
                     .cornerRadius(8)
             }
-            .alert(isPresented: $isShowingMissingInputAlert) {
-                Alert(title: Text("Missing Information"),
-                      message: Text("Please enter your email and password."),
-                      dismissButton: .default(Text("OK")))
-            }
-            .alert(isPresented: $isShowingLogInAlert) {
-                Alert(title: Text("Login Error"),
-                      message: Text(alertErrorMessage),
-                      dismissButton: .default(Text("OK")))
+            
+            Button {
+                if email.isEmpty || password.isEmpty {
+                    loginViewAlert = .registrationPrompt
+                } else {
+                    Task {
+                        do {
+                            authService.signUp(email: email, password: password)
+                        } catch {
+                            loginViewAlert = .loginError(error.localizedDescription)
+                            print("Registration error: \(error.localizedDescription)")
+                        }
+                    }
+                }
+            } label: {
+                Text("Register")
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(.green)
+                    .cornerRadius(8)
             }
             
             Spacer()
         }
         .padding()
+        .alert(item: $loginViewAlert) { alert in
+            switch alert {
+            case .missingInput:
+                return Alert(title: Text("Missing Information"),
+                             message: Text("Please enter your email and password."),
+                             dismissButton: .default(Text("OK")))
+                
+            case .loginError(let message):
+                return Alert(title: Text("Login Error"),
+                             message: Text(message),
+                             dismissButton: .default(Text("OK")))
+                
+            case .registrationPrompt:
+                return Alert(title: Text("Registration"),
+                             message: Text("Enter an email and password above, then tap 'Register' to create an account."),
+                             dismissButton: .default(Text("OK")))
+            }
+        }
+        
     }
     
     func handleSignInButton() {
@@ -88,14 +130,12 @@ struct LoginView: View {
                 Task {
                     do {
                         guard let result = signInResult else {
-                            alertErrorMessage = "Error signing in with Google: \(error?.localizedDescription ?? "Unknown error")"
-                            isShowingLogInAlert = true
+                            loginViewAlert = .loginError("Error signing in with Google: \(error?.localizedDescription ?? "Unknown error")")
                             return
                         }
                         
                         guard result.user.profile?.email != nil else {
-                            alertErrorMessage = "Unable to get email from Google sign in. Please ensure your sharing settings allow it."
-                            isShowingLogInAlert = true
+                            loginViewAlert = .loginError("Unable to get email from Google sign in. Please ensure your sharing settings allow it.")
                             return
                         }
                         
@@ -104,8 +144,7 @@ struct LoginView: View {
                         authService.currentUser = User(googleUser: user)
                     }
                     catch {
-                        self.alertErrorMessage = "Error creating firebase account after google sign in: \(error.localizedDescription)"
-                        self.isShowingLogInAlert = true
+                        loginViewAlert = .loginError("Error creating firebase account after google sign in: \(error.localizedDescription)")
                     }
                 }
             }
