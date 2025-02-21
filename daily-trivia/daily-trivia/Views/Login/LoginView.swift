@@ -82,7 +82,8 @@ struct LoginView: View {
                 } else {
                     Task {
                         do {
-                            authService.signUp(email: email, password: password)
+                            try await authService.signUp(email: email, password: password)
+                            try await authService.signIn(email: email, password: password)
                         } catch {
                             loginViewAlert = .loginError(error.localizedDescription)
                             print("Registration error: \(error.localizedDescription)")

@@ -30,12 +30,16 @@ class AuthService: ObservableObject {
 
     //do this for creating an account in firebase instead using firestore
     @MainActor
-    func signUp(email: String, password: String) {
-        Auth.auth().createUser(withEmail: email, password: password) { result, error in
-            if let error = error {
-                print("Sign Up Error: \(error.localizedDescription)")
-            } else {
-                print("User signed up with uid: \(result?.user.uid ?? "")")
+    func signUp(email: String, password: String) async throws -> Bool {
+        try await withCheckedThrowingContinuation { continuation in
+            Auth.auth().createUser(withEmail: email, password: password) { result, error in
+                if let error = error {
+                    print("Sign Up Error: \(error.localizedDescription)")
+                    continuation.resume(throwing: error)
+                } else {
+                    print("User signed up with uid: \(result?.user.uid ?? "")")
+                    continuation.resume(returning: true)
+                }
             }
         }
     }
