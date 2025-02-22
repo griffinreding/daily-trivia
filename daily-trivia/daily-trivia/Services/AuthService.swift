@@ -91,8 +91,6 @@ class AuthService: ObservableObject {
     func createUserAccountFromGoogleIfNeeded(for googleUser: GIDGoogleUser) async throws {
         let db = Firestore.firestore()
         let userRef = db.collection("users").document(googleUser.profile?.email.sanitizedEmail() ?? "this won't be found")
-        
-        //current offender of google log in issues for existing users
         let snapshot = try await userRef.getDocumentAsync()
         
         if snapshot.exists {
@@ -113,7 +111,6 @@ class AuthService: ObservableObject {
             try await userRef.setDataAsync(userData)
             
             self.currentUser = User(googleUser: googleUser)
-            self.currentUser?.isFirstLogin = true
             
             print("User document successfully created!")
         }

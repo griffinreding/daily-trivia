@@ -93,7 +93,6 @@ struct LoginView: View {
                             
                             let username = try await authService.fetchUsername(forEmail: email)
                             authService.currentUser?.username = username
-                            authService.currentUser?.isFirstLogin = true
                         } catch {
                             loginViewAlert = .loginError(error.localizedDescription)
                             print("Registration error: \(error.localizedDescription)")
@@ -145,7 +144,7 @@ struct LoginView: View {
                             return
                         }
                         
-                        guard result.user.profile?.email != nil else {
+                        guard let email = result.user.profile?.email else {
                             loginViewAlert = .loginError("Unable to get email from Google sign in. Please ensure your sharing settings allow it.")
                             return
                         }
@@ -154,7 +153,7 @@ struct LoginView: View {
                         try await authService.createUserAccountFromGoogleIfNeeded(for: user)
                         authService.currentUser = User(googleUser: user)
                         
-                        let username = try await authService.fetchUsername(forEmail: user.profile?.email ?? "")
+                        let username = try await authService.fetchUsername(forEmail: email)
                         authService.currentUser?.username = username
                     }
                     catch {
