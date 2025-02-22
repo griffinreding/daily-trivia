@@ -34,8 +34,8 @@ struct LoginView: View {
             Text("Welcome to Daily Trivia!")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-                .multilineTextAlignment(.center)
                 .lineLimit(0)
+                .multilineTextAlignment(.center)
             
             TextField("Email", text: $email)
                 .padding()
@@ -59,10 +59,11 @@ struct LoginView: View {
                 } else {
                     Task {
                         do {
-                            let user = try await AuthService().signIn(email: email,
+                            let user = try await authService.signIn(email: email,
                                                                            password: password)
                             
-                            print("Logged in as: \(User(firebaseUser: user).email)")
+                            let username = try await authService.fetchUsername(forEmail: user.email ?? "")
+                            authService.currentUser?.username = username
                         } catch {
                             loginViewAlert = .loginError(error.localizedDescription)
                             print("Login error: \(error.localizedDescription)")
@@ -85,8 +86,13 @@ struct LoginView: View {
                     Task {
                         do {
                             try await authService.signUp(email: email, password: password)
+                            
                             let user = try await authService.signIn(email: email, password: password)
                             try await authService.createUserAccountIfNeeded(for: user)
+                            
+                            let username = try await authService.fetchUsername(forEmail: email)
+                            authService.currentUser?.username = username
+                            authService.currentUser?.isFirstLogin = true
                         } catch {
                             loginViewAlert = .loginError(error.localizedDescription)
                             print("Registration error: \(error.localizedDescription)")
@@ -144,8 +150,11 @@ struct LoginView: View {
                         }
                         
                         let user = result.user
-                        try await AuthService().createUserAccountFromGoogleIfNeeded(for: user)
+                        try await authService.createUserAccountFromGoogleIfNeeded(for: user)
                         authService.currentUser = User(googleUser: user)
+                        
+                        let username = try await authService.fetchUsername(forEmail: user.profile?.email ?? "")
+                        authService.currentUser?.username = username
                     }
                     catch {
                         loginViewAlert = .loginError("Error creating firebase account after google sign in: \(error.localizedDescription)")

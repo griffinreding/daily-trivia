@@ -12,10 +12,13 @@ import GoogleSignIn
 class User: Codable, Equatable {
     let email: String
     let id: String
+    var username: String?
+    var isFirstLogin: Bool = false
     
     init(firebaseUser: FirebaseAuth.User) {
         self.id = firebaseUser.uid
         self.email = firebaseUser.email ?? ""
+        self.username = nil
     }
     
     init(googleUser: GIDGoogleUser) {
@@ -29,9 +32,10 @@ class User: Codable, Equatable {
         } else {
             self.id = UUID().uuidString
         }
+        
+        self.username = nil
     }
     
-    //make this conform to equatable by comparing emails
     static func == (lhs: User, rhs: User) -> Bool {
         return lhs.email == rhs.email
     }

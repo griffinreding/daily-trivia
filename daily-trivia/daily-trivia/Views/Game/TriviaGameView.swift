@@ -21,6 +21,7 @@ struct TriviaGameView: View {
     @State private var resultMessage: String?
     @State private var previouslySubmittedAnswer: SubmittedAnswer?
     @State private var warnedAboutEmptyAnswer: Bool = false
+    @State private var showUsernameEntry: Bool = false
     
     lazy var functions = Functions.functions()
     
@@ -88,6 +89,8 @@ struct TriviaGameView: View {
                         isLoading = false
                     }
                     await loadQuestion()
+                    
+                    showUsernameEntry = authService.currentUser?.username == nil
                 }
             }
             .alert(isPresented: $isShowingAlert) {
@@ -112,6 +115,10 @@ struct TriviaGameView: View {
                         }
                     }
                 }
+            }
+            .sheet(isPresented: $showUsernameEntry) {
+                CreateUsernameSheet()
+                    .interactiveDismissDisabled()
             }
         }
     }

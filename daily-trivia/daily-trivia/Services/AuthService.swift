@@ -52,8 +52,10 @@ class AuthService: ObservableObject {
                     continuation.resume(throwing: error)
                     print("Login error: \(error.localizedDescription)")
                 } else if let user = authResult?.user {
-                    self.currentUser = User(firebaseUser: user)
-                    continuation.resume(returning: user)
+                    Task {
+                        self.currentUser = User(firebaseUser: user)
+                        continuation.resume(returning: user)
+                    }
                 } else {
                     let unknownError = NSError(domain: "SignInError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
                     print("Unknown login error: \(unknownError.localizedDescription)")
@@ -66,7 +68,7 @@ class AuthService: ObservableObject {
     @MainActor
     func createUserAccountIfNeeded(for firebaseUser: FirebaseAuth.User) async throws {
         let db = Firestore.firestore()
-        let userRef = db.collection("users").document(firebaseUser.uid)
+        let userRef = db.collection("users").document(firebaseUser.email ?? "this won't be found")
         
         let snapshot = try await userRef.getDocumentAsync()
         if snapshot.exists {
@@ -75,7 +77,7 @@ class AuthService: ObservableObject {
         } else {
             let userData: [String: Any] = [
                 "email": firebaseUser.email ?? "",
-                "displayName": firebaseUser.displayName ?? "",
+                "id": firebaseUser.email ?? "",
                 "createdAt": FieldValue.serverTimestamp()
                 // Add additional default fields as needed.
             ]
@@ -89,35 +91,52 @@ class AuthService: ObservableObject {
         let db = Firestore.firestore()
         let userRef = db.collection("users").document(googleUser.profile?.email ?? "this won't be found")
         
+        //current offender of google log in issues for existing users
         let snapshot = try await userRef.getDocumentAsync()
         
         
         if snapshot.exists {
-            //this works, user already exists
             let user = try snapshot.data(as: User.self)
             
             self.currentUser = user
             
+            let username = try await self.fetchUsername(forEmail: googleUser.profile?.email ?? "")
+            self.currentUser?.username = username
+            
             print("User document already exists for \(user.email)")
-            return
         } else {
-            var id: String
-            
-            if let googleToken = googleUser.idToken?.tokenString {
-                id = googleToken
-            } else {
-                id = UUID().uuidString
-            }
-            
             let userData: [String: Any] = [
                 "email": googleUser.profile?.email ?? "",
-                "id": id,
+                "id": googleUser.profile?.email ?? "",
                 "createdAt": FieldValue.serverTimestamp()
             ]
             try await userRef.setDataAsync(userData)
+            
             self.currentUser = User(googleUser: googleUser)
+            self.currentUser?.isFirstLogin = true
+            
             print("User document successfully created!")
         }
     }
+    
+    func fetchUsername(forEmail email: String) async throws -> String? {
+        let db = Firestore.firestore()
         
+        let docRef = db.collection("users").document(email)
+        
+        do {
+            let documentSnapshot = try await docRef.getDocument()
+            
+            if let data = documentSnapshot.data(),
+               let username = data["username"] as? String {
+                return username
+            } else {
+                print("No user found for email: \(email)")
+                return nil
+            }
+        } catch {
+            print("Error fetching user: \(error.localizedDescription)")
+            throw error
+        }
+    }
 }

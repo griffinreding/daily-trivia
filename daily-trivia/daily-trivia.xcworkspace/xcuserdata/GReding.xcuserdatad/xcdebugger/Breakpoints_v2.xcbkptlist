@@ -3,4 +3,228 @@
    uuid = "0F521B6A-094D-4412-83EB-4F08BCBC66CB"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EC676C37-AEF6-4BE6-9325-CD23A7930C87"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "daily-trivia/Services/AuthService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
+            landmarkName = "createUserAccountFromGoogleIfNeeded(for:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "EC676C37-AEF6-4BE6-9325-CD23A7930C87 - 82740fb62666c49e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for daily_trivia.AuthService.createUserAccountFromGoogleIfNeeded(for: __C.GIDGoogleUser) async throws -&gt; ()"
+                  moduleName = "daily-trivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/GReding/Documents/GitHub/daily-trivia/daily-trivia/daily-trivia/Services/AuthService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "113"
+                  endingLineNumber = "113">
+               </Location>
+               <Location
+                  uuid = "EC676C37-AEF6-4BE6-9325-CD23A7930C87 - 503ca7dd1ea73a86"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(6) await resume partial function for daily_trivia.AuthService.createUserAccountFromGoogleIfNeeded(for: __C.GIDGoogleUser) async throws -&gt; ()"
+                  moduleName = "daily-trivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/GReding/Documents/GitHub/daily-trivia/daily-trivia/daily-trivia/Services/AuthService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "113"
+                  endingLineNumber = "113">
+               </Location>
+               <Location
+                  uuid = "EC676C37-AEF6-4BE6-9325-CD23A7930C87 - d73afd1bb6964c62"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for daily_trivia.AuthService.createUserAccountFromGoogleIfNeeded(for: __C.GIDGoogleUser) async throws -&gt; ()"
+                  moduleName = "daily-trivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/GReding/Documents/GitHub/daily-trivia/daily-trivia/daily-trivia/Services/AuthService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "113"
+                  endingLineNumber = "113">
+               </Location>
+               <Location
+                  uuid = "EC676C37-AEF6-4BE6-9325-CD23A7930C87 - 899911d2b58e07d5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(10) suspend resume partial function for daily_trivia.AuthService.createUserAccountFromGoogleIfNeeded(for: __C.GIDGoogleUser) async throws -&gt; ()"
+                  moduleName = "daily-trivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/GReding/Documents/GitHub/daily-trivia/daily-trivia/daily-trivia/Services/AuthService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "113"
+                  endingLineNumber = "113">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "239E9D98-F63C-4CD1-B0C1-3F64CC37E2C8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "daily-trivia/Services/AuthService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
+            landmarkName = "createUserAccountFromGoogleIfNeeded(for:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "239E9D98-F63C-4CD1-B0C1-3F64CC37E2C8 - 82740fb62666c550"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for daily_trivia.AuthService.createUserAccountFromGoogleIfNeeded(for: __C.GIDGoogleUser) async throws -&gt; ()"
+                  moduleName = "daily-trivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/GReding/Documents/GitHub/daily-trivia/daily-trivia/daily-trivia/Services/AuthService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "103"
+                  endingLineNumber = "103">
+               </Location>
+               <Location
+                  uuid = "239E9D98-F63C-4CD1-B0C1-3F64CC37E2C8 - 1801df754cce374e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) await resume partial function for daily_trivia.AuthService.createUserAccountFromGoogleIfNeeded(for: __C.GIDGoogleUser) async throws -&gt; ()"
+                  moduleName = "daily-trivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/GReding/Documents/GitHub/daily-trivia/daily-trivia/daily-trivia/Services/AuthService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "103"
+                  endingLineNumber = "103">
+               </Location>
+               <Location
+                  uuid = "239E9D98-F63C-4CD1-B0C1-3F64CC37E2C8 - 7c9156c17ebe8952"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for daily_trivia.AuthService.createUserAccountFromGoogleIfNeeded(for: __C.GIDGoogleUser) async throws -&gt; ()"
+                  moduleName = "daily-trivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/GReding/Documents/GitHub/daily-trivia/daily-trivia/daily-trivia/Services/AuthService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "103"
+                  endingLineNumber = "103">
+               </Location>
+               <Location
+                  uuid = "239E9D98-F63C-4CD1-B0C1-3F64CC37E2C8 - b1640452ceee11ae"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(9) suspend resume partial function for daily_trivia.AuthService.createUserAccountFromGoogleIfNeeded(for: __C.GIDGoogleUser) async throws -&gt; ()"
+                  moduleName = "daily-trivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/GReding/Documents/GitHub/daily-trivia/daily-trivia/daily-trivia/Services/AuthService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "103"
+                  endingLineNumber = "103">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6AAD4C51-98D0-463C-8DD8-730A1582FCC6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "daily-trivia/Services/AuthService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "createUserAccountFromGoogleIfNeeded(for:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "6AAD4C51-98D0-463C-8DD8-730A1582FCC6 - 2bcae17fee09066d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for daily_trivia.AuthService.createUserAccountFromGoogleIfNeeded(for: __C.GIDGoogleUser) async throws -&gt; ()"
+                  moduleName = "daily-trivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/GReding/Documents/GitHub/daily-trivia/daily-trivia/daily-trivia/Services/AuthService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "94"
+                  endingLineNumber = "94">
+               </Location>
+               <Location
+                  uuid = "6AAD4C51-98D0-463C-8DD8-730A1582FCC6 - c05376ecbb713477"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for daily_trivia.AuthService.createUserAccountFromGoogleIfNeeded(for: __C.GIDGoogleUser) async throws -&gt; ()"
+                  moduleName = "daily-trivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/GReding/Documents/GitHub/daily-trivia/daily-trivia/daily-trivia/Services/AuthService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "94"
+                  endingLineNumber = "94">
+               </Location>
+               <Location
+                  uuid = "6AAD4C51-98D0-463C-8DD8-730A1582FCC6 - 82740fb62666c26b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for daily_trivia.AuthService.createUserAccountFromGoogleIfNeeded(for: __C.GIDGoogleUser) async throws -&gt; ()"
+                  moduleName = "daily-trivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/GReding/Documents/GitHub/daily-trivia/daily-trivia/daily-trivia/Services/AuthService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "94"
+                  endingLineNumber = "94">
+               </Location>
+               <Location
+                  uuid = "6AAD4C51-98D0-463C-8DD8-730A1582FCC6 - 620950bf12822896"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(8) suspend resume partial function for daily_trivia.AuthService.createUserAccountFromGoogleIfNeeded(for: __C.GIDGoogleUser) async throws -&gt; ()"
+                  moduleName = "daily-trivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/GReding/Documents/GitHub/daily-trivia/daily-trivia/daily-trivia/Services/AuthService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "94"
+                  endingLineNumber = "94">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
