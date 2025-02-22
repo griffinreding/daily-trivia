@@ -33,12 +33,27 @@ struct daily_triviaApp: App {
                     }
                     .onAppear {
                         if let user = Auth.auth().currentUser {
-                            authService.currentUser = User(firebaseUser: user)
-                        } else {
-                            GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-                                // Check if `user` exists; otherwise, do something with `error`
-                                if let user = user {
-                                    authService.currentUser = User(googleUser: user)
+                            Task {
+                                do {
+                                    authService.currentUser = User(firebaseUser: user)
+                                    try await authService.fetchUsername(forEmail: user.email ?? "")
+                                }
+                                catch {
+                                    //another unhandled error
+                                }
+                            }
+                        }
+                        else {
+                            GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in //unhandled error
+                                Task {
+                                    do {
+                                        if let user = user {
+                                            authService.currentUser = User(googleUser: user)
+                                            try await authService.fetchUsername(forEmail: user.profile?.email ?? "")
+                                        }
+                                    } catch {
+                                        //another unhandled error
+                                    }
                                 }
                             }
                         }
