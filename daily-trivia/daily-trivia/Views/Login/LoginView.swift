@@ -34,6 +34,8 @@ struct LoginView: View {
             Text("Welcome to Daily Trivia!")
                 .font(.largeTitle)
                 .fontWeight(.bold)
+                .multilineTextAlignment(.center)
+                .lineLimit(0)
             
             TextField("Email", text: $email)
                 .padding()
@@ -60,7 +62,7 @@ struct LoginView: View {
                             let user = try await AuthService().signIn(email: email,
                                                                            password: password)
                             
-                            print("Logged in as: \(user.id)")
+                            print("Logged in as: \(User(firebaseUser: user).email)")
                         } catch {
                             loginViewAlert = .loginError(error.localizedDescription)
                             print("Login error: \(error.localizedDescription)")
@@ -83,7 +85,8 @@ struct LoginView: View {
                     Task {
                         do {
                             try await authService.signUp(email: email, password: password)
-                            try await authService.signIn(email: email, password: password)
+                            let user = try await authService.signIn(email: email, password: password)
+                            try await authService.createUserAccountIfNeeded(for: user)
                         } catch {
                             loginViewAlert = .loginError(error.localizedDescription)
                             print("Registration error: \(error.localizedDescription)")

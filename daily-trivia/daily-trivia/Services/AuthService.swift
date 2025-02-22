@@ -45,7 +45,7 @@ class AuthService: ObservableObject {
     }
     
     @MainActor
-    func signIn(email: String, password: String) async throws -> User {
+    func signIn(email: String, password: String) async throws -> Firebase.User {
         try await withCheckedThrowingContinuation { continuation in
             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
                 if let error = error {
@@ -53,7 +53,7 @@ class AuthService: ObservableObject {
                     print("Login error: \(error.localizedDescription)")
                 } else if let user = authResult?.user {
                     self.currentUser = User(firebaseUser: user)
-                    continuation.resume(returning: User(firebaseUser: user))
+                    continuation.resume(returning: user)
                 } else {
                     let unknownError = NSError(domain: "SignInError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
                     print("Unknown login error: \(unknownError.localizedDescription)")

@@ -33,10 +33,8 @@ struct TriviaGameView: View {
                     if answer.answerOutcome {
                         CorrectAnswerView(submittedAnswer: answer.userAnswer)
                     } else {
-                        
+                        IncorrectAnswerView(submittedAnswer: answer.userAnswer)
                     }
-//                    Text("You have already submitted an answer for today.")
-//                    Text("Your answer of \(answer.userAnswer), was \(answer.answerOutcome ? "correct!" : "incorrect.")")
                 } else if let question = question {
                     Text(question.question)
                         .font(.title)
@@ -181,5 +179,6 @@ struct TriviaGameView: View {
 struct QuestionAnswerView_Previews: PreviewProvider {
     static var previews: some View {
         TriviaGameView()
+            .environmentObject(AuthService())
     }
 }
