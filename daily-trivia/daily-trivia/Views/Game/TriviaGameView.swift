@@ -105,7 +105,7 @@ struct TriviaGameView: View {
                       message: Text("If you find something dumb, it would be really cool if you let me know."),
                       primaryButton: .default(Text("Open Github"),
                                               action: {
-                            guard let url = URL(string: "https://github.com/grifeding/daily-trivia/issues/new") else {
+                            guard let url = URL(string: "https://github.com/griffinreding/daily-trivia/issues/new") else {
                                 errorMessage = "Lol, the bug report URL is broken. Nice."
                                 isShowingAlert = true
                                 return
@@ -154,7 +154,9 @@ struct TriviaGameView: View {
                     .interactiveDismissDisabled()
             }
             .fullScreenCover(isPresented: $isShowingLeaderboard) {
-                LeaderboardView()
+                LeaderboardView(dismiss: {
+                    isShowingLeaderboard = false
+                })
             }
         }
     }
