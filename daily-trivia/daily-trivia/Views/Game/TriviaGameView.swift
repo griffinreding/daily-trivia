@@ -22,6 +22,7 @@ struct TriviaGameView: View {
     @State private var previouslySubmittedAnswer: SubmittedAnswer?
     @State private var warnedAboutEmptyAnswer: Bool = false
     @State private var showUsernameEntry: Bool = false
+    @State private var isShowingBugAlert: Bool = false
     
     lazy var functions = Functions.functions()
     
@@ -98,6 +99,19 @@ struct TriviaGameView: View {
                       message: Text(errorMessage ?? "An error occurred."),
                       dismissButton: .default(Text("OK")))
             }
+            .alert(isPresented: $isShowingBugAlert) {
+                Alert(title: Text("Report a Bug"),
+                      message: Text("If you find something dumb, it would be really cool if you let me know."),
+                      primaryButton: .default(Text("Open Github"),
+                                              action: {
+                            guard let url = URL(string: "https://github.com/grifeding/daily-trivia/issues/new") else {
+                                errorMessage = "Lol, the bug report URL is broken. Nice."
+                                isShowingAlert = true
+                                return
+                    }
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }), secondaryButton: .cancel())
+            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Logout") {
@@ -115,6 +129,17 @@ struct TriviaGameView: View {
                         }
                     }
                 }
+                ToolbarItemGroup(placement: .bottomBar) {
+                    Button {
+                        isShowingBugAlert = true
+                    } label: {
+                        Image(systemName: "ladybug.fill")
+                            .foregroundStyle(.red)
+                    }
+                    
+                    Spacer()
+                }
+                    
             }
             .sheet(isPresented: $showUsernameEntry) {
                 CreateUsernameSheet()
