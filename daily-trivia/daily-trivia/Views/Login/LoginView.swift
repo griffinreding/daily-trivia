@@ -59,7 +59,6 @@ struct LoginView: View {
                 } else {
                     Task {
                         do {
-                            //current offender for 
                             let user = try await authService.signIn(email: email,
                                                                            password: password)
                             
@@ -91,8 +90,8 @@ struct LoginView: View {
                             let user = try await authService.signIn(email: email, password: password)
                             try await authService.createUserAccountIfNeeded(for: user)
                             
-                            let username = try await authService.fetchUsername(forEmail: email)
-                            authService.currentUser?.username = username
+//                            let username = try await authService.fetchUsername(forEmail: email)
+//                            authService.currentUser?.username = username
                         } catch {
                             loginViewAlert = .loginError(error.localizedDescription)
                             print("Registration error: \(error.localizedDescription)")

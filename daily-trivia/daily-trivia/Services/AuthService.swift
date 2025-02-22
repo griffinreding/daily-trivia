@@ -30,7 +30,7 @@ class AuthService: ObservableObject {
     @MainActor
     func signUp(email: String, password: String) async throws -> Bool {
         try await withCheckedThrowingContinuation { continuation in
-            Auth.auth().createUser(withEmail: email.sanitizedEmail(), password: password) { result, error in
+            Auth.auth().createUser(withEmail: email, password: password) { result, error in
                 if let error = error {
                     print("Sign Up Error: \(error.localizedDescription)")
                     continuation.resume(throwing: error)
@@ -42,13 +42,12 @@ class AuthService: ObservableObject {
         }
     }
     
-    //Maybe no issues and I was just fat fingering?
     @MainActor
     func signIn(email: String, password: String) async throws -> Firebase.User {
         try await withCheckedThrowingContinuation { continuation in
             
             
-            Auth.auth().signIn(withEmail: email.sanitizedEmail(), password: password) { authResult, error in
+            Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
                 if let error = error {
                     continuation.resume(throwing: error)
                     print("Login error: \(error.localizedDescription)")
@@ -73,6 +72,10 @@ class AuthService: ObservableObject {
         
         let snapshot = try await userRef.getDocumentAsync()
         if snapshot.exists {
+            let user = try snapshot.data(as: User.self)
+            
+            self.currentUser = user
+            
             print("User document already exists.")
             return
         } else {
