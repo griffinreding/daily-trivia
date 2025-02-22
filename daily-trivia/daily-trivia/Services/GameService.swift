@@ -59,5 +59,28 @@ class GameService {
             return nil
         }
     }
+    
+    func fetchLeaderboard() async throws -> [LeaderboardEntry] {
+        let db = Firestore.firestore()
+        var leaderboard: [String: Int] = [:]
+        
+        let snapshot = try await db.collection("responses")
+            .whereField("answerOutcome", isEqualTo: true)
+            .getDocuments()
+        
+        for document in snapshot.documents {
+            let data = document.data()
+            let username = data["username"] as? String ?? "Unknown"
+            
+            leaderboard[username, default: 0] += 1
+        }
+        
+        let sortedLeaderboard = leaderboard.map { LeaderboardEntry(username: $0.key, numberOfCorrectAnswers: $0.value) }
+            .sorted { $0.numberOfCorrectAnswers > $1.numberOfCorrectAnswers }
+            .prefix(20) // Top 20
+        
+        return Array(sortedLeaderboard)
+    }
+    
 }
 

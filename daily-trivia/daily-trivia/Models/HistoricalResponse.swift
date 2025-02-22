@@ -8,10 +8,10 @@
 import Foundation
 
 struct HistoricalResponse: Codable {
-    let userId: UUID
+    let userEmail: String
     let date: Date
     let question: String
     let userAnswer: String
     let correctAnswer: String
-    let correct: Bool
+    let answerOutcome: Bool
 }

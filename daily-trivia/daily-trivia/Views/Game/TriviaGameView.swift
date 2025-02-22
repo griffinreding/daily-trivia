@@ -23,6 +23,7 @@ struct TriviaGameView: View {
     @State private var warnedAboutEmptyAnswer: Bool = false
     @State private var showUsernameEntry: Bool = false
     @State private var isShowingBugAlert: Bool = false
+    @State private var isShowingLeaderboard: Bool = false
     
     lazy var functions = Functions.functions()
     
@@ -129,6 +130,13 @@ struct TriviaGameView: View {
                         }
                     }
                 }
+                
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Leaderboard") {
+                        isShowingLeaderboard = true
+                    }
+                }
+                
                 ToolbarItemGroup(placement: .bottomBar) {
                     Button {
                         isShowingBugAlert = true
@@ -144,6 +152,9 @@ struct TriviaGameView: View {
             .sheet(isPresented: $showUsernameEntry) {
                 CreateUsernameSheet()
                     .interactiveDismissDisabled()
+            }
+            .fullScreenCover(isPresented: $isShowingLeaderboard) {
+                LeaderboardView()
             }
         }
     }
@@ -177,9 +188,11 @@ struct TriviaGameView: View {
 
         let responseData: [String: Any] = [
             "userEmail": userEmail,
+            "username": authService.currentUser?.username ?? "Unknown",
             "date": question.date,
             "userAnswer": answerText,
             "answerOutcome": isCorrect,
+            "question": question.question,
             "timestamp": FieldValue.serverTimestamp()
         ]
         
