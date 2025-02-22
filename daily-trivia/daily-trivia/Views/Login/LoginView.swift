@@ -59,6 +59,7 @@ struct LoginView: View {
                 } else {
                     Task {
                         do {
+                            //current offender for 
                             let user = try await authService.signIn(email: email,
                                                                            password: password)
                             

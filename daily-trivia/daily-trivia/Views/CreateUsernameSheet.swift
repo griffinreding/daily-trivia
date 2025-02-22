@@ -38,7 +38,14 @@ struct CreateUsernameSheet: View {
                 
                 Button(action: {
                     Task {
-                        await submitUsername()
+                        do {
+                            isSubmitting = true
+                            try await authService.submitUsername(username: username)
+                            dismiss()
+                        }
+                        catch {
+                            errorMessage = error.localizedDescription
+                        }
                     }
                 }) {
                     Text("Submit")
@@ -63,27 +70,6 @@ struct CreateUsernameSheet: View {
         return username.count >= 3 && !username.contains(" ")
     }
     
-    /// Submits the username to Firestore under the current user's email as the document ID
-    private func submitUsername() async {
-        guard let userEmail = authService.currentUser?.email else {
-            errorMessage = "User not logged in."
-            return
-        }
-        
-        let db = Firestore.firestore()
-        let userDocRef = db.collection("users").document(userEmail)
-        
-        do {
-            isSubmitting = true
-
-            try await userDocRef.setData(["username": username], merge: true)
-            authService.currentUser?.username = username
-            dismiss()
-        } catch {
-            errorMessage = "Error saving username: \(error.localizedDescription)"
-        }
-        isSubmitting = false
-    }
 }
 
 #Preview {

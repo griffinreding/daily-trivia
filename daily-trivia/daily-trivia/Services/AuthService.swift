@@ -27,12 +27,10 @@ class AuthService: ObservableObject {
         try Auth.auth().signOut()
     }
 
-
-    //do this for creating an account in firebase instead using firestore
     @MainActor
     func signUp(email: String, password: String) async throws -> Bool {
         try await withCheckedThrowingContinuation { continuation in
-            Auth.auth().createUser(withEmail: email, password: password) { result, error in
+            Auth.auth().createUser(withEmail: email.sanitizedEmail(), password: password) { result, error in
                 if let error = error {
                     print("Sign Up Error: \(error.localizedDescription)")
                     continuation.resume(throwing: error)
@@ -44,10 +42,13 @@ class AuthService: ObservableObject {
         }
     }
     
+    //Maybe no issues and I was just fat fingering?
     @MainActor
     func signIn(email: String, password: String) async throws -> Firebase.User {
         try await withCheckedThrowingContinuation { continuation in
-            Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+            
+            
+            Auth.auth().signIn(withEmail: email.sanitizedEmail(), password: password) { authResult, error in
                 if let error = error {
                     continuation.resume(throwing: error)
                     print("Login error: \(error.localizedDescription)")
@@ -68,7 +69,7 @@ class AuthService: ObservableObject {
     @MainActor
     func createUserAccountIfNeeded(for firebaseUser: FirebaseAuth.User) async throws {
         let db = Firestore.firestore()
-        let userRef = db.collection("users").document(firebaseUser.email ?? "this won't be found")
+        let userRef = db.collection("users").document(firebaseUser.email?.sanitizedEmail() ?? "this won't be found")
         
         let snapshot = try await userRef.getDocumentAsync()
         if snapshot.exists {
@@ -76,8 +77,8 @@ class AuthService: ObservableObject {
             return
         } else {
             let userData: [String: Any] = [
-                "email": firebaseUser.email ?? "",
-                "id": firebaseUser.email ?? "",
+                "email": firebaseUser.email?.sanitizedEmail() ?? "",
+                "id": firebaseUser.email?.sanitizedEmail() ?? "",
                 "createdAt": FieldValue.serverTimestamp()
                 // Add additional default fields as needed.
             ]
@@ -89,25 +90,24 @@ class AuthService: ObservableObject {
     @MainActor
     func createUserAccountFromGoogleIfNeeded(for googleUser: GIDGoogleUser) async throws {
         let db = Firestore.firestore()
-        let userRef = db.collection("users").document(googleUser.profile?.email ?? "this won't be found")
+        let userRef = db.collection("users").document(googleUser.profile?.email.sanitizedEmail() ?? "this won't be found")
         
         //current offender of google log in issues for existing users
         let snapshot = try await userRef.getDocumentAsync()
-        
         
         if snapshot.exists {
             let user = try snapshot.data(as: User.self)
             
             self.currentUser = user
             
-            let username = try await self.fetchUsername(forEmail: googleUser.profile?.email ?? "")
+            let username = try await self.fetchUsername(forEmail: googleUser.profile?.email.sanitizedEmail() ?? "")
             self.currentUser?.username = username
             
-            print("User document already exists for \(user.email)")
+            print("User document already exists for \(user.email.sanitizedEmail())")
         } else {
             let userData: [String: Any] = [
-                "email": googleUser.profile?.email ?? "",
-                "id": googleUser.profile?.email ?? "",
+                "email": googleUser.profile?.email.sanitizedEmail() ?? "",
+                "id": googleUser.profile?.email.sanitizedEmail() ?? "",
                 "createdAt": FieldValue.serverTimestamp()
             ]
             try await userRef.setDataAsync(userData)
@@ -119,10 +119,22 @@ class AuthService: ObservableObject {
         }
     }
     
+    func submitUsername(username: String) async throws {
+        guard let userEmail = currentUser?.email.sanitizedEmail() else {
+            throw NSError(domain: "UserError", code: 0, userInfo: [NSLocalizedDescriptionKey: "User email not available."])
+        }
+        
+        let db = Firestore.firestore()
+        let userDocRef = db.collection("users").document(userEmail)
+
+        try await userDocRef.setData(["username": username], merge: true)
+        currentUser?.username = username
+    }
+    
     func fetchUsername(forEmail email: String) async throws -> String? {
         let db = Firestore.firestore()
         
-        let docRef = db.collection("users").document(email)
+        let docRef = db.collection("users").document(email.sanitizedEmail())
         
         do {
             let documentSnapshot = try await docRef.getDocument()
@@ -131,7 +143,7 @@ class AuthService: ObservableObject {
                let username = data["username"] as? String {
                 return username
             } else {
-                print("No user found for email: \(email)")
+                print("No user found for email: \(email.sanitizedEmail())")
                 return nil
             }
         } catch {
