@@ -101,8 +101,7 @@ class AuthService: ObservableObject {
             
             self.currentUser = user
             
-            let username = try await self.fetchUsername(forEmail: googleUser.profile?.email.sanitizedEmail() ?? "")
-            self.currentUser?.username = username
+            try await self.fetchUsername(forEmail: googleUser.profile?.email.sanitizedEmail() ?? "")
             
             print("User document already exists for \(user.email.sanitizedEmail())")
         } else {
@@ -131,7 +130,7 @@ class AuthService: ObservableObject {
         currentUser?.username = username
     }
     
-    func fetchUsername(forEmail email: String) async throws -> String? {
+    func fetchUsername(forEmail email: String) async throws {
         let db = Firestore.firestore()
         
         let docRef = db.collection("users").document(email.sanitizedEmail())
@@ -141,10 +140,9 @@ class AuthService: ObservableObject {
             
             if let data = documentSnapshot.data(),
                let username = data["username"] as? String {
-                return username
+                self.currentUser?.username = username
             } else {
                 print("No user found for email: \(email.sanitizedEmail())")
-                return nil
             }
         } catch {
             print("Error fetching user: \(error.localizedDescription)")
