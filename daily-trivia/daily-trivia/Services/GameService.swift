@@ -102,5 +102,47 @@ class GameService {
         
         return Array(sortedLeaderboard)
     }
+    
+    func submitAnswerForManualReview(answer: SubmittedAnswer,
+                                     username: String,
+                                     question: String,
+                                     correctAnswer: String,
+                                     userAnswer: String,
+                                     userNote: String) async throws -> Bool {
+        
+        let db = Firestore.firestore()
+        let reviewsRef = db.collection("manualReviews").document(username)
+        
+        let snapshot = try await db.collection("manualReviews")
+            .whereField("username", isEqualTo: username)
+            .getDocuments()
+        
+        
+        for document in snapshot.documents {
+            let manualReview = try document.data(as: ManualReview.self)
+            
+            if manualReview.date == Date().dateFormattedForDb() {
+                return false
+            }
+        }
+        
+        
+        let manualReview: [String: Any] = [
+            "username": username,
+            "date": Date().dateFormattedForDb(),
+            "question": question,
+            "correctAnswer": correctAnswer,
+            "userAnswer": userAnswer,
+            "userNote": userNote
+        ]
+        
+        try await reviewsRef.setDataAsync(manualReview)
+        print("Manual review submitted")
+        
+        return true
+    }
+    
+
+
 }
 

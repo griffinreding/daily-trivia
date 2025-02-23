@@ -10,7 +10,7 @@ import FirebaseFirestore
 import FirebaseAuth
 
 struct CreateUsernameSheet: View {
-    @Environment(\.dismiss) var dismiss // Allows dismissing the sheet
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var authService: AuthService
     @State private var username: String = ""
     @State private var errorMessage: String?
@@ -19,9 +19,17 @@ struct CreateUsernameSheet: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                Text("Create a Username")
+                Text("Welcome to Daily Trivia!")
                     .font(.title2)
                     .bold()
+                
+                Text("Create a username to get started.")
+                    .font(.headline)
+                
+                Text("Your username will be visible to other players on the leaderboard, and must meet the following requirements:")
+                    .font(.subheadline)
+                
+                Text("") //TODO: finish this
                 
                 TextField("Enter username", text: $username)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
