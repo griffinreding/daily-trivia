@@ -19,7 +19,7 @@ struct TriviaGameView: View {
     @State private var answerText: String = ""
     @State private var submitResult: String?
     @State private var resultMessage: String?
-    @State private var previouslySubmittedAnswer: SubmittedAnswer?
+    @State private var submittedAnswer: SubmittedAnswer?
     @State private var warnedAboutEmptyAnswer: Bool = false
     @State private var showUsernameEntry: Bool = false
     @State private var isShowingBugAlert: Bool = false
@@ -32,11 +32,23 @@ struct TriviaGameView: View {
             VStack(spacing: 20) {
                 if isLoading {
                     ProgressView("Loading...")
-                } else if let answer = previouslySubmittedAnswer {
+                } else if let answer = submittedAnswer,
+                          let question = question?.question,
+                          let streak = authService.currentUser?.streak,
+                          let username = authService.currentUser?.username {
                     if answer.answerOutcome {
-                        CorrectAnswerView(submittedAnswer: answer.userAnswer)
+                        CorrectAnswerView(submittedAnswer: answer.userAnswer,
+                                          question: question,
+                                          username: username,
+                                          streak: streak)
                     } else {
-                        IncorrectAnswerView(submittedAnswer: answer.userAnswer)
+                        if let correctAnswer = self.question?.correctAnswer {
+                            IncorrectAnswerView(submittedAnswer: answer.userAnswer,
+                                                correctAnswer: correctAnswer,
+                                                username: username,
+                                                question: question,
+                                                streak: streak)
+                        }
                     }
                 } else if let question = question {
                     questionView(questionString: question.question)
@@ -48,12 +60,13 @@ struct TriviaGameView: View {
                     isLoading = true
                     if let answer = await GameService().checkResponseExists(for: Date().dateFormattedForDb(),
                                                                             email: authService.currentUser?.email) {
-                        previouslySubmittedAnswer = answer
-                        isLoading = false
+                        submittedAnswer = answer
                     }
                     await loadQuestion()
                     
                     showUsernameEntry = authService.currentUser?.username == nil
+                    
+                    isLoading = false
                 }
             }
             .alert(isPresented: $isShowingAlert) {
@@ -124,6 +137,15 @@ struct TriviaGameView: View {
     
     func questionView(questionString: String) -> some View {
         VStack {
+            if let username = authService.currentUser?.username, let streak = authService.currentUser?.streak {
+                Text("Welcome back \(username)!")
+                    .font(.headline)
+                
+                Text("Current Streak: \(streak) days.")
+                    .font(.subheadline)
+            }
+            
+            
             Text(questionString)
                 .font(.title)
                 .multilineTextAlignment(.center)
@@ -210,9 +232,9 @@ struct TriviaGameView: View {
             try await db.collection("responses").document(userEmail).setData(responseData)
             try await authService.updateCurrentUsersStreak(streak: isCorrect ? (authService.currentUser?.streak ?? 0) + 1 : 0)
             
-            previouslySubmittedAnswer = SubmittedAnswer(date: question.date,
-                                                        answerOutcome: isCorrect,
-                                                        userAnswer: answerText)
+            submittedAnswer = SubmittedAnswer(date: question.date,
+                                              answerOutcome: isCorrect,
+                                              userAnswer: answerText)
             
             
             print("Response recorded for user \(userEmail).")
