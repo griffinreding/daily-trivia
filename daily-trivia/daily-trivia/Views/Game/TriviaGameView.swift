@@ -39,46 +39,7 @@ struct TriviaGameView: View {
                         IncorrectAnswerView(submittedAnswer: answer.userAnswer)
                     }
                 } else if let question = question {
-                    Text(question.question)
-                        .font(.title)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                    
-                    TextField("Enter your answer", text: $answerText)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.horizontal)
-                    
-                    Button {
-                        Task {
-                            if answerText.isEmpty {
-                                errorMessage = "Do you really think the answer is blank? If you really want to try it I won't stop you, but this is the last warning you'll get."
-                                warnedAboutEmptyAnswer = true
-                                isShowingAlert = true
-                            } else {
-                                isLoading = true
-                                await submitAnswer()
-                                isLoading = false
-                            }
-                        }
-                    } label: {
-                        Text("Submit Answer")
-                            .bold()
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    .padding(.horizontal)
-                    
-                    if let result = submitResult {
-                        Text(result)
-                            .font(.headline)
-                            .foregroundColor(result == "Correct!" ? .green : .red)
-                            .padding()
-                    }
-                } else {
-                    Text("No question available for today.")
+                    questionView(questionString: question.question)
                 }
             }
             .padding()
@@ -105,10 +66,10 @@ struct TriviaGameView: View {
                       message: Text("If you find something dumb, it would be really cool if you let me know."),
                       primaryButton: .default(Text("Open Github"),
                                               action: {
-                            guard let url = URL(string: "https://github.com/griffinreding/daily-trivia/issues/new") else {
-                                errorMessage = "Lol, the bug report URL is broken. Nice."
-                                isShowingAlert = true
-                                return
+                    guard let url = URL(string: "https://github.com/griffinreding/daily-trivia/issues/new") else {
+                        errorMessage = "Lol, the bug report URL is broken. Nice."
+                        isShowingAlert = true
+                        return
                     }
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }), secondaryButton: .cancel())
@@ -147,7 +108,7 @@ struct TriviaGameView: View {
                     
                     Spacer()
                 }
-                    
+                
             }
             .sheet(isPresented: $showUsernameEntry) {
                 CreateUsernameSheet()
@@ -157,6 +118,52 @@ struct TriviaGameView: View {
                 LeaderboardView(dismiss: {
                     isShowingLeaderboard = false
                 })
+            }
+        }
+    }
+    
+    func questionView(questionString: String) -> some View {
+        VStack {
+            Text(questionString)
+                .font(.title)
+                .multilineTextAlignment(.center)
+                .padding()
+            
+            TextField("Enter your answer", text: $answerText)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.horizontal)
+            
+            Button {
+                Task {
+                    if answerText.replacingOccurrences(of: " ", with: "").isEmpty {
+                        errorMessage = "Do you really think the answer is blank? If you really want to try it I won't stop you, but this is the last warning you'll get."
+                        warnedAboutEmptyAnswer = true
+                        isShowingAlert = true
+                    } else {
+                        isLoading = true
+                        await submitAnswer()
+                        isLoading = false
+                    }
+                }
+            } label: {
+                Text("Submit Answer")
+                    .bold()
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+            }
+            .padding(.horizontal)
+            
+            if let result = submitResult {
+                Text(result)
+                    .font(.headline)
+                    .foregroundColor(result == "Correct!" ? .green : .red)
+                    .padding()
+            }
+            else {
+                Text("No question available for today.")
             }
         }
     }
@@ -172,6 +179,7 @@ struct TriviaGameView: View {
             isShowingAlert = true
         }
     }
+    
     func submitAnswer() async {
         guard let question = question else { return }
         
@@ -179,15 +187,15 @@ struct TriviaGameView: View {
         let correctAnswerClean = question.correctAnswer.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let isCorrect = userAnswerClean == correctAnswerClean
         
-
+        
         let db = Firestore.firestore()
-
+        
         guard let userEmail = authService.currentUser?.email else {
             errorMessage = "User email not available. Please log back in again and try again."
             isShowingAlert = true
             return
         }
-
+        
         let responseData: [String: Any] = [
             "userEmail": userEmail,
             "username": authService.currentUser?.username ?? "Unknown",
@@ -205,7 +213,7 @@ struct TriviaGameView: View {
             previouslySubmittedAnswer = SubmittedAnswer(date: question.date,
                                                         answerOutcome: isCorrect,
                                                         userAnswer: answerText)
-                                                        
+            
             
             print("Response recorded for user \(userEmail).")
         } catch {
@@ -215,7 +223,7 @@ struct TriviaGameView: View {
             return
         }
         
-
+        
         if isCorrect {
             print("Correct Answer")
         } else {
