@@ -7,10 +7,18 @@
 
 import SwiftUI
 
+enum ManualReviewAlert: Identifiable {
+    case error, recordExists, confirmation
+    
+    var id: Int {
+        hashValue
+    }
+}
+
 struct ManualReviewView: View {
     @State private var userNote: String = ""
     @State private var errorMessage: String = ""
-    @State private var isShowingErrorAlert = false
+    @State private var activeAlert: ManualReviewAlert?
     @State private var isShowingRecordAlreadyExistsAlert = false
     @State private var isShowingConfirmationAlert = false
     
@@ -44,23 +52,32 @@ struct ManualReviewView: View {
             } label: {
                 Text("Submit for manual review")
             }
-            .alert(isPresented: $isShowingErrorAlert) {
-                Alert(title: Text("Error"),
-                      message: Text("There was an error submitting your answer for manual review. Please try again later.\n\nError: \(errorMessage)"),
-                      dismissButton: .default(Text("OK")))
-            }
-            .alert(isPresented: $isShowingRecordAlreadyExistsAlert) {
-                Alert(title: Text("Record Already Exists"),
-                      message: Text("You have already submitted an answer for review today. I'll take a look, and update your answer result if necessary."),
-                      dismissButton: .default(Text("OK")))
-            }
-            .alert(isPresented: $isShowingConfirmationAlert) {
-                Alert(title: Text("Submitted for Review"),
-                      message: Text("Your answer has been submitted for manual review. I'll take a look, and update your answer result if necessary."),
-                      dismissButton: .default(Text("OK"), action: {
-                    dismiss()
-                }))
-            }
+            .alert(item: $activeAlert) { alertType in
+                        switch alertType {
+                        case .error:
+                            return Alert(
+                                title: Text("Error"),
+                                message: Text("There was an error submitting your answer for manual review. Please try again later.\n\nError: \(errorMessage)"),
+                                dismissButton: .default(Text("OK"))
+                            )
+                        case .recordExists:
+                            return Alert(
+                                title: Text("Record Already Exists"),
+                                message: Text("You have already submitted an answer for review today. I'll take a look, and update your answer result if necessary."),
+                                dismissButton: .default(Text("OK"), action: {
+                                    dismiss()
+                                })
+                            )
+                        case .confirmation:
+                            return Alert(
+                                title: Text("Submitted for Review"),
+                                message: Text("Your answer has been submitted for manual review. I'll take a look, and update your answer result if necessary."),
+                                dismissButton: .default(Text("OK"), action: {
+                                    dismiss()
+                                })
+                            )
+                        }
+                    }
         }
     }
     
@@ -74,14 +91,14 @@ struct ManualReviewView: View {
                                                                    userNote: userNote,
                                                                    streak: streak,
                                                                    outcome: submittedAnswer.answerOutcome) {
-                isShowingConfirmationAlert = true
+                activeAlert = .confirmation
             }
             else {
-                isShowingRecordAlreadyExistsAlert = true //This isn't workign at all
+                activeAlert = .recordExists //This isn't workign at all
             }
         } catch {
             errorMessage = error.localizedDescription
-            isShowingErrorAlert = true
+            activeAlert = .error
         }
     }
 }
