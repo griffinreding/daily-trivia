@@ -18,11 +18,7 @@ class GameService {
     func fetchTodaysQuestion() async throws -> TriviaQuestion? {
         let db = Firestore.firestore()
 
-        let currentDate = Date().dateFormattedForDb()
-        
-        print("documentId searched for: \(currentDate)")
-        
-        let docRef = db.collection("questions").document(currentDate)
+        let docRef = db.collection("questions").document(Date().dateFormattedForDb())
         
         let snapshot = try await docRef.getDocumentAsync()
         if snapshot.exists {
