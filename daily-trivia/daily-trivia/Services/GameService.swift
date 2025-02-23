@@ -11,7 +11,7 @@ import SwiftUI
 
 class GameService {
     
-    //clean up cloud functions using these docs
+    //clean up queries using these docs when i'm done being lazy
     //https://firebase.google.com/docs/firestore/query-data/queries?hl=en&authuser=1
     
     func fetchTodaysQuestion() async throws -> TriviaQuestion? {
@@ -34,7 +34,6 @@ class GameService {
     }
     
     func checkResponseExists(for datefordb: String, email: String?) async -> SubmittedAnswer? {
-        // Get the current user's email from Firebase Auth.
         guard let userEmail = email else {
             print("User email not available")
             return nil
@@ -77,7 +76,7 @@ class GameService {
         
         let sortedLeaderboard = leaderboard.map { LeaderboardEntry(username: $0.key, numberOfCorrectAnswers: $0.value) }
             .sorted { $0.numberOfCorrectAnswers > $1.numberOfCorrectAnswers }
-            .prefix(20) // Top 20
+            .prefix(20)
         
         return Array(sortedLeaderboard)
     }

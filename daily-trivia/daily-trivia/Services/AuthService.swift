@@ -100,6 +100,7 @@ class AuthService: ObservableObject {
             let user = try snapshot.data(as: User.self)
             
             self.currentUser = user
+//            self.
             
             try await self.fetchUsername(forEmail: googleUser.profile?.email.sanitizedEmail() ?? "")
             
@@ -113,6 +114,7 @@ class AuthService: ObservableObject {
             try await userRef.setDataAsync(userData)
             
             self.currentUser = User(googleUser: googleUser)
+            self.currentUser?.streak = 0
             
             print("User document successfully created!")
         }
@@ -138,8 +140,7 @@ class AuthService: ObservableObject {
         do {
             let documentSnapshot = try await docRef.getDocument()
             
-            if let data = documentSnapshot.data(),
-               let username = data["username"] as? String {
+            if let data = documentSnapshot.data(), let username = data["username"] as? String {
                 self.currentUser?.username = username
             } else {
                 print("No user found for email: \(email.sanitizedEmail())")
@@ -149,4 +150,40 @@ class AuthService: ObservableObject {
             throw error
         }
     }
+    
+    func fetchUserStreak(forEmail email: String) async throws {
+        let db = Firestore.firestore()
+        
+        let docRef = db.collection("users").document(email.sanitizedEmail())
+        
+        do {
+            let documentSnapshot = try await docRef.getDocument()
+            
+            if let data = documentSnapshot.data(), let streak = data["streak"] as? Int {
+                self.currentUser?.streak = streak
+            } else {
+                try await self.updateCurrentUsersStreak(streak: 0)
+            }
+        } catch {
+            print("Error fetching user: \(error.localizedDescription)")
+            throw error
+        }
+    }
+
+
+
+    
+    func updateCurrentUsersStreak(streak: Int) async throws {
+        guard let userEmail = currentUser?.email.sanitizedEmail() else {
+            throw NSError(domain: "UserError", code: 0, userInfo: [NSLocalizedDescriptionKey: "User email not available."])
+        }
+        
+        let db = Firestore.firestore()
+        let userDocRef = db.collection("users").document(userEmail)
+        
+        try await userDocRef.setData(["streak": streak], merge: true)
+        currentUser?.streak = streak
+    }
+
+
 }

@@ -13,6 +13,7 @@ class User: Codable, Equatable {
     let email: String
     let id: String
     var username: String?
+    var streak: Int?
     
     init(firebaseUser: FirebaseAuth.User) {
         self.id = firebaseUser.uid

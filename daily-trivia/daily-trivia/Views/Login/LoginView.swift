@@ -32,6 +32,7 @@ struct LoginView: View {
     var body: some View {
         VStack(spacing: 20) {
             Text("Welcome to Daily Trivia!")
+                .fixedSize()
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .lineLimit(0)
@@ -63,6 +64,7 @@ struct LoginView: View {
                                                                            password: password)
                             
                             try await authService.fetchUsername(forEmail: user.email ?? "")
+                            try await authService.fetchUserStreak(forEmail: user.email ?? "")
                         } catch {
                             loginViewAlert = .loginError(error.localizedDescription)
                             print("Login error: \(error.localizedDescription)")
@@ -88,9 +90,7 @@ struct LoginView: View {
                             
                             let user = try await authService.signIn(email: email, password: password)
                             try await authService.createUserAccountIfNeeded(for: user)
-                            
-//                            let username = try await authService.fetchUsername(forEmail: email)
-//                            authService.currentUser?.username = username
+                            try await authService.fetchUserStreak(forEmail: user.email ?? "")
                         } catch {
                             loginViewAlert = .loginError(error.localizedDescription)
                             print("Registration error: \(error.localizedDescription)")
@@ -152,6 +152,7 @@ struct LoginView: View {
                         authService.currentUser = User(googleUser: user)
                         
                         try await authService.fetchUsername(forEmail: email)
+                        try await authService.fetchUserStreak(forEmail: email)
                     }
                     catch {
                         loginViewAlert = .loginError("Error creating firebase account after google sign in: \(error.localizedDescription)")

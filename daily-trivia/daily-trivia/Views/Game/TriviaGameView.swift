@@ -200,6 +200,7 @@ struct TriviaGameView: View {
         
         do {
             try await db.collection("responses").document(userEmail).setData(responseData)
+            try await authService.updateCurrentUsersStreak(streak: isCorrect ? (authService.currentUser?.streak ?? 0) + 1 : 0)
             
             previouslySubmittedAnswer = SubmittedAnswer(date: question.date,
                                                         answerOutcome: isCorrect,
