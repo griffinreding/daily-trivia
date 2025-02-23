@@ -27,7 +27,7 @@ struct TriviaGameView: View {
     
     lazy var functions = Functions.functions()
     
-    var body: some View { // totally broken, asks me to answer teh question every login
+    var body: some View { // totally broken, asks me to answer teh question every login (maybe not actually broken?)
         NavigationView {
             VStack(spacing: 20) {
                 if isLoading {
