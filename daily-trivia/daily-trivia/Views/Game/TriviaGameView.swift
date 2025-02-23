@@ -17,7 +17,6 @@ struct TriviaGameView: View {
     @State private var isShowingAlert: Bool = false
     @State private var errorMessage: String?
     @State private var answerText: String = ""
-    @State private var submitResult: String?
     @State private var resultMessage: String?
     @State private var submittedAnswer: SubmittedAnswer?
     @State private var warnedAboutEmptyAnswer: Bool = false
@@ -26,8 +25,8 @@ struct TriviaGameView: View {
     @State private var isShowingLeaderboard: Bool = false
     
     lazy var functions = Functions.functions()
-    
-    var body: some View { // totally broken, asks me to answer teh question every login (maybe not actually broken?)
+    // totally broken, asks me to answer teh question every login (maybe not actually broken? nah still broken)
+    var body: some View {
         NavigationView {
             VStack(spacing: 20) {
                 if isLoading {
@@ -61,11 +60,18 @@ struct TriviaGameView: View {
             .padding()
             .onAppear {
                 Task {
+                    print("Top of onAppear Task: \(authService.currentUser?.username)")
+                    
                     isLoading = true
+                    
+                    //username isn't yet available here, that's why I'm not getting into the if statement
+                    print("Checking response for date: \(Date().dateFormattedForDb()) and username: \(authService.currentUser?.username)")
+                    
                     if let answer = await GameService().checkResponseExists(for: Date().dateFormattedForDb(),
-                                                                            email: authService.currentUser?.email) {
+                                                                            username: authService.currentUser?.username) {
                         submittedAnswer = answer
                     }
+                    
                     await loadQuestion()
                     
                     showUsernameEntry = authService.currentUser?.username == nil
@@ -167,8 +173,27 @@ struct TriviaGameView: View {
                         isShowingAlert = true
                     } else {
                         isLoading = true
-                        await submitAnswer()
-                        isLoading = false
+                        
+                        do {
+                            if let question = question, let username = authService.currentUser?.username {
+                                submittedAnswer = try await GameService().submitAnswer(question: question,
+                                                                                       answerText: answerText,
+                                                                                       username: username)
+                                
+                                if let outcome = submittedAnswer?.answerOutcome {
+                                    
+                                    try await authService.updateCurrentUsersStreak(streak: outcome ?
+                                                                                   (authService.currentUser?.streak ?? 0) + 1 : 0)
+                                }
+                                
+                                isLoading = false
+                            }
+                        }
+                        catch {
+                            isLoading = false
+                            errorMessage = error.localizedDescription
+                            isShowingAlert = true
+                        }
                     }
                 }
             } label: {
@@ -183,67 +208,14 @@ struct TriviaGameView: View {
             .padding(.horizontal)
         }
     }
-    
     func loadQuestion() async {
         do {
             self.question = try await GameService().fetchTodaysQuestion()
-            isLoading = false
         }
         catch {
             isLoading = false
             errorMessage = error.localizedDescription
             isShowingAlert = true
-        }
-    }
-    
-    func submitAnswer() async {
-        guard let question = question else { return }
-        
-        let userAnswerClean = answerText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        let correctAnswerClean = question.correctAnswer.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        let isCorrect = userAnswerClean == correctAnswerClean
-        
-        
-        let db = Firestore.firestore()
-        
-        guard let userEmail = authService.currentUser?.email else {
-            errorMessage = "User email not available. Please log back in again and try again."
-            isShowingAlert = true
-            return
-        }
-        
-        let responseData: [String: Any] = [
-            "userEmail": userEmail,
-            "username": authService.currentUser?.username ?? "Unknown",
-            "date": question.date,
-            "userAnswer": answerText,
-            "answerOutcome": isCorrect,
-            "question": question.question,
-            "timestamp": FieldValue.serverTimestamp()
-        ]
-        
-        do {
-            try await db.collection("responses").document(userEmail).setData(responseData)
-            try await authService.updateCurrentUsersStreak(streak: isCorrect ? (authService.currentUser?.streak ?? 0) + 1 : 0)
-            
-            submittedAnswer = SubmittedAnswer(date: question.date,
-                                              answerOutcome: isCorrect,
-                                              userAnswer: answerText)
-            
-            
-            print("Response recorded for user \(userEmail).")
-        } catch {
-            isLoading = false
-            errorMessage = "Error saving response: \(error.localizedDescription)"
-            isShowingAlert = true
-            return
-        }
-        
-        
-        if isCorrect {
-            print("Correct Answer")
-        } else {
-            print("Wrong Answer")
         }
     }
 }
