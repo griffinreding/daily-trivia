@@ -10,6 +10,7 @@ import FirebaseFirestore
 import SwiftUI
 
 class GameService {
+    var leaderboard: [LeaderboardEntry] = []
     
     //clean up queries using these docs when i'm done being lazy
     //https://firebase.google.com/docs/firestore/query-data/queries?hl=en&authuser=1
@@ -59,7 +60,7 @@ class GameService {
         }
     }
     
-    func fetchLeaderboard() async throws -> [LeaderboardEntry] {
+    func fetchCorrectAnswersLeaderboard() async throws -> [LeaderboardEntry] {
         let db = Firestore.firestore()
         var leaderboard: [String: Int] = [:]
         
@@ -74,12 +75,32 @@ class GameService {
             leaderboard[username, default: 0] += 1
         }
         
-        let sortedLeaderboard = leaderboard.map { LeaderboardEntry(username: $0.key, numberOfCorrectAnswers: $0.value) }
-            .sorted { $0.numberOfCorrectAnswers > $1.numberOfCorrectAnswers }
-            .prefix(20)
+        let sortedLeaderboard = leaderboard.map { LeaderboardEntry(username: $0.key, value: $0.value) }
+            .sorted { $0.value > $1.value }
+//            .prefix(20)
         
         return Array(sortedLeaderboard)
     }
     
+    func fetchStreakLeaderboard() async throws -> [LeaderboardEntry] {
+        let db = Firestore.firestore()
+        var leaderboard: [String: Int] = [:]
+        
+        let snapshot = try await db.collection("users")
+            .getDocuments()
+        
+        for document in snapshot.documents {
+            let data = document.data()
+            let username = data["username"] as? String ?? "Unknown"
+            let streak = data["streak"] as? Int ?? 0
+            
+            leaderboard[username, default: 0] += streak
+        }
+        
+        let sortedLeaderboard = leaderboard.map { LeaderboardEntry(username: $0.key, value: $0.value) }
+            .sorted { $0.value > $1.value }
+        
+        return Array(sortedLeaderboard)
+    }
 }
 

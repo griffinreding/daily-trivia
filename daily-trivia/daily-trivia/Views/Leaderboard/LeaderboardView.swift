@@ -25,7 +25,8 @@ enum LeaderboardType: String, CaseIterable, Identifiable {
 
 struct LeaderboardView: View {
     @EnvironmentObject var authService: AuthService
-    @State private var leaderboard: [LeaderboardEntry] = []
+    @State private var correctAnswerLeaderboard: [LeaderboardEntry] = []
+    @State private var streakLeaderboard: [LeaderboardEntry] = []
     @State private var isLoading = true
     @State private var selectedLeaderboard = LeaderboardType.mostCorrect
     
@@ -76,7 +77,9 @@ struct LeaderboardView: View {
                 Spacer()
             }
             .task {
-                await loadLeaderboard()
+                await loadCorrectAnswersLeaderboard()
+                await loadStreakLeaderboard()
+                isLoading = false
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -88,10 +91,18 @@ struct LeaderboardView: View {
         }
     }
     
-    func loadLeaderboard() async {
+    func loadCorrectAnswersLeaderboard() async {
         do {
-            self.leaderboard = try await GameService().fetchLeaderboard()
+            self.correctAnswerLeaderboard = try await GameService().fetchCorrectAnswersLeaderboard()
+        } catch {
+            print("Failed to load leaderboard: \(error.localizedDescription)")
             isLoading = false
+        }
+    }
+    
+    func loadStreakLeaderboard() async {
+        do {
+            self.streakLeaderboard = try await GameService().fetchStreakLeaderboard()
         } catch {
             print("Failed to load leaderboard: \(error.localizedDescription)")
             isLoading = false
@@ -99,18 +110,26 @@ struct LeaderboardView: View {
     }
     
     func totalCorrectAnswersLeaderboard() -> some View {
-        List(leaderboard, id: \.id) { entry in
+        List(correctAnswerLeaderboard, id: \.id) { entry in
             HStack {
                 Text(entry.username)
                     .font(.headline)
                 Spacer()
-                Text("\(entry.numberOfCorrectAnswers) ✅")
+                Text("\(entry.value) ✅")
                     .font(.subheadline)
             }
         }
     }
     
     func longestStreakLeaderboard() -> some View {
-        Text("Coming soon!")
+        List(streakLeaderboard, id: \.id) { entry in
+            HStack {
+                Text(entry.username)
+                    .font(.headline)
+                Spacer()
+                Text("\(entry.value) 🔥")
+                    .font(.subheadline)
+            }
+        }
     }
 }

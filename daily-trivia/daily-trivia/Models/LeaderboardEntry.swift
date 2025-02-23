@@ -10,5 +10,5 @@ import Foundation
 struct LeaderboardEntry: Codable, Identifiable {
     var id: UUID = .init()
     var username: String
-    var numberOfCorrectAnswers: Int
+    var value: Int
 }
