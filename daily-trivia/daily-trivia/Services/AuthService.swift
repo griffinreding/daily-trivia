@@ -142,6 +142,7 @@ class AuthService: ObservableObject {
             
             if let data = documentSnapshot.data(), let username = data["username"] as? String {
                 self.currentUser?.username = username
+                print("Username found and assigned: \(username)")
             } else {
                 print("No user found for email: \(email.sanitizedEmail())")
             }
@@ -151,15 +152,16 @@ class AuthService: ObservableObject {
         }
     }
     
-    func fetchUserStreak(forEmail email: String) async throws {
+    func fetchUserStreak(forUsername username: String) async throws {
         let db = Firestore.firestore()
         
-        let docRef = db.collection("users").document(email.sanitizedEmail())
+        let docRef = db.collection("users").document(username)
         
         do {
             let documentSnapshot = try await docRef.getDocument()
             
             if let data = documentSnapshot.data(), let streak = data["streak"] as? Int {
+                //TODO: call a function here to set the streak to zero if they don't have an answer for yesterday
                 self.currentUser?.streak = streak
             } else {
                 try await self.updateCurrentUsersStreak(streak: 0)
