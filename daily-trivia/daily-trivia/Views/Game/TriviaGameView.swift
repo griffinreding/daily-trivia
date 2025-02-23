@@ -27,7 +27,7 @@ struct TriviaGameView: View {
     
     lazy var functions = Functions.functions()
     
-    var body: some View {
+    var body: some View { // totally broken, asks me to answer teh question every login
         NavigationView {
             VStack(spacing: 20) {
                 if isLoading {
@@ -37,13 +37,13 @@ struct TriviaGameView: View {
                           let streak = authService.currentUser?.streak,
                           let username = authService.currentUser?.username {
                     if answer.answerOutcome {
-                        CorrectAnswerView(submittedAnswer: answer.userAnswer,
+                        CorrectAnswerView(submittedAnswer: answer,
                                           question: question,
                                           username: username,
                                           streak: streak)
                     } else {
                         if let correctAnswer = self.question?.correctAnswer {
-                            IncorrectAnswerView(submittedAnswer: answer.userAnswer,
+                            IncorrectAnswerView(submittedAnswer: answer,
                                                 correctAnswer: correctAnswer,
                                                 username: username,
                                                 question: question,
@@ -53,6 +53,10 @@ struct TriviaGameView: View {
                 } else if let question = question {
                     questionView(questionString: question.question)
                 }
+                else {
+                    Text("No question available for today.")
+                }
+
             }
             .padding()
             .onAppear {
@@ -177,16 +181,6 @@ struct TriviaGameView: View {
                     .cornerRadius(8)
             }
             .padding(.horizontal)
-            
-            if let result = submitResult {
-                Text(result)
-                    .font(.headline)
-                    .foregroundColor(result == "Correct!" ? .green : .red)
-                    .padding()
-            }
-            else {
-                Text("No question available for today.")
-            }
         }
     }
     

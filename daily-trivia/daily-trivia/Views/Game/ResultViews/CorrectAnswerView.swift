@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CorrectAnswerView: View {
-    let submittedAnswer: String
+    let submittedAnswer: SubmittedAnswer
     let question: String
     let username: String
     let streak: Int
@@ -27,7 +27,7 @@ struct CorrectAnswerView: View {
             Text("Your streak is now \(streak) days🔥")
                 .font(.footnote)
 
-            Text("Your answer, \(submittedAnswer), was correct!")
+            Text("Your answer, \(submittedAnswer.userAnswer), was correct!")
             
             Text("The question was: \(question)")
             
@@ -38,7 +38,9 @@ struct CorrectAnswerView: View {
 }
 
 #Preview {
-    CorrectAnswerView(submittedAnswer: "1234",
+    CorrectAnswerView(submittedAnswer: SubmittedAnswer(date: "213456",
+                                                       answerOutcome: true,
+                                                       userAnswer: ";asdfasdf"),
                       question: "Huh?",
                       username: "gobblegobble",
                       streak: 3)

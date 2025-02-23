@@ -35,7 +35,7 @@ class GameService {
     }
     
     func checkResponseExists(for datefordb: String, email: String?) async -> SubmittedAnswer? {
-        guard let userEmail = email else {
+        guard let userEmail = email?.sanitizedEmail() else {
             print("User email not available")
             return nil
         }
@@ -103,12 +103,13 @@ class GameService {
         return Array(sortedLeaderboard)
     }
     
-    func submitAnswerForManualReview(answer: SubmittedAnswer,
+    func submitAnswerForManualReview(submittedAnswer: SubmittedAnswer,
                                      username: String,
                                      question: String,
                                      correctAnswer: String,
-                                     userAnswer: String,
-                                     userNote: String) async throws -> Bool {
+                                     userNote: String,
+                                     streak: Int,
+                                     outcome: Bool) async throws -> Bool {
         
         let db = Firestore.firestore()
         let reviewsRef = db.collection("manualReviews").document(username)
@@ -132,8 +133,10 @@ class GameService {
             "date": Date().dateFormattedForDb(),
             "question": question,
             "correctAnswer": correctAnswer,
-            "userAnswer": userAnswer,
-            "userNote": userNote
+            "submittedAnswer": submittedAnswer.userAnswer,
+            "outcome": outcome,
+            "userNote": userNote,
+            "streak": streak
         ]
         
         try await reviewsRef.setDataAsync(manualReview)

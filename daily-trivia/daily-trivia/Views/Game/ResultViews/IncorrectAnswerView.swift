@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct IncorrectAnswerView: View {
-    let submittedAnswer: String
+    @State private var isShowingManualReview = false
+    
+    let submittedAnswer: SubmittedAnswer
     let correctAnswer: String
     let username: String
     let question: String
@@ -27,7 +29,13 @@ struct IncorrectAnswerView: View {
                 .font(.footnote)
             
                 
-            Text("Your answer, \(submittedAnswer), was incorrect.")
+            Text("Your answer, \(submittedAnswer.userAnswer), was incorrect.")
+            
+            Button {
+                isShowingManualReview = true
+            } label: {
+                Text("Submit for manual review")
+            }
             
             Text("The question was: \(question)")
             
@@ -35,10 +43,26 @@ struct IncorrectAnswerView: View {
             
             Text("Come back tomorrow to play again!")
         }
+        .sheet(isPresented: $isShowingManualReview) {
+            ManualReviewView(submittedAnswer: submittedAnswer,
+                             correctAnswer: correctAnswer,
+                             username: username,
+                             question: question,
+                             streak: streak,
+                             dismiss: {
+                isShowingManualReview = false
+            })
+        }
     }
 }
 
 #Preview {
-    IncorrectAnswerView(submittedAnswer: "eleven", correctAnswer: "eleven", username: "GReding", question: "Huh?", streak: 11)
+    IncorrectAnswerView(submittedAnswer: SubmittedAnswer(date: "213456",
+                                                         answerOutcome: true,
+                                                         userAnswer: ";asdfasdf"),
+                        correctAnswer: "eleven",
+                        username: "GReding",
+                        question: "Huh?",
+                        streak: 11)
     
 }
