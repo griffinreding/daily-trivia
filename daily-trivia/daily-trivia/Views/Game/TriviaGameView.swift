@@ -55,8 +55,7 @@ struct TriviaGameView: View {
                     isLoading = true
                     
                     await loadQuestion()
-                    
-                    print("Checking response for date: \(Date().dateFormattedForDb()) and username: \(authService.currentUser?.username)")
+
                     //This is the wildest thing, the if statement below, has to be after loadQuestion() or it won't work
                     //It's like the environment object isn't available at the top of the block
                     //and gets initialized in the middle of this function.
