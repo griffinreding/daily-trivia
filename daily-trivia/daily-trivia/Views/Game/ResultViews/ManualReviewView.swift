@@ -99,7 +99,7 @@ struct ManualReviewView: View {
                 activeAlert = .confirmation
             }
             else {
-                activeAlert = .recordExists //This isn't workign at all
+                activeAlert = .recordExists
             }
         } catch {
             errorMessage = error.localizedDescription
