@@ -45,8 +45,6 @@ class AuthService: ObservableObject {
     @MainActor
     func signIn(email: String, password: String) async throws -> Firebase.User {
         try await withCheckedThrowingContinuation { continuation in
-            
-            
             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
                 if let error = error {
                     continuation.resume(throwing: error)
@@ -142,6 +140,7 @@ class AuthService: ObservableObject {
             
             if let data = documentSnapshot.data(), let username = data["username"] as? String {
                 self.currentUser?.username = username
+                print("Username found and assigned: \(username)")
             } else {
                 print("No user found for email: \(email.sanitizedEmail())")
             }
@@ -151,15 +150,16 @@ class AuthService: ObservableObject {
         }
     }
     
-    func fetchUserStreak(forEmail email: String) async throws {
+    func fetchUserStreak(forUsername username: String) async throws {
         let db = Firestore.firestore()
         
-        let docRef = db.collection("users").document(email.sanitizedEmail())
+        let docRef = db.collection("users").document(username)
         
         do {
             let documentSnapshot = try await docRef.getDocument()
             
             if let data = documentSnapshot.data(), let streak = data["streak"] as? Int {
+                //TODO: call a function here to set the streak to zero if they don't have an answer for yesterday
                 self.currentUser?.streak = streak
             } else {
                 try await self.updateCurrentUsersStreak(streak: 0)
@@ -174,14 +174,16 @@ class AuthService: ObservableObject {
 
     
     func updateCurrentUsersStreak(streak: Int) async throws {
-        guard let userEmail = currentUser?.email.sanitizedEmail() else {
+        guard let username = currentUser?.username else {
             throw NSError(domain: "UserError", code: 0, userInfo: [NSLocalizedDescriptionKey: "User email not available."])
         }
         
         let db = Firestore.firestore()
-        let userDocRef = db.collection("users").document(userEmail)
+        let userDocRef = db.collection("streaks").document(username)
         
-        try await userDocRef.setData(["streak": streak], merge: true)
+        try await userDocRef.setData(["streak": streak,
+                                      "username": username,
+                                     ], merge: true)
         currentUser?.streak = streak
     }
 

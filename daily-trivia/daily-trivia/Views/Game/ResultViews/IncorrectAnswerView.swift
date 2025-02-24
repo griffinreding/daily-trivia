@@ -8,24 +8,22 @@
 import SwiftUI
 
 struct IncorrectAnswerView: View {
+    @EnvironmentObject var authService: AuthService
     @State private var isShowingManualReview = false
     
     let submittedAnswer: SubmittedAnswer
-    let correctAnswer: String
-    let username: String
-    let question: String
-    let streak: Int
+    let question: TriviaQuestion
     
     var body: some View {
         VStack(spacing: 24) {
-            Text("Tough break \(username).")
+            Text("Tough break \(authService.currentUser?.username ?? "username not found").")
                 .font(.headline)
             
             Image("sad")
                 .resizable()
                 .frame(width: 100, height: 100)
             
-            Text("Your streak has been reset to \(streak) days.")
+            Text("Your streak has been reset to \(authService.currentUser?.streak ?? 0) days.")
                 .font(.footnote)
             
                 
@@ -37,18 +35,18 @@ struct IncorrectAnswerView: View {
                 Text("Submit for manual review")
             }
             
-            Text("The question was: \(question)")
+            Text("The question was: \(question.question)")
             
-            Text("The correct answer was: \(correctAnswer)")
+            Text("The correct answer was: \(question.correctAnswer)")
             
             Text("Come back tomorrow to play again!")
         }
         .sheet(isPresented: $isShowingManualReview) {
             ManualReviewView(submittedAnswer: submittedAnswer,
-                             correctAnswer: correctAnswer,
-                             username: username,
-                             question: question,
-                             streak: streak,
+                             correctAnswer: question.correctAnswer,
+                             username: authService.currentUser?.username ?? "unknown username",
+                             question: question.question,
+                             streak: authService.currentUser?.streak ?? 0,
                              dismiss: {
                 isShowingManualReview = false
             })
@@ -60,9 +58,9 @@ struct IncorrectAnswerView: View {
     IncorrectAnswerView(submittedAnswer: SubmittedAnswer(date: "213456",
                                                          answerOutcome: true,
                                                          userAnswer: ";asdfasdf"),
-                        correctAnswer: "eleven",
-                        username: "GReding",
-                        question: "Huh?",
-                        streak: 11)
+                        question: TriviaQuestion(question: "Huh",
+                                                 choices: nil,
+                                                 correctAnswer: "yeah",
+                                                 date: "234567"))
     
 }

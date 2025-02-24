@@ -27,7 +27,6 @@ struct daily_triviaApp: App {
                 LoginView()
                     .environmentObject(authService)
                     .onOpenURL { url in
-                        // Pass the URL to Google Sign-In to handle authentication callbacks.
                         let handled = GIDSignIn.sharedInstance.handle(url)
                         print("URL handled: \(handled)")
                     }

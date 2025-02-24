@@ -18,11 +18,7 @@ class GameService {
     func fetchTodaysQuestion() async throws -> TriviaQuestion? {
         let db = Firestore.firestore()
 
-        let currentDate = Date().dateFormattedForDb()
-        
-        print("documentId searched for: \(currentDate)")
-        
-        let docRef = db.collection("questions").document(currentDate)
+        let docRef = db.collection("questions").document(Date().dateFormattedForDb())
         
         let snapshot = try await docRef.getDocumentAsync()
         if snapshot.exists {
@@ -34,9 +30,9 @@ class GameService {
         }
     }
     
-    func checkResponseExists(for datefordb: String, email: String?) async -> SubmittedAnswer? {
-        guard let userEmail = email?.sanitizedEmail() else {
-            print("User email not available")
+    func checkResponseExists(for datefordb: String, username: String?) async -> SubmittedAnswer? {
+        guard let username = username else {
+            print("Username not available")
             return nil
         }
         
@@ -44,20 +40,46 @@ class GameService {
         
         do {
             let querySnapshot = try await db.collection("responses")
-                .whereField("userEmail", isEqualTo: userEmail)
+                .whereField("username", isEqualTo: username)
                 .getDocuments()
 
             for document in querySnapshot.documents {
                 if let answerDate = document.data()["date"] as? String, datefordb == answerDate {
+                    print("Response found for \(username) on \(datefordb)")
                     return try document.data(as: SubmittedAnswer.self)
                 }
             }
             
+            print("No response found for \(username) on \(datefordb)")
             return nil
         } catch {
             print("Error fetching responses: \(error.localizedDescription)")
             return nil
         }
+    }
+    
+    func submitAnswer(question: TriviaQuestion, answerText: String, username: String) async throws -> SubmittedAnswer {
+        let userAnswerClean = answerText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let correctAnswerClean = question.correctAnswer.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let isCorrect = userAnswerClean == correctAnswerClean
+        
+        
+        let db = Firestore.firestore()
+        
+        let responseData: [String: Any] = [
+            "username": username,
+            "date": question.date,
+            "userAnswer": answerText,
+            "answerOutcome": isCorrect,
+            "question": question.question,
+            "timestamp": FieldValue.serverTimestamp()
+        ]
+        
+        try await db.collection("responses").document(username).setData(responseData)
+        
+        return SubmittedAnswer(date: question.date,
+                               answerOutcome: isCorrect,
+                               userAnswer: answerText)
     }
     
     func fetchCorrectAnswersLeaderboard() async throws -> [LeaderboardEntry] {
@@ -86,7 +108,7 @@ class GameService {
         let db = Firestore.firestore()
         var leaderboard: [String: Int] = [:]
         
-        let snapshot = try await db.collection("users")
+        let snapshot = try await db.collection("streaks")
             .getDocuments()
         
         for document in snapshot.documents {

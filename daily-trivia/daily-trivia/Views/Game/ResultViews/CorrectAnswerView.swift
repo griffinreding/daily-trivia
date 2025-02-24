@@ -8,15 +8,14 @@
 import SwiftUI
 
 struct CorrectAnswerView: View {
+    @EnvironmentObject var authService: AuthService
     let submittedAnswer: SubmittedAnswer
-    let question: String
-    let username: String
-    let streak: Int
+    let question: TriviaQuestion
     
     
     var body: some View {
         VStack(spacing: 24) {
-            Text("Nailed it, \(username)!")
+            Text("Nailed it, \(authService.currentUser?.username ?? "username not found")!")
                 .font(.headline)
             
             Image(systemName: "fireworks")
@@ -24,12 +23,12 @@ struct CorrectAnswerView: View {
                 .frame(width: 100, height: 100)
                 .foregroundStyle(.green)
             
-            Text("Your streak is now \(streak) days🔥")
+            Text("Your streak is now \(authService.currentUser?.streak ?? 0) days🔥")
                 .font(.footnote)
 
             Text("Your answer, \(submittedAnswer.userAnswer), was correct!")
             
-            Text("The question was: \(question)")
+            Text("The question was: \(question.question)")
             
             Text("Come back tomorrow to play again!")
                 
@@ -41,7 +40,8 @@ struct CorrectAnswerView: View {
     CorrectAnswerView(submittedAnswer: SubmittedAnswer(date: "213456",
                                                        answerOutcome: true,
                                                        userAnswer: ";asdfasdf"),
-                      question: "Huh?",
-                      username: "gobblegobble",
-                      streak: 3)
+                      question: TriviaQuestion(question: "Huh",
+                                               choices: nil,
+                                               correctAnswer: "yeah",
+                                               date: "234567"))
 }
