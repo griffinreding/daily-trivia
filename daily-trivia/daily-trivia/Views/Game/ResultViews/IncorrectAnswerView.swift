@@ -17,10 +17,12 @@ struct IncorrectAnswerView: View {
     var body: some View {
         VStack(alignment: .center, spacing: 12) {
             Text("Tough break \(authService.currentUser?.username ?? "(error)").")
-                .fixedSize()
                 .font(.largeTitle)
                 .fontWeight(.bold)
+                .lineLimit(nil)
                 .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding()
             
             Image("sad")
                 .resizable()

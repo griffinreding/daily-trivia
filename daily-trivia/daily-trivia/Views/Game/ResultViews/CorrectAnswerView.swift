@@ -15,10 +15,12 @@ struct CorrectAnswerView: View {
     var body: some View {
         VStack(alignment: .center, spacing: 12) {
             Text("Bingo!\nNice job \(authService.currentUser?.username ?? "(error)")!")
-                .fixedSize()
                 .font(.largeTitle)
                 .fontWeight(.bold)
+                .lineLimit(nil)
                 .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding()
             
             Image(systemName: "fireworks")
                 .resizable()
