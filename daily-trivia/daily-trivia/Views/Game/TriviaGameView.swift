@@ -47,7 +47,7 @@ struct TriviaGameView: View {
                 else {
                     Text("No question available for today.")
                 }
-
+                
             }
             .padding()
             .onAppear {
@@ -55,7 +55,7 @@ struct TriviaGameView: View {
                     isLoading = true
                     
                     await loadQuestion()
-
+                    
                     //This is the wildest thing, the if statement below, has to be after loadQuestion() or it won't work
                     //It's like the environment object isn't available at the top of the block
                     //and gets initialized in the middle of this function.
@@ -140,16 +140,29 @@ struct TriviaGameView: View {
         VStack {
             if let username = authService.currentUser?.username, let streak = authService.currentUser?.streak {
                 Text("Welcome back \(username)!")
-                    .font(.headline)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .lineLimit(nil)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding()
                 
                 Text("Current Streak: \(streak) days.")
                     .font(.subheadline)
             }
             
             
-            Text(questionString)
+            Text("Today's Question:")
                 .font(.title)
-                .multilineTextAlignment(.center)
+                .fontWeight(.bold)
+                .padding([.leading, .top])
+            
+            
+            Text(questionString)
+                .font(.title2)
+                .lineLimit(nil)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
             
             TextField("Enter your answer", text: $answerText)
@@ -158,34 +171,7 @@ struct TriviaGameView: View {
             
             Button {
                 Task {
-                    if answerText.replacingOccurrences(of: " ", with: "").isEmpty {
-                        errorMessage = "Do you really think the answer is blank? If you really want to try it I won't stop you, but this is the last warning you'll get."
-                        warnedAboutEmptyAnswer = true
-                        isShowingAlert = true
-                    } else {
-                        isLoading = true
-                        
-                        do {
-                            if let question = question, let username = authService.currentUser?.username {
-                                submittedAnswer = try await GameService().submitAnswer(question: question,
-                                                                                       answerText: answerText,
-                                                                                       username: username)
-                                
-                                if let outcome = submittedAnswer?.answerOutcome {
-                                    
-                                    try await authService.updateCurrentUsersStreak(streak: outcome ?
-                                                                                   (authService.currentUser?.streak ?? 0) + 1 : 0)
-                                }
-                                
-                                isLoading = false
-                            }
-                        }
-                        catch {
-                            isLoading = false
-                            errorMessage = error.localizedDescription
-                            isShowingAlert = true
-                        }
-                    }
+                    await submitAnswer()
                 }
             } label: {
                 Text("Submit Answer")
@@ -199,6 +185,7 @@ struct TriviaGameView: View {
             .padding(.horizontal)
         }
     }
+    
     func loadQuestion() async {
         do {
             self.question = try await GameService().fetchTodaysQuestion()
@@ -207,6 +194,36 @@ struct TriviaGameView: View {
             isLoading = false
             errorMessage = error.localizedDescription
             isShowingAlert = true
+        }
+    }
+    
+    func submitAnswer() async {
+        if answerText.replacingOccurrences(of: " ", with: "").isEmpty {
+            errorMessage = "Do you really think the answer is blank? If you really want to try it I won't stop you, but this is the last warning you'll get."
+            warnedAboutEmptyAnswer = true
+            isShowingAlert = true
+        } else {
+            isLoading = true
+            
+            do {
+                if let question = question, let username = authService.currentUser?.username {
+                    submittedAnswer = try await GameService().submitAnswer(question: question,
+                                                                           answerText: answerText,
+                                                                           username: username)
+                    
+                    if let outcome = submittedAnswer?.answerOutcome {
+                        try await authService.updateCurrentUsersStreak(streak: outcome ?
+                                                                       (authService.currentUser?.streak ?? 0) + 1 : 0)
+                    }
+                    
+                    isLoading = false
+                }
+            }
+            catch {
+                isLoading = false
+                errorMessage = error.localizedDescription
+                isShowingAlert = true
+            }
         }
     }
 }
