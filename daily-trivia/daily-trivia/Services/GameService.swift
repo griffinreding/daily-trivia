@@ -108,7 +108,7 @@ class GameService {
         let db = Firestore.firestore()
         var leaderboard: [String: Int] = [:]
         
-        let snapshot = try await db.collection("users")
+        let snapshot = try await db.collection("streaks")
             .getDocuments()
         
         for document in snapshot.documents {

@@ -45,8 +45,6 @@ class AuthService: ObservableObject {
     @MainActor
     func signIn(email: String, password: String) async throws -> Firebase.User {
         try await withCheckedThrowingContinuation { continuation in
-            
-            
             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
                 if let error = error {
                     continuation.resume(throwing: error)
@@ -176,14 +174,16 @@ class AuthService: ObservableObject {
 
     
     func updateCurrentUsersStreak(streak: Int) async throws {
-        guard let userEmail = currentUser?.email.sanitizedEmail() else {
+        guard let username = currentUser?.username else {
             throw NSError(domain: "UserError", code: 0, userInfo: [NSLocalizedDescriptionKey: "User email not available."])
         }
         
         let db = Firestore.firestore()
-        let userDocRef = db.collection("users").document(userEmail)
+        let userDocRef = db.collection("streaks").document(username)
         
-        try await userDocRef.setData(["streak": streak], merge: true)
+        try await userDocRef.setData(["streak": streak,
+                                      "username": username,
+                                     ], merge: true)
         currentUser?.streak = streak
     }
 
