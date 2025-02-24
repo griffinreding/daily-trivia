@@ -153,7 +153,7 @@ class AuthService: ObservableObject {
     func fetchUserStreak(forUsername username: String) async throws {
         let db = Firestore.firestore()
         
-        let docRef = db.collection("users").document(username)
+        let docRef = db.collection("streaks").document(username)
         
         do {
             let documentSnapshot = try await docRef.getDocument()
