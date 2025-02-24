@@ -50,7 +50,12 @@ struct ManualReviewView: View {
                     await submitForManualReview()
                 }
             } label: {
-                Text("Submit for manual review")
+                Text("Submit")
+                    .padding(12)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.blue, lineWidth: 2)
+                    }
             }
             .alert(item: $activeAlert) { alertType in
                         switch alertType {

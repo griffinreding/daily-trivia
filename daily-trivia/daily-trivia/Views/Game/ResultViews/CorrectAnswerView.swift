@@ -32,7 +32,7 @@ struct CorrectAnswerView: View {
                 Text("Question:")
                     .font(.title)
                     .fontWeight(.bold)
-                    .padding(.leading)
+                    .padding([.leading, .top])
                 
                 Spacer()
             }

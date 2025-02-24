@@ -15,19 +15,67 @@ struct IncorrectAnswerView: View {
     let question: TriviaQuestion
     
     var body: some View {
-        VStack(spacing: 24) {
-            Text("Tough break \(authService.currentUser?.username ?? "username not found").")
-                .font(.headline)
+        VStack(alignment: .center, spacing: 12) {
+            Text("Tough break \(authService.currentUser?.username ?? "(error)").")
+                .fixedSize()
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .multilineTextAlignment(.center)
             
             Image("sad")
                 .resizable()
                 .frame(width: 100, height: 100)
+                .foregroundStyle(.red)
             
             Text("Your streak has been reset to \(authService.currentUser?.streak ?? 0) days.")
-                .font(.footnote)
-            
+                .font(.subheadline)
                 
-            Text("Your answer, \(submittedAnswer.userAnswer), was incorrect.")
+            HStack {
+                Text("Question:")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding([.leading, .top])
+                Spacer()
+            }
+            
+            Text(question.question)
+                .font(.title2)
+                .lineLimit(nil)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
+            
+            HStack {
+                Text("Your answer:")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(.leading)
+                
+                Spacer()
+            }
+            
+            Text(submittedAnswer.userAnswer)
+                .font(.title2)
+                .lineLimit(nil)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
+            
+            HStack {
+                Text("Correct answer:")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(.leading)
+                
+                Spacer()
+            }
+            
+            Text(question.correctAnswer)
+                .font(.title2)
+                .lineLimit(nil)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
             
             Button {
                 isShowingManualReview = true
@@ -35,11 +83,13 @@ struct IncorrectAnswerView: View {
                 Text("Submit for manual review")
             }
             
-            Text("The question was: \(question.question)")
-            
-            Text("The correct answer was: \(question.correctAnswer)")
-            
             Text("Come back tomorrow to play again!")
+                .font(.subheadline)
+                .fontWeight(.bold)
+                .lineLimit(nil)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding([.top, .horizontal], 36)
         }
         .sheet(isPresented: $isShowingManualReview) {
             ManualReviewView(submittedAnswer: submittedAnswer,
@@ -62,5 +112,6 @@ struct IncorrectAnswerView: View {
                                                  choices: nil,
                                                  correctAnswer: "yeah",
                                                  date: "234567"))
+    .environmentObject(AuthService())
     
 }

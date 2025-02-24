@@ -179,12 +179,20 @@ class AuthService: ObservableObject {
         }
         
         let db = Firestore.firestore()
-        let userDocRef = db.collection("streaks").document(username)
+        let snapshot = try await db.collection("streaks").document(username).getDocument()
         
-        try await userDocRef.setData(["streak": streak,
-                                      "username": username,
-                                     ], merge: true)
-        currentUser?.streak = streak
+        if snapshot.exists {
+            try await db.collection("streaks").document(username).setData(["streak": streak,
+                                                                           "username": username,
+                                                                          ],
+                                                                          merge: true)
+            currentUser?.streak = streak
+        } else {
+            try await db.collection("streaks").document(username).setData(["username": username,
+                                                                           "streak": streak
+                                                                          ],
+                                                                          merge: true)
+        }
     }
 
 
