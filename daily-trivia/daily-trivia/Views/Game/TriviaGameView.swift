@@ -31,22 +31,14 @@ struct TriviaGameView: View {
             VStack(spacing: 20) {
                 if isLoading {
                     ProgressView("Loading...")
-                } else if let answer = submittedAnswer,
-                          let question = question?.question,
-                          let streak = authService.currentUser?.streak,
-                          let username = authService.currentUser?.username {
-                    if answer.answerOutcome {
+                } else if let answer = submittedAnswer  {
+                    if answer.answerOutcome, let question = question {
                         CorrectAnswerView(submittedAnswer: answer,
-                                          question: question,
-                                          username: username,
-                                          streak: streak)
+                                          question: question)
                     } else {
-                        if let correctAnswer = self.question?.correctAnswer {
+                        if let question = question {
                             IncorrectAnswerView(submittedAnswer: answer,
-                                                correctAnswer: correctAnswer,
-                                                username: username,
-                                                question: question,
-                                                streak: streak)
+                                                question: question)
                         }
                     }
                 } else if let question = question {
@@ -60,19 +52,19 @@ struct TriviaGameView: View {
             .padding()
             .onAppear {
                 Task {
-                    print("Top of onAppear Task: \(authService.currentUser?.username)")
-                    
                     isLoading = true
                     
-                    //username isn't yet available here, that's why I'm not getting into the if statement
-                    print("Checking response for date: \(Date().dateFormattedForDb()) and username: \(authService.currentUser?.username)")
+                    await loadQuestion()
                     
+                    print("Checking response for date: \(Date().dateFormattedForDb()) and username: \(authService.currentUser?.username)")
+                    //This is the wildest thing, the if statement below, has to be after loadQuestion() or it won't work
+                    //It's like the environment object isn't available at the top of the block
+                    //and gets initialized in the middle of this function.
+                    //I've checked the load question function and it's not doing anything I could see that would cause this
                     if let answer = await GameService().checkResponseExists(for: Date().dateFormattedForDb(),
                                                                             username: authService.currentUser?.username) {
-                        submittedAnswer = answer
+                        self.submittedAnswer = answer
                     }
-                    
-                    await loadQuestion()
                     
                     showUsernameEntry = authService.currentUser?.username == nil
                     

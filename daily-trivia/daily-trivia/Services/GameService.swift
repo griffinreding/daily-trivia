@@ -45,10 +45,12 @@ class GameService {
 
             for document in querySnapshot.documents {
                 if let answerDate = document.data()["date"] as? String, datefordb == answerDate {
+                    print("Response found for \(username) on \(datefordb)")
                     return try document.data(as: SubmittedAnswer.self)
                 }
             }
             
+            print("No response found for \(username) on \(datefordb)")
             return nil
         } catch {
             print("Error fetching responses: \(error.localizedDescription)")
