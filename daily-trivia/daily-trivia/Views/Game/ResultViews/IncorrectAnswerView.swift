@@ -19,6 +19,7 @@ struct IncorrectAnswerView: View {
             Text("Tough break \(authService.currentUser?.username ?? "(error)").")
                 .font(.largeTitle)
                 .fontWeight(.bold)
+                .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(nil)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -42,6 +43,7 @@ struct IncorrectAnswerView: View {
             
             Text(question.question)
                 .font(.title2)
+                .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(nil)
                 .multilineTextAlignment(.leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -58,6 +60,7 @@ struct IncorrectAnswerView: View {
             
             Text(submittedAnswer.userAnswer)
                 .font(.title2)
+                .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(nil)
                 .multilineTextAlignment(.leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -88,6 +91,7 @@ struct IncorrectAnswerView: View {
             Text("Come back tomorrow to play again!")
                 .font(.subheadline)
                 .fontWeight(.bold)
+                .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(nil)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity, alignment: .center)

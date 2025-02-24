@@ -36,6 +36,7 @@ struct daily_triviaApp: App {
                                 do {
                                     authService.currentUser = User(firebaseUser: user)
                                     try await authService.fetchUsername(forEmail: user.email ?? "")
+                                    try await authService.fetchUserStreak(forUsername: authService.currentUser?.username ?? "")
                                 }
                                 catch {
                                     //another unhandled error
@@ -49,6 +50,7 @@ struct daily_triviaApp: App {
                                         if let user = user {
                                             authService.currentUser = User(googleUser: user)
                                             try await authService.fetchUsername(forEmail: user.profile?.email ?? "")
+                                            try await authService.fetchUserStreak(forUsername: authService.currentUser?.username ?? "")
                                         }
                                     } catch {
                                         //another unhandled error

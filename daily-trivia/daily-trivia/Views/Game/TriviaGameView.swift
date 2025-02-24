@@ -198,7 +198,7 @@ struct TriviaGameView: View {
     }
     
     func submitAnswer() async {
-        if answerText.replacingOccurrences(of: " ", with: "").isEmpty {
+        if answerText.replacingOccurrences(of: " ", with: "").isEmpty, warnedAboutEmptyAnswer == false {
             errorMessage = "Do you really think the answer is blank? If you really want to try it I won't stop you, but this is the last warning you'll get."
             warnedAboutEmptyAnswer = true
             isShowingAlert = true

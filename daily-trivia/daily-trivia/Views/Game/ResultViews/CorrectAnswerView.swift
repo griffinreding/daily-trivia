@@ -14,9 +14,10 @@ struct CorrectAnswerView: View {
     
     var body: some View {
         VStack(alignment: .center, spacing: 12) {
-            Text("Bingo!\nNice job \(authService.currentUser?.username ?? "(error)")!")
+            Text("Bingo!\n\nNice job \(authService.currentUser?.username ?? "(error)")!")
                 .font(.largeTitle)
                 .fontWeight(.bold)
+                .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(nil)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -41,6 +42,7 @@ struct CorrectAnswerView: View {
             
             Text(question.question)
                 .font(.title2)
+                .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(nil)
                 .multilineTextAlignment(.leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -57,6 +59,7 @@ struct CorrectAnswerView: View {
             
             Text(submittedAnswer.userAnswer)
                 .font(.title2)
+                .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(nil)
                 .multilineTextAlignment(.leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -65,6 +68,7 @@ struct CorrectAnswerView: View {
             Text("Come back tomorrow to play again!")
                 .font(.title)
                 .fontWeight(.bold)
+                .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(nil)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -78,7 +82,7 @@ struct CorrectAnswerView: View {
     CorrectAnswerView(submittedAnswer: SubmittedAnswer(date: "213456",
                                                        answerOutcome: true,
                                                        userAnswer: ";asdfasdf"),
-                      question: TriviaQuestion(question: "I want to ask you a question and see if you can answer it. here it is: do you like me?",
+                      question: TriviaQuestion(question: "I want to ask you a question and see if you can answer it. here it is: do you like france?",
                                                choices: nil,
                                                correctAnswer: "yeah",
                                                date: "234567"))
