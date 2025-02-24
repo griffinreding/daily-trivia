@@ -12,11 +12,13 @@ struct CorrectAnswerView: View {
     let submittedAnswer: SubmittedAnswer
     let question: TriviaQuestion
     
-    
     var body: some View {
-        VStack(spacing: 24) {
-            Text("Nailed it, \(authService.currentUser?.username ?? "username not found")!")
-                .font(.headline)
+        VStack(alignment: .center, spacing: 12) {
+            Text("Bingo!\nNice job \(authService.currentUser?.username ?? "(error)")!")
+                .fixedSize()
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .multilineTextAlignment(.center)
             
             Image(systemName: "fireworks")
                 .resizable()
@@ -24,14 +26,48 @@ struct CorrectAnswerView: View {
                 .foregroundStyle(.green)
             
             Text("Your streak is now \(authService.currentUser?.streak ?? 0) days🔥")
-                .font(.footnote)
-
-            Text("Your answer, \(submittedAnswer.userAnswer), was correct!")
+                .font(.subheadline)
             
-            Text("The question was: \(question.question)")
+            HStack {
+                Text("Question:")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(.leading)
+                
+                Spacer()
+            }
+            
+            Text(question.question)
+                .font(.title2)
+                .lineLimit(nil)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
+            
+            HStack {
+                Text("Your answer:")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(.leading)
+                
+                Spacer()
+            }
+            
+            Text(submittedAnswer.userAnswer)
+                .font(.title2)
+                .lineLimit(nil)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
             
             Text("Come back tomorrow to play again!")
-                
+                .font(.title)
+                .fontWeight(.bold)
+                .lineLimit(nil)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.top, 36)
+            
         }
     }
 }
@@ -40,8 +76,9 @@ struct CorrectAnswerView: View {
     CorrectAnswerView(submittedAnswer: SubmittedAnswer(date: "213456",
                                                        answerOutcome: true,
                                                        userAnswer: ";asdfasdf"),
-                      question: TriviaQuestion(question: "Huh",
+                      question: TriviaQuestion(question: "I want to ask you a question and see if you can answer it. here it is: do you like me?",
                                                choices: nil,
                                                correctAnswer: "yeah",
                                                date: "234567"))
+    .environmentObject(AuthService())
 }
