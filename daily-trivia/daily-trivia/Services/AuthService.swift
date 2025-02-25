@@ -135,27 +135,22 @@ class AuthService: ObservableObject {
         
         let docRef = db.collection("users").document(email.sanitizedEmail())
         
-        do {
-            let documentSnapshot = try await docRef.getDocument()
-            
-            if let data = documentSnapshot.data(), let username = data["username"] as? String {
-                self.currentUser?.username = username
-                print("Username found and assigned: \(username)")
-            } else {
-                print("No user found for email: \(email.sanitizedEmail())")
-            }
-        } catch {
-            print("Error fetching user: \(error.localizedDescription)")
-            throw error
+        let documentSnapshot = try await docRef.getDocument()
+        
+        if let data = documentSnapshot.data(), let username = data["username"] as? String {
+            self.currentUser?.username = username
+            print("Username found and assigned: \(username)")
+        } else {
+            print("No user found for email: \(email.sanitizedEmail())")
         }
     }
     
-    func fetchUserStreak(forUsername username: String) async throws {
+    func fetchUserStreak() async throws {
         let db = Firestore.firestore()
         
-        let docRef = db.collection("streaks").document(username)
-        
-        do {
+        if let username = self.currentUser?.username {
+            let docRef = db.collection("streaks").document(username)
+            
             let documentSnapshot = try await docRef.getDocument()
             
             if let data = documentSnapshot.data(), let streak = data["streak"] as? Int {
@@ -164,9 +159,6 @@ class AuthService: ObservableObject {
             } else {
                 try await self.updateCurrentUsersStreak(streak: 0)
             }
-        } catch {
-            print("Error fetching user: \(error.localizedDescription)")
-            throw error
         }
     }
 

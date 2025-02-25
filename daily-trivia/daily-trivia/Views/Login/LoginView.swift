@@ -64,7 +64,7 @@ struct LoginView: View {
                                                                            password: password)
                             
                             try await authService.fetchUsername(forEmail: user.email ?? "")
-                            try await authService.fetchUserStreak(forUsername: authService.currentUser?.username ?? "")
+                            try await authService.fetchUserStreak()
                         } catch {
                             loginViewAlert = .loginError(error.localizedDescription)
                             print("Login error: \(error.localizedDescription)")
@@ -90,7 +90,7 @@ struct LoginView: View {
                             
                             let user = try await authService.signIn(email: email, password: password)
                             try await authService.createUserAccountIfNeeded(for: user)
-                            try await authService.fetchUserStreak(forUsername: authService.currentUser?.username ?? "")
+                            try await authService.fetchUserStreak()
                         } catch {
                             loginViewAlert = .loginError(error.localizedDescription)
                             print("Registration error: \(error.localizedDescription)")
@@ -152,7 +152,7 @@ struct LoginView: View {
                         authService.currentUser = User(googleUser: user)
                         
                         try await authService.fetchUsername(forEmail: email)
-                        try await authService.fetchUserStreak(forUsername: authService.currentUser?.username ?? "")
+                        try await authService.fetchUserStreak()
                     }
                     catch {
                         loginViewAlert = .loginError("Error creating firebase account after google sign in: \(error.localizedDescription)")

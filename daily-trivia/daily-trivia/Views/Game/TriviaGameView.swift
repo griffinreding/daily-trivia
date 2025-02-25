@@ -60,6 +60,8 @@ struct TriviaGameView: View {
                     //It's like the environment object isn't available at the top of the block
                     //and gets initialized in the middle of this function.
                     //I've checked the load question function and it's not doing anything I could see that would cause this
+                    
+                    //try using .task instead
                     if let answer = await GameService().checkResponseExists(for: Date().dateFormattedForDb(),
                                                                             username: authService.currentUser?.username) {
                         self.submittedAnswer = answer
