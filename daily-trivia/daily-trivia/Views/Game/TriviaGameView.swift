@@ -52,24 +52,31 @@ struct TriviaGameView: View {
             .padding()
             .onAppear {
                 Task {
-                    isLoading = true
-                    
-                    await loadQuestion()
-                    
-                    //This is the wildest thing, the if statement below, has to be after loadQuestion() or it won't work
-                    //It's like the environment object isn't available at the top of the block
-                    //and gets initialized in the middle of this function.
-                    //I've checked the load question function and it's not doing anything I could see that would cause this
-                    
-                    //try using .task instead
-                    if let answer = await GameService().checkResponseExists(for: Date().dateFormattedForDb(),
-                                                                            username: authService.currentUser?.username) {
-                        self.submittedAnswer = answer
+                    do {
+                        isLoading = true
+                        
+                        await loadQuestion()
+                        
+                        //This is the wildest thing, the if statement below, has to be after loadQuestion() or it won't work
+                        //It's like the environment object isn't available at the top of the block
+                        //and gets initialized in the middle of this function.
+                        //I've checked the load question function and it's not doing anything I could see that would cause this
+                        
+                        //try using .task instead
+                        if let answer = try await GameService().checkResponseExists(for: Date().dateFormattedForDb(),
+                                                                                    username: authService.currentUser?.username) {
+                            self.submittedAnswer = answer
+                        }
+                        
+                        showUsernameEntry = authService.currentUser?.username == nil
+                        
+                        isLoading = false
                     }
-                    
-                    showUsernameEntry = authService.currentUser?.username == nil
-                    
-                    isLoading = false
+                    catch {
+                        isLoading = false
+                        errorMessage = error.localizedDescription
+                        isShowingAlert = true
+                    }
                 }
             }
             .alert(isPresented: $isShowingAlert) {

@@ -30,32 +30,22 @@ class GameService {
         }
     }
     
-    func checkResponseExists(for datefordb: String, username: String?) async -> SubmittedAnswer? {
+    func checkResponseExists(for datefordb: String, username: String?) async throws -> SubmittedAnswer? {
         guard let username = username else {
             print("Username not available")
             return nil
         }
         
+        let today = Date().dateFormattedForDb()
         let db = Firestore.firestore()
         
-        do {
-            let querySnapshot = try await db.collection("responses")
-                .whereField("username", isEqualTo: username)
-                .getDocuments()
-
-            for document in querySnapshot.documents {
-                if let answerDate = document.data()["date"] as? String, datefordb == answerDate {
-                    print("Response found for \(username) on \(datefordb)")
-                    return try document.data(as: SubmittedAnswer.self)
-                }
-            }
-            
-            print("No response found for \(username) on \(datefordb)")
-            return nil
-        } catch {
-            print("Error fetching responses: \(error.localizedDescription)")
-            return nil
+        let snapshot = try await db.collection("responses").document(username).collection("responses").document(today).getDocument()
+        
+        if let answerDate = snapshot.data()?["date"] as? String, today == answerDate {
+            return try snapshot.data(as: SubmittedAnswer.self)
         }
+        
+        return nil
     }
     
     func submitAnswer(question: TriviaQuestion, answerText: String, username: String) async throws -> SubmittedAnswer {
@@ -63,7 +53,7 @@ class GameService {
         let correctAnswerClean = question.correctAnswer.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let isCorrect = userAnswerClean == correctAnswerClean
         
-        
+        let today = Date().dateFormattedForDb()
         let db = Firestore.firestore()
         
         let responseData: [String: Any] = [
@@ -75,7 +65,12 @@ class GameService {
             "timestamp": FieldValue.serverTimestamp()
         ]
         
-        try await db.collection("responses").document(username).setData(responseData)
+        let responseDocRef = db.collection("responses")
+            .document(username)
+            .collection("responses")
+            .document(today)
+
+        try await responseDocRef.setData(responseData)
         
         return SubmittedAnswer(date: question.date,
                                answerOutcome: isCorrect,
