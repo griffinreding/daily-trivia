@@ -10,7 +10,6 @@ import FirebaseFirestore
 import SwiftUI
 
 class GameService {
-    var leaderboard: [LeaderboardEntry] = []
     
     //clean up queries using these docs when i'm done being lazy
     //https://firebase.google.com/docs/firestore/query-data/queries?hl=en&authuser=1
@@ -96,7 +95,7 @@ class GameService {
             .sorted { $0.value > $1.value }
 //            .prefix(20)
         
-        return Array(sortedLeaderboard)
+        return sortedLeaderboard
     }
     
     func fetchStreakLeaderboard() async throws -> [LeaderboardEntry] {
@@ -117,7 +116,7 @@ class GameService {
         let sortedLeaderboard = leaderboard.map { LeaderboardEntry(username: $0.key, value: $0.value) }
             .sorted { $0.value > $1.value }
         
-        return Array(sortedLeaderboard)
+        return sortedLeaderboard
     }
     
     func submitAnswerForManualReview(submittedAnswer: SubmittedAnswer,
