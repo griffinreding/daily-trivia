@@ -15,7 +15,7 @@ struct IncorrectAnswerView: View {
     let question: TriviaQuestion
     
     var body: some View {
-        VStack(alignment: .center, spacing: 12) {
+        VStack(alignment: .center, spacing: 0) {
             Text("Tough break \(authService.currentUser?.username ?? "(error)").")
                 .font(.largeTitle)
                 .fontWeight(.bold)
@@ -24,64 +24,68 @@ struct IncorrectAnswerView: View {
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding()
+                .padding(.bottom, 12)
             
             Image("sad")
                 .resizable()
                 .frame(width: 100, height: 100)
                 .foregroundStyle(.red)
+                .padding(.bottom, 24)
             
             Text("Your streak has been reset to \(authService.currentUser?.streak ?? 0) days.")
                 .font(.subheadline)
+            
+            VStack(spacing: 0) {
+                HStack {
+                    Text("Today's Question:")
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .padding([.leading, .top])
+                    Spacer()
+                }
                 
-            HStack {
-                Text("Question:")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding([.leading, .top])
-                Spacer()
-            }
-            
-            Text(question.question)
-                .font(.title2)
-                .fixedSize(horizontal: false, vertical: true)
-                .lineLimit(nil)
-                .multilineTextAlignment(.leading)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
-            
-            HStack {
-                Text("Your answer:")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding(.leading)
+                Text(question.question)
+                    .font(.body)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(nil)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
                 
-                Spacer()
-            }
-            
-            Text(submittedAnswer.userAnswer)
-                .font(.title2)
-                .fixedSize(horizontal: false, vertical: true)
-                .lineLimit(nil)
-                .multilineTextAlignment(.leading)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
-            
-            HStack {
-                Text("Correct answer:")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding(.leading)
+                HStack {
+                    Text("Your answer:")
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .padding(.leading)
+                    
+                    Spacer()
+                }
                 
-                Spacer()
+                Text(submittedAnswer.userAnswer)
+                    .font(.body)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(nil)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
+                
+                HStack {
+                    Text("Correct answer:")
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .padding(.leading)
+                    
+                    Spacer()
+                }
+                
+                Text(question.correctAnswer)
+                    .font(.body)
+                    .lineLimit(nil)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
             }
-            
-            Text(question.correctAnswer)
-                .font(.title2)
-                .lineLimit(nil)
-                .multilineTextAlignment(.leading)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
-            
+                
             Button {
                 isShowingManualReview = true
             } label: {
