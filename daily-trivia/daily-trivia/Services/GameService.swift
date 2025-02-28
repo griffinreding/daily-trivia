@@ -76,6 +76,7 @@ class GameService {
                                userAnswer: answerText)
     }
     
+    //need refactor
     func fetchCorrectAnswersLeaderboard() async throws -> [LeaderboardEntry] {
         let db = Firestore.firestore()
         var leaderboard: [String: Int] = [:]
@@ -118,6 +119,9 @@ class GameService {
         
         return sortedLeaderboard
     }
+    
+    
+    //refactor needed
     
     func submitAnswerForManualReview(submittedAnswer: SubmittedAnswer,
                                      username: String,
