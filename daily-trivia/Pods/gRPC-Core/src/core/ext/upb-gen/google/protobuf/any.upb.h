@@ -3,14 +3,16 @@
  *     google/protobuf/any.proto
  *
  * Do not edit -- your changes will be discarded when the file is
- * regenerated. */
+ * regenerated.
+ * NO CHECKED-IN PROTOBUF GENCODE */
 
-#ifndef GOOGLE_PROTOBUF_ANY_PROTO_UPB_H_
-#define GOOGLE_PROTOBUF_ANY_PROTO_UPB_H_
+#ifndef GOOGLE_PROTOBUF_ANY_PROTO_UPB_H__UPB_H_
+#define GOOGLE_PROTOBUF_ANY_PROTO_UPB_H__UPB_H_
 
 #include "upb/generated_code_support.h"
 
 #include "google/protobuf/any.upb_minitable.h"
+
 
 // Must be last.
 #include "upb/port/def.inc"
@@ -86,11 +88,11 @@ UPB_INLINE upb_StringView google_protobuf_Any_value(const google_protobuf_Any* m
 
 UPB_INLINE void google_protobuf_Any_set_type_url(google_protobuf_Any *msg, upb_StringView value) {
   const upb_MiniTableField field = {1, 8, 0, kUpb_NoSub, 9, (int)kUpb_FieldMode_Scalar | ((int)kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)};
-  _upb_Message_SetNonExtensionField((upb_Message *)msg, &field, &value);
+  upb_Message_SetBaseField((upb_Message *)msg, &field, &value);
 }
 UPB_INLINE void google_protobuf_Any_set_value(google_protobuf_Any *msg, upb_StringView value) {
   const upb_MiniTableField field = {2, UPB_SIZE(16, 24), 0, kUpb_NoSub, 12, (int)kUpb_FieldMode_Scalar | ((int)kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)};
-  _upb_Message_SetNonExtensionField((upb_Message *)msg, &field, &value);
+  upb_Message_SetBaseField((upb_Message *)msg, &field, &value);
 }
 
 #ifdef __cplusplus
@@ -99,4 +101,4 @@ UPB_INLINE void google_protobuf_Any_set_value(google_protobuf_Any *msg, upb_Stri
 
 #include "upb/port/undef.inc"
 
-#endif  /* GOOGLE_PROTOBUF_ANY_PROTO_UPB_H_ */
+#endif  /* GOOGLE_PROTOBUF_ANY_PROTO_UPB_H__UPB_H_ */

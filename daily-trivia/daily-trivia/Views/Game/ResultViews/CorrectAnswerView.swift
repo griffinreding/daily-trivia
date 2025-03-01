@@ -13,8 +13,8 @@ struct CorrectAnswerView: View {
     let question: TriviaQuestion
     
     var body: some View {
-        VStack(alignment: .center, spacing: 12) {
-            Text("Bingo!\n\nNice job \(authService.currentUser?.username ?? "(error)")!")
+        VStack(alignment: .center, spacing: 0) {
+            Text("Bingo!\nNice job \(authService.currentUser?.username ?? "(error)")!")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .fixedSize(horizontal: false, vertical: true)
@@ -27,13 +27,14 @@ struct CorrectAnswerView: View {
                 .resizable()
                 .frame(width: 100, height: 100)
                 .foregroundStyle(.green)
+                .padding(.bottom, 16)
             
             Text("Your streak is now \(authService.currentUser?.streak ?? 0) days🔥")
                 .font(.subheadline)
             
             HStack {
-                Text("Question:")
-                    .font(.title)
+                Text("Today's Question:")
+                    .font(.subheadline)
                     .fontWeight(.bold)
                     .padding([.leading, .top])
                 
@@ -41,7 +42,7 @@ struct CorrectAnswerView: View {
             }
             
             Text(question.question)
-                .font(.title2)
+                .font(.body)
                 .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(nil)
                 .multilineTextAlignment(.leading)
@@ -50,7 +51,7 @@ struct CorrectAnswerView: View {
             
             HStack {
                 Text("Your answer:")
-                    .font(.title)
+                    .font(.subheadline)
                     .fontWeight(.bold)
                     .padding(.leading)
                 
@@ -58,7 +59,7 @@ struct CorrectAnswerView: View {
             }
             
             Text(submittedAnswer.userAnswer)
-                .font(.title2)
+                .font(.body)
                 .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(nil)
                 .multilineTextAlignment(.leading)
@@ -66,7 +67,7 @@ struct CorrectAnswerView: View {
                 .padding()
             
             Text("Come back tomorrow to play again!")
-                .font(.title)
+                .font(.subheadline)
                 .fontWeight(.bold)
                 .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(nil)

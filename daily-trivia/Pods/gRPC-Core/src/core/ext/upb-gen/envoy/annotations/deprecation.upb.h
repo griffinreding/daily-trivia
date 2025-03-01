@@ -3,10 +3,11 @@
  *     envoy/annotations/deprecation.proto
  *
  * Do not edit -- your changes will be discarded when the file is
- * regenerated. */
+ * regenerated.
+ * NO CHECKED-IN PROTOBUF GENCODE */
 
-#ifndef ENVOY_ANNOTATIONS_DEPRECATION_PROTO_UPB_H_
-#define ENVOY_ANNOTATIONS_DEPRECATION_PROTO_UPB_H_
+#ifndef ENVOY_ANNOTATIONS_DEPRECATION_PROTO_UPB_H__UPB_H_
+#define ENVOY_ANNOTATIONS_DEPRECATION_PROTO_UPB_H__UPB_H_
 
 #include "upb/generated_code_support.h"
 
@@ -46,7 +47,7 @@ UPB_INLINE void envoy_annotations_set_disallowed_by_default(struct google_protob
   UPB_ASSUME(upb_MiniTableField_IsScalar(&ext->UPB_PRIVATE(field)));
   UPB_ASSUME(UPB_PRIVATE(_upb_MiniTableField_GetRep)(
                  &ext->UPB_PRIVATE(field)) == kUpb_FieldRep_1Byte);
-  bool ok = _upb_Message_SetExtensionField((upb_Message*)msg, ext, &val, arena);
+  bool ok = upb_Message_SetExtension((upb_Message*)msg, ext, &val, arena);
   UPB_ASSERT(ok);
 }
 UPB_INLINE bool envoy_annotations_has_deprecated_at_minor_version(const struct google_protobuf_FieldOptions* msg) {
@@ -70,7 +71,7 @@ UPB_INLINE void envoy_annotations_set_deprecated_at_minor_version(struct google_
   UPB_ASSUME(upb_MiniTableField_IsScalar(&ext->UPB_PRIVATE(field)));
   UPB_ASSUME(UPB_PRIVATE(_upb_MiniTableField_GetRep)(
                  &ext->UPB_PRIVATE(field)) == kUpb_FieldRep_StringView);
-  bool ok = _upb_Message_SetExtensionField((upb_Message*)msg, ext, &val, arena);
+  bool ok = upb_Message_SetExtension((upb_Message*)msg, ext, &val, arena);
   UPB_ASSERT(ok);
 }
 UPB_INLINE bool envoy_annotations_has_disallowed_by_default_enum(const struct google_protobuf_EnumValueOptions* msg) {
@@ -94,7 +95,7 @@ UPB_INLINE void envoy_annotations_set_disallowed_by_default_enum(struct google_p
   UPB_ASSUME(upb_MiniTableField_IsScalar(&ext->UPB_PRIVATE(field)));
   UPB_ASSUME(UPB_PRIVATE(_upb_MiniTableField_GetRep)(
                  &ext->UPB_PRIVATE(field)) == kUpb_FieldRep_1Byte);
-  bool ok = _upb_Message_SetExtensionField((upb_Message*)msg, ext, &val, arena);
+  bool ok = upb_Message_SetExtension((upb_Message*)msg, ext, &val, arena);
   UPB_ASSERT(ok);
 }
 UPB_INLINE bool envoy_annotations_has_deprecated_at_minor_version_enum(const struct google_protobuf_EnumValueOptions* msg) {
@@ -118,7 +119,7 @@ UPB_INLINE void envoy_annotations_set_deprecated_at_minor_version_enum(struct go
   UPB_ASSUME(upb_MiniTableField_IsScalar(&ext->UPB_PRIVATE(field)));
   UPB_ASSUME(UPB_PRIVATE(_upb_MiniTableField_GetRep)(
                  &ext->UPB_PRIVATE(field)) == kUpb_FieldRep_StringView);
-  bool ok = _upb_Message_SetExtensionField((upb_Message*)msg, ext, &val, arena);
+  bool ok = upb_Message_SetExtension((upb_Message*)msg, ext, &val, arena);
   UPB_ASSERT(ok);
 }
 #ifdef __cplusplus
@@ -127,4 +128,4 @@ UPB_INLINE void envoy_annotations_set_deprecated_at_minor_version_enum(struct go
 
 #include "upb/port/undef.inc"
 
-#endif  /* ENVOY_ANNOTATIONS_DEPRECATION_PROTO_UPB_H_ */
+#endif  /* ENVOY_ANNOTATIONS_DEPRECATION_PROTO_UPB_H__UPB_H_ */

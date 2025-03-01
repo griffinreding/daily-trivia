@@ -3,10 +3,11 @@
  *     envoy/extensions/transport_sockets/tls/v3/common.proto
  *
  * Do not edit -- your changes will be discarded when the file is
- * regenerated. */
+ * regenerated.
+ * NO CHECKED-IN PROTOBUF GENCODE */
 
-#ifndef ENVOY_EXTENSIONS_TRANSPORT_SOCKETS_TLS_V3_COMMON_PROTO_UPBDEFS_H_
-#define ENVOY_EXTENSIONS_TRANSPORT_SOCKETS_TLS_V3_COMMON_PROTO_UPBDEFS_H_
+#ifndef ENVOY_EXTENSIONS_TRANSPORT_SOCKETS_TLS_V3_COMMON_PROTO_UPB_H__UPBDEFS_H_
+#define ENVOY_EXTENSIONS_TRANSPORT_SOCKETS_TLS_V3_COMMON_PROTO_UPB_H__UPBDEFS_H_
 
 #include "upb/reflection/def.h"
 #include "upb/reflection/internal/def_pool.h"
@@ -53,10 +54,15 @@ UPB_INLINE const upb_MessageDef *envoy_extensions_transport_sockets_tls_v3_Certi
   return upb_DefPool_FindMessageByName(s, "envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext");
 }
 
+UPB_INLINE const upb_MessageDef *envoy_extensions_transport_sockets_tls_v3_CertificateValidationContext_SystemRootCerts_getmsgdef(upb_DefPool *s) {
+  _upb_DefPool_LoadDefInit(s, &envoy_extensions_transport_sockets_tls_v3_common_proto_upbdefinit);
+  return upb_DefPool_FindMessageByName(s, "envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext.SystemRootCerts");
+}
+
 #ifdef __cplusplus
 }  /* extern "C" */
 #endif
 
 #include "upb/port/undef.inc"
 
-#endif  /* ENVOY_EXTENSIONS_TRANSPORT_SOCKETS_TLS_V3_COMMON_PROTO_UPBDEFS_H_ */
+#endif  /* ENVOY_EXTENSIONS_TRANSPORT_SOCKETS_TLS_V3_COMMON_PROTO_UPB_H__UPBDEFS_H_ */

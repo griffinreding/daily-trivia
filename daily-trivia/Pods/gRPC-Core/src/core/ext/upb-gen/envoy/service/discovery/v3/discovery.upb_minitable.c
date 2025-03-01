@@ -3,7 +3,8 @@
  *     envoy/service/discovery/v3/discovery.proto
  *
  * Do not edit -- your changes will be discarded when the file is
- * regenerated. */
+ * regenerated.
+ * NO CHECKED-IN PROTOBUF GENCODE */
 
 #include <stddef.h>
 #include "upb/generated_code_support.h"
@@ -19,8 +20,9 @@
 // Must be last.
 #include "upb/port/def.inc"
 
-static const upb_MiniTableSub envoy_service_discovery_v3_ResourceLocator_submsgs[1] = {
-  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__ResourceLocator__DynamicParametersEntry_msg_init},
+extern const struct upb_MiniTable UPB_PRIVATE(_kUpb_MiniTable_StaticallyTreeShaken);
+static const upb_MiniTableSubInternal envoy_service_discovery_v3_ResourceLocator__submsgs[1] = {
+  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__ResourceLocator__DynamicParametersEntry_msg_init_ptr},
 };
 
 static const upb_MiniTableField envoy_service_discovery_v3_ResourceLocator__fields[2] = {
@@ -29,15 +31,19 @@ static const upb_MiniTableField envoy_service_discovery_v3_ResourceLocator__fiel
 };
 
 const upb_MiniTable envoy__service__discovery__v3__ResourceLocator_msg_init = {
-  &envoy_service_discovery_v3_ResourceLocator_submsgs[0],
+  &envoy_service_discovery_v3_ResourceLocator__submsgs[0],
   &envoy_service_discovery_v3_ResourceLocator__fields[0],
   UPB_SIZE(24, 32), 2, kUpb_ExtMode_NonExtendable, 2, UPB_FASTTABLE_MASK(8), 0,
+#ifdef UPB_TRACING_ENABLED
+  "envoy.service.discovery.v3.ResourceLocator",
+#endif
   UPB_FASTTABLE_INIT({
     {0x0000000000000000, &_upb_FastDecoder_DecodeGeneric},
     {0x000800003f00000a, &upb_pss_1bt},
   })
 };
 
+const upb_MiniTable* envoy__service__discovery__v3__ResourceLocator_msg_init_ptr = &envoy__service__discovery__v3__ResourceLocator_msg_init;
 static const upb_MiniTableField envoy_service_discovery_v3_ResourceLocator_DynamicParametersEntry__fields[2] = {
   {1, 16, 0, kUpb_NoSub, 9, (int)kUpb_FieldMode_Scalar | ((int)kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
   {2, 32, 0, kUpb_NoSub, 9, (int)kUpb_FieldMode_Scalar | ((int)kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
@@ -47,6 +53,9 @@ const upb_MiniTable envoy__service__discovery__v3__ResourceLocator__DynamicParam
   NULL,
   &envoy_service_discovery_v3_ResourceLocator_DynamicParametersEntry__fields[0],
   48, 2, kUpb_ExtMode_NonExtendable, 2, UPB_FASTTABLE_MASK(24), 0,
+#ifdef UPB_TRACING_ENABLED
+  "envoy.service.discovery.v3.ResourceLocator.DynamicParametersEntry",
+#endif
   UPB_FASTTABLE_INIT({
     {0x0000000000000000, &_upb_FastDecoder_DecodeGeneric},
     {0x001000003f00000a, &upb_pss_1bt},
@@ -55,8 +64,9 @@ const upb_MiniTable envoy__service__discovery__v3__ResourceLocator__DynamicParam
   })
 };
 
-static const upb_MiniTableSub envoy_service_discovery_v3_ResourceName_submsgs[1] = {
-  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__DynamicParameterConstraints_msg_init},
+const upb_MiniTable* envoy__service__discovery__v3__ResourceLocator__DynamicParametersEntry_msg_init_ptr = &envoy__service__discovery__v3__ResourceLocator__DynamicParametersEntry_msg_init;
+static const upb_MiniTableSubInternal envoy_service_discovery_v3_ResourceName__submsgs[1] = {
+  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__DynamicParameterConstraints_msg_init_ptr},
 };
 
 static const upb_MiniTableField envoy_service_discovery_v3_ResourceName__fields[2] = {
@@ -65,19 +75,23 @@ static const upb_MiniTableField envoy_service_discovery_v3_ResourceName__fields[
 };
 
 const upb_MiniTable envoy__service__discovery__v3__ResourceName_msg_init = {
-  &envoy_service_discovery_v3_ResourceName_submsgs[0],
+  &envoy_service_discovery_v3_ResourceName__submsgs[0],
   &envoy_service_discovery_v3_ResourceName__fields[0],
   UPB_SIZE(24, 40), 2, kUpb_ExtMode_NonExtendable, 2, UPB_FASTTABLE_MASK(8), 0,
+#ifdef UPB_TRACING_ENABLED
+  "envoy.service.discovery.v3.ResourceName",
+#endif
   UPB_FASTTABLE_INIT({
     {0x0000000000000000, &_upb_FastDecoder_DecodeGeneric},
     {0x001000003f00000a, &upb_pss_1bt},
   })
 };
 
-static const upb_MiniTableSub envoy_service_discovery_v3_DiscoveryRequest_submsgs[3] = {
-  {.UPB_PRIVATE(submsg) = &envoy__config__core__v3__Node_msg_init},
-  {.UPB_PRIVATE(submsg) = &google__rpc__Status_msg_init},
-  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__ResourceLocator_msg_init},
+const upb_MiniTable* envoy__service__discovery__v3__ResourceName_msg_init_ptr = &envoy__service__discovery__v3__ResourceName_msg_init;
+static const upb_MiniTableSubInternal envoy_service_discovery_v3_DiscoveryRequest__submsgs[3] = {
+  {.UPB_PRIVATE(submsg) = &envoy__config__core__v3__Node_msg_init_ptr},
+  {.UPB_PRIVATE(submsg) = &google__rpc__Status_msg_init_ptr},
+  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__ResourceLocator_msg_init_ptr},
 };
 
 static const upb_MiniTableField envoy_service_discovery_v3_DiscoveryRequest__fields[7] = {
@@ -91,9 +105,12 @@ static const upb_MiniTableField envoy_service_discovery_v3_DiscoveryRequest__fie
 };
 
 const upb_MiniTable envoy__service__discovery__v3__DiscoveryRequest_msg_init = {
-  &envoy_service_discovery_v3_DiscoveryRequest_submsgs[0],
+  &envoy_service_discovery_v3_DiscoveryRequest__submsgs[0],
   &envoy_service_discovery_v3_DiscoveryRequest__fields[0],
   UPB_SIZE(56, 96), 7, kUpb_ExtMode_NonExtendable, 7, UPB_FASTTABLE_MASK(56), 0,
+#ifdef UPB_TRACING_ENABLED
+  "envoy.service.discovery.v3.DiscoveryRequest",
+#endif
   UPB_FASTTABLE_INIT({
     {0x0000000000000000, &_upb_FastDecoder_DecodeGeneric},
     {0x001000003f00000a, &upb_pss_1bt},
@@ -106,9 +123,10 @@ const upb_MiniTable envoy__service__discovery__v3__DiscoveryRequest_msg_init = {
   })
 };
 
-static const upb_MiniTableSub envoy_service_discovery_v3_DiscoveryResponse_submsgs[2] = {
-  {.UPB_PRIVATE(submsg) = &google__protobuf__Any_msg_init},
-  {.UPB_PRIVATE(submsg) = &envoy__config__core__v3__ControlPlane_msg_init},
+const upb_MiniTable* envoy__service__discovery__v3__DiscoveryRequest_msg_init_ptr = &envoy__service__discovery__v3__DiscoveryRequest_msg_init;
+static const upb_MiniTableSubInternal envoy_service_discovery_v3_DiscoveryResponse__submsgs[2] = {
+  {.UPB_PRIVATE(submsg) = &google__protobuf__Any_msg_init_ptr},
+  {.UPB_PRIVATE(submsg) = &envoy__config__core__v3__ControlPlane_msg_init_ptr},
 };
 
 static const upb_MiniTableField envoy_service_discovery_v3_DiscoveryResponse__fields[6] = {
@@ -121,9 +139,12 @@ static const upb_MiniTableField envoy_service_discovery_v3_DiscoveryResponse__fi
 };
 
 const upb_MiniTable envoy__service__discovery__v3__DiscoveryResponse_msg_init = {
-  &envoy_service_discovery_v3_DiscoveryResponse_submsgs[0],
+  &envoy_service_discovery_v3_DiscoveryResponse__submsgs[0],
   &envoy_service_discovery_v3_DiscoveryResponse__fields[0],
   UPB_SIZE(48, 80), 6, kUpb_ExtMode_NonExtendable, 6, UPB_FASTTABLE_MASK(56), 0,
+#ifdef UPB_TRACING_ENABLED
+  "envoy.service.discovery.v3.DiscoveryResponse",
+#endif
   UPB_FASTTABLE_INIT({
     {0x0000000000000000, &_upb_FastDecoder_DecodeGeneric},
     {0x001000003f00000a, &upb_pss_1bt},
@@ -136,12 +157,13 @@ const upb_MiniTable envoy__service__discovery__v3__DiscoveryResponse_msg_init = 
   })
 };
 
-static const upb_MiniTableSub envoy_service_discovery_v3_DeltaDiscoveryRequest_submsgs[5] = {
-  {.UPB_PRIVATE(submsg) = &envoy__config__core__v3__Node_msg_init},
-  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__DeltaDiscoveryRequest__InitialResourceVersionsEntry_msg_init},
-  {.UPB_PRIVATE(submsg) = &google__rpc__Status_msg_init},
-  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__ResourceLocator_msg_init},
-  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__ResourceLocator_msg_init},
+const upb_MiniTable* envoy__service__discovery__v3__DiscoveryResponse_msg_init_ptr = &envoy__service__discovery__v3__DiscoveryResponse_msg_init;
+static const upb_MiniTableSubInternal envoy_service_discovery_v3_DeltaDiscoveryRequest__submsgs[5] = {
+  {.UPB_PRIVATE(submsg) = &envoy__config__core__v3__Node_msg_init_ptr},
+  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__DeltaDiscoveryRequest__InitialResourceVersionsEntry_msg_init_ptr},
+  {.UPB_PRIVATE(submsg) = &google__rpc__Status_msg_init_ptr},
+  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__ResourceLocator_msg_init_ptr},
+  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__ResourceLocator_msg_init_ptr},
 };
 
 static const upb_MiniTableField envoy_service_discovery_v3_DeltaDiscoveryRequest__fields[9] = {
@@ -157,9 +179,12 @@ static const upb_MiniTableField envoy_service_discovery_v3_DeltaDiscoveryRequest
 };
 
 const upb_MiniTable envoy__service__discovery__v3__DeltaDiscoveryRequest_msg_init = {
-  &envoy_service_discovery_v3_DeltaDiscoveryRequest_submsgs[0],
+  &envoy_service_discovery_v3_DeltaDiscoveryRequest__submsgs[0],
   &envoy_service_discovery_v3_DeltaDiscoveryRequest__fields[0],
   UPB_SIZE(56, 104), 9, kUpb_ExtMode_NonExtendable, 9, UPB_FASTTABLE_MASK(120), 0,
+#ifdef UPB_TRACING_ENABLED
+  "envoy.service.discovery.v3.DeltaDiscoveryRequest",
+#endif
   UPB_FASTTABLE_INIT({
     {0x0000000000000000, &_upb_FastDecoder_DecodeGeneric},
     {0x0000000000000000, &_upb_FastDecoder_DecodeGeneric},
@@ -180,6 +205,7 @@ const upb_MiniTable envoy__service__discovery__v3__DeltaDiscoveryRequest_msg_ini
   })
 };
 
+const upb_MiniTable* envoy__service__discovery__v3__DeltaDiscoveryRequest_msg_init_ptr = &envoy__service__discovery__v3__DeltaDiscoveryRequest_msg_init;
 static const upb_MiniTableField envoy_service_discovery_v3_DeltaDiscoveryRequest_InitialResourceVersionsEntry__fields[2] = {
   {1, 16, 0, kUpb_NoSub, 9, (int)kUpb_FieldMode_Scalar | ((int)kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
   {2, 32, 0, kUpb_NoSub, 9, (int)kUpb_FieldMode_Scalar | ((int)kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
@@ -189,6 +215,9 @@ const upb_MiniTable envoy__service__discovery__v3__DeltaDiscoveryRequest__Initia
   NULL,
   &envoy_service_discovery_v3_DeltaDiscoveryRequest_InitialResourceVersionsEntry__fields[0],
   48, 2, kUpb_ExtMode_NonExtendable, 2, UPB_FASTTABLE_MASK(24), 0,
+#ifdef UPB_TRACING_ENABLED
+  "envoy.service.discovery.v3.DeltaDiscoveryRequest.InitialResourceVersionsEntry",
+#endif
   UPB_FASTTABLE_INIT({
     {0x0000000000000000, &_upb_FastDecoder_DecodeGeneric},
     {0x001000003f00000a, &upb_pss_1bt},
@@ -197,10 +226,11 @@ const upb_MiniTable envoy__service__discovery__v3__DeltaDiscoveryRequest__Initia
   })
 };
 
-static const upb_MiniTableSub envoy_service_discovery_v3_DeltaDiscoveryResponse_submsgs[3] = {
-  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__Resource_msg_init},
-  {.UPB_PRIVATE(submsg) = &envoy__config__core__v3__ControlPlane_msg_init},
-  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__ResourceName_msg_init},
+const upb_MiniTable* envoy__service__discovery__v3__DeltaDiscoveryRequest__InitialResourceVersionsEntry_msg_init_ptr = &envoy__service__discovery__v3__DeltaDiscoveryRequest__InitialResourceVersionsEntry_msg_init;
+static const upb_MiniTableSubInternal envoy_service_discovery_v3_DeltaDiscoveryResponse__submsgs[3] = {
+  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__Resource_msg_init_ptr},
+  {.UPB_PRIVATE(submsg) = &envoy__config__core__v3__ControlPlane_msg_init_ptr},
+  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__ResourceName_msg_init_ptr},
 };
 
 static const upb_MiniTableField envoy_service_discovery_v3_DeltaDiscoveryResponse__fields[7] = {
@@ -214,9 +244,12 @@ static const upb_MiniTableField envoy_service_discovery_v3_DeltaDiscoveryRespons
 };
 
 const upb_MiniTable envoy__service__discovery__v3__DeltaDiscoveryResponse_msg_init = {
-  &envoy_service_discovery_v3_DeltaDiscoveryResponse_submsgs[0],
+  &envoy_service_discovery_v3_DeltaDiscoveryResponse__submsgs[0],
   &envoy_service_discovery_v3_DeltaDiscoveryResponse__fields[0],
   UPB_SIZE(56, 96), 7, kUpb_ExtMode_NonExtendable, 2, UPB_FASTTABLE_MASK(120), 0,
+#ifdef UPB_TRACING_ENABLED
+  "envoy.service.discovery.v3.DeltaDiscoveryResponse",
+#endif
   UPB_FASTTABLE_INIT({
     {0x0000000000000000, &_upb_FastDecoder_DecodeGeneric},
     {0x001000003f00000a, &upb_pss_1bt},
@@ -237,11 +270,12 @@ const upb_MiniTable envoy__service__discovery__v3__DeltaDiscoveryResponse_msg_in
   })
 };
 
-static const upb_MiniTableSub envoy_service_discovery_v3_DynamicParameterConstraints_submsgs[4] = {
-  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__DynamicParameterConstraints__SingleConstraint_msg_init},
-  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__DynamicParameterConstraints__ConstraintList_msg_init},
-  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__DynamicParameterConstraints__ConstraintList_msg_init},
-  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__DynamicParameterConstraints_msg_init},
+const upb_MiniTable* envoy__service__discovery__v3__DeltaDiscoveryResponse_msg_init_ptr = &envoy__service__discovery__v3__DeltaDiscoveryResponse_msg_init;
+static const upb_MiniTableSubInternal envoy_service_discovery_v3_DynamicParameterConstraints__submsgs[4] = {
+  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__DynamicParameterConstraints__SingleConstraint_msg_init_ptr},
+  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__DynamicParameterConstraints__ConstraintList_msg_init_ptr},
+  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__DynamicParameterConstraints__ConstraintList_msg_init_ptr},
+  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__DynamicParameterConstraints_msg_init_ptr},
 };
 
 static const upb_MiniTableField envoy_service_discovery_v3_DynamicParameterConstraints__fields[4] = {
@@ -252,9 +286,12 @@ static const upb_MiniTableField envoy_service_discovery_v3_DynamicParameterConst
 };
 
 const upb_MiniTable envoy__service__discovery__v3__DynamicParameterConstraints_msg_init = {
-  &envoy_service_discovery_v3_DynamicParameterConstraints_submsgs[0],
+  &envoy_service_discovery_v3_DynamicParameterConstraints__submsgs[0],
   &envoy_service_discovery_v3_DynamicParameterConstraints__fields[0],
   UPB_SIZE(16, 24), 4, kUpb_ExtMode_NonExtendable, 4, UPB_FASTTABLE_MASK(56), 0,
+#ifdef UPB_TRACING_ENABLED
+  "envoy.service.discovery.v3.DynamicParameterConstraints",
+#endif
   UPB_FASTTABLE_INIT({
     {0x0000000000000000, &_upb_FastDecoder_DecodeGeneric},
     {0x001000080100000a, &upb_pom_1bt_max64b},
@@ -267,8 +304,9 @@ const upb_MiniTable envoy__service__discovery__v3__DynamicParameterConstraints_m
   })
 };
 
-static const upb_MiniTableSub envoy_service_discovery_v3_DynamicParameterConstraints_SingleConstraint_submsgs[1] = {
-  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__DynamicParameterConstraints__SingleConstraint__Exists_msg_init},
+const upb_MiniTable* envoy__service__discovery__v3__DynamicParameterConstraints_msg_init_ptr = &envoy__service__discovery__v3__DynamicParameterConstraints_msg_init;
+static const upb_MiniTableSubInternal envoy_service_discovery_v3_DynamicParameterConstraints_SingleConstraint__submsgs[1] = {
+  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__DynamicParameterConstraints__SingleConstraint__Exists_msg_init_ptr},
 };
 
 static const upb_MiniTableField envoy_service_discovery_v3_DynamicParameterConstraints_SingleConstraint__fields[3] = {
@@ -278,9 +316,12 @@ static const upb_MiniTableField envoy_service_discovery_v3_DynamicParameterConst
 };
 
 const upb_MiniTable envoy__service__discovery__v3__DynamicParameterConstraints__SingleConstraint_msg_init = {
-  &envoy_service_discovery_v3_DynamicParameterConstraints_SingleConstraint_submsgs[0],
+  &envoy_service_discovery_v3_DynamicParameterConstraints_SingleConstraint__submsgs[0],
   &envoy_service_discovery_v3_DynamicParameterConstraints_SingleConstraint__fields[0],
   UPB_SIZE(32, 48), 3, kUpb_ExtMode_NonExtendable, 3, UPB_FASTTABLE_MASK(24), 0,
+#ifdef UPB_TRACING_ENABLED
+  "envoy.service.discovery.v3.DynamicParameterConstraints.SingleConstraint",
+#endif
   UPB_FASTTABLE_INIT({
     {0x0000000000000000, &_upb_FastDecoder_DecodeGeneric},
     {0x002000003f00000a, &upb_pss_1bt},
@@ -289,14 +330,19 @@ const upb_MiniTable envoy__service__discovery__v3__DynamicParameterConstraints__
   })
 };
 
+const upb_MiniTable* envoy__service__discovery__v3__DynamicParameterConstraints__SingleConstraint_msg_init_ptr = &envoy__service__discovery__v3__DynamicParameterConstraints__SingleConstraint_msg_init;
 const upb_MiniTable envoy__service__discovery__v3__DynamicParameterConstraints__SingleConstraint__Exists_msg_init = {
   NULL,
   NULL,
   8, 0, kUpb_ExtMode_NonExtendable, 0, UPB_FASTTABLE_MASK(255), 0,
+#ifdef UPB_TRACING_ENABLED
+  "envoy.service.discovery.v3.DynamicParameterConstraints.SingleConstraint.Exists",
+#endif
 };
 
-static const upb_MiniTableSub envoy_service_discovery_v3_DynamicParameterConstraints_ConstraintList_submsgs[1] = {
-  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__DynamicParameterConstraints_msg_init},
+const upb_MiniTable* envoy__service__discovery__v3__DynamicParameterConstraints__SingleConstraint__Exists_msg_init_ptr = &envoy__service__discovery__v3__DynamicParameterConstraints__SingleConstraint__Exists_msg_init;
+static const upb_MiniTableSubInternal envoy_service_discovery_v3_DynamicParameterConstraints_ConstraintList__submsgs[1] = {
+  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__DynamicParameterConstraints_msg_init_ptr},
 };
 
 static const upb_MiniTableField envoy_service_discovery_v3_DynamicParameterConstraints_ConstraintList__fields[1] = {
@@ -304,21 +350,25 @@ static const upb_MiniTableField envoy_service_discovery_v3_DynamicParameterConst
 };
 
 const upb_MiniTable envoy__service__discovery__v3__DynamicParameterConstraints__ConstraintList_msg_init = {
-  &envoy_service_discovery_v3_DynamicParameterConstraints_ConstraintList_submsgs[0],
+  &envoy_service_discovery_v3_DynamicParameterConstraints_ConstraintList__submsgs[0],
   &envoy_service_discovery_v3_DynamicParameterConstraints_ConstraintList__fields[0],
   16, 1, kUpb_ExtMode_NonExtendable, 1, UPB_FASTTABLE_MASK(8), 0,
+#ifdef UPB_TRACING_ENABLED
+  "envoy.service.discovery.v3.DynamicParameterConstraints.ConstraintList",
+#endif
   UPB_FASTTABLE_INIT({
     {0x0000000000000000, &_upb_FastDecoder_DecodeGeneric},
     {0x000800003f00000a, &upb_prm_1bt_max64b},
   })
 };
 
-static const upb_MiniTableSub envoy_service_discovery_v3_Resource_submsgs[5] = {
-  {.UPB_PRIVATE(submsg) = &google__protobuf__Any_msg_init},
-  {.UPB_PRIVATE(submsg) = &google__protobuf__Duration_msg_init},
-  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__Resource__CacheControl_msg_init},
-  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__ResourceName_msg_init},
-  {.UPB_PRIVATE(submsg) = &envoy__config__core__v3__Metadata_msg_init},
+const upb_MiniTable* envoy__service__discovery__v3__DynamicParameterConstraints__ConstraintList_msg_init_ptr = &envoy__service__discovery__v3__DynamicParameterConstraints__ConstraintList_msg_init;
+static const upb_MiniTableSubInternal envoy_service_discovery_v3_Resource__submsgs[5] = {
+  {.UPB_PRIVATE(submsg) = &google__protobuf__Any_msg_init_ptr},
+  {.UPB_PRIVATE(submsg) = &google__protobuf__Duration_msg_init_ptr},
+  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__Resource__CacheControl_msg_init_ptr},
+  {.UPB_PRIVATE(submsg) = &envoy__service__discovery__v3__ResourceName_msg_init_ptr},
+  {.UPB_PRIVATE(submsg) = &envoy__config__core__v3__Metadata_msg_init_ptr},
 };
 
 static const upb_MiniTableField envoy_service_discovery_v3_Resource__fields[8] = {
@@ -333,9 +383,12 @@ static const upb_MiniTableField envoy_service_discovery_v3_Resource__fields[8] =
 };
 
 const upb_MiniTable envoy__service__discovery__v3__Resource_msg_init = {
-  &envoy_service_discovery_v3_Resource_submsgs[0],
+  &envoy_service_discovery_v3_Resource__submsgs[0],
   &envoy_service_discovery_v3_Resource__fields[0],
   UPB_SIZE(56, 96), 8, kUpb_ExtMode_NonExtendable, 4, UPB_FASTTABLE_MASK(56), 0,
+#ifdef UPB_TRACING_ENABLED
+  "envoy.service.discovery.v3.Resource",
+#endif
   UPB_FASTTABLE_INIT({
     {0x0000000000000000, &_upb_FastDecoder_DecodeGeneric},
     {0x001000003f00000a, &upb_pss_1bt},
@@ -348,6 +401,7 @@ const upb_MiniTable envoy__service__discovery__v3__Resource_msg_init = {
   })
 };
 
+const upb_MiniTable* envoy__service__discovery__v3__Resource_msg_init_ptr = &envoy__service__discovery__v3__Resource_msg_init;
 static const upb_MiniTableField envoy_service_discovery_v3_Resource_CacheControl__fields[1] = {
   {1, 8, 0, kUpb_NoSub, 8, (int)kUpb_FieldMode_Scalar | ((int)kUpb_FieldRep_1Byte << kUpb_FieldRep_Shift)},
 };
@@ -356,12 +410,16 @@ const upb_MiniTable envoy__service__discovery__v3__Resource__CacheControl_msg_in
   NULL,
   &envoy_service_discovery_v3_Resource_CacheControl__fields[0],
   16, 1, kUpb_ExtMode_NonExtendable, 1, UPB_FASTTABLE_MASK(8), 0,
+#ifdef UPB_TRACING_ENABLED
+  "envoy.service.discovery.v3.Resource.CacheControl",
+#endif
   UPB_FASTTABLE_INIT({
     {0x0000000000000000, &_upb_FastDecoder_DecodeGeneric},
     {0x000800003f000008, &upb_psb1_1bt},
   })
 };
 
+const upb_MiniTable* envoy__service__discovery__v3__Resource__CacheControl_msg_init_ptr = &envoy__service__discovery__v3__Resource__CacheControl_msg_init;
 static const upb_MiniTable *messages_layout[14] = {
   &envoy__service__discovery__v3__ResourceLocator_msg_init,
   &envoy__service__discovery__v3__ResourceLocator__DynamicParametersEntry_msg_init,

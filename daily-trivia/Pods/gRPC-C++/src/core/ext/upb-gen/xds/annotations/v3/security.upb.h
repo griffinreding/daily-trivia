@@ -3,10 +3,11 @@
  *     xds/annotations/v3/security.proto
  *
  * Do not edit -- your changes will be discarded when the file is
- * regenerated. */
+ * regenerated.
+ * NO CHECKED-IN PROTOBUF GENCODE */
 
-#ifndef XDS_ANNOTATIONS_V3_SECURITY_PROTO_UPB_H_
-#define XDS_ANNOTATIONS_V3_SECURITY_PROTO_UPB_H_
+#ifndef XDS_ANNOTATIONS_V3_SECURITY_PROTO_UPB_H__UPB_H_
+#define XDS_ANNOTATIONS_V3_SECURITY_PROTO_UPB_H__UPB_H_
 
 #include "upb/generated_code_support.h"
 
@@ -90,11 +91,11 @@ UPB_INLINE bool xds_annotations_v3_FieldSecurityAnnotation_configure_for_untrust
 
 UPB_INLINE void xds_annotations_v3_FieldSecurityAnnotation_set_configure_for_untrusted_downstream(xds_annotations_v3_FieldSecurityAnnotation *msg, bool value) {
   const upb_MiniTableField field = {1, 8, 0, kUpb_NoSub, 8, (int)kUpb_FieldMode_Scalar | ((int)kUpb_FieldRep_1Byte << kUpb_FieldRep_Shift)};
-  _upb_Message_SetNonExtensionField((upb_Message *)msg, &field, &value);
+  upb_Message_SetBaseField((upb_Message *)msg, &field, &value);
 }
 UPB_INLINE void xds_annotations_v3_FieldSecurityAnnotation_set_configure_for_untrusted_upstream(xds_annotations_v3_FieldSecurityAnnotation *msg, bool value) {
   const upb_MiniTableField field = {2, 9, 0, kUpb_NoSub, 8, (int)kUpb_FieldMode_Scalar | ((int)kUpb_FieldRep_1Byte << kUpb_FieldRep_Shift)};
-  _upb_Message_SetNonExtensionField((upb_Message *)msg, &field, &value);
+  upb_Message_SetBaseField((upb_Message *)msg, &field, &value);
 }
 
 UPB_INLINE bool xds_annotations_v3_has_security(const struct google_protobuf_FieldOptions* msg) {
@@ -107,7 +108,7 @@ UPB_INLINE const xds_annotations_v3_FieldSecurityAnnotation* xds_annotations_v3_
   const upb_MiniTableExtension* ext = &xds_annotations_v3_security_ext;
   UPB_ASSUME(upb_MiniTableField_IsScalar(&ext->UPB_PRIVATE(field)));
   UPB_ASSUME(UPB_PRIVATE(_upb_MiniTableField_GetRep)(
-                 &ext->UPB_PRIVATE(field)) == kUpb_FieldRep_8Byte);
+                 &ext->UPB_PRIVATE(field)) == UPB_SIZE(kUpb_FieldRep_4Byte, kUpb_FieldRep_8Byte));
   const xds_annotations_v3_FieldSecurityAnnotation* default_val = NULL;
   const xds_annotations_v3_FieldSecurityAnnotation* ret;
   _upb_Message_GetExtensionField((upb_Message*)msg, ext, &default_val, &ret);
@@ -117,9 +118,18 @@ UPB_INLINE void xds_annotations_v3_set_security(struct google_protobuf_FieldOpti
   const upb_MiniTableExtension* ext = &xds_annotations_v3_security_ext;
   UPB_ASSUME(upb_MiniTableField_IsScalar(&ext->UPB_PRIVATE(field)));
   UPB_ASSUME(UPB_PRIVATE(_upb_MiniTableField_GetRep)(
-                 &ext->UPB_PRIVATE(field)) == kUpb_FieldRep_8Byte);
-  bool ok = _upb_Message_SetExtensionField((upb_Message*)msg, ext, &val, arena);
+                 &ext->UPB_PRIVATE(field)) == UPB_SIZE(kUpb_FieldRep_4Byte, kUpb_FieldRep_8Byte));
+  bool ok = upb_Message_SetExtension((upb_Message*)msg, ext, &val, arena);
   UPB_ASSERT(ok);
+}
+UPB_INLINE struct xds_annotations_v3_FieldSecurityAnnotation* xds_annotations_v3_mutable_security(struct google_protobuf_FieldOptions* msg,
+                                    upb_Arena* arena) {
+  struct xds_annotations_v3_FieldSecurityAnnotation* sub = (struct xds_annotations_v3_FieldSecurityAnnotation*)xds_annotations_v3_security(msg);
+  if (sub == NULL) {
+    sub = (struct xds_annotations_v3_FieldSecurityAnnotation*)_upb_Message_New(&xds__annotations__v3__FieldSecurityAnnotation_msg_init, arena);
+    if (sub) xds_annotations_v3_set_security(msg, sub, arena);
+  }
+  return sub;
 }
 #ifdef __cplusplus
 }  /* extern "C" */
@@ -127,4 +137,4 @@ UPB_INLINE void xds_annotations_v3_set_security(struct google_protobuf_FieldOpti
 
 #include "upb/port/undef.inc"
 
-#endif  /* XDS_ANNOTATIONS_V3_SECURITY_PROTO_UPB_H_ */
+#endif  /* XDS_ANNOTATIONS_V3_SECURITY_PROTO_UPB_H__UPB_H_ */
