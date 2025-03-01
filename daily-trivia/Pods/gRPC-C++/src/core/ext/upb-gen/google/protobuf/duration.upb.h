@@ -3,14 +3,16 @@
  *     google/protobuf/duration.proto
  *
  * Do not edit -- your changes will be discarded when the file is
- * regenerated. */
+ * regenerated.
+ * NO CHECKED-IN PROTOBUF GENCODE */
 
-#ifndef GOOGLE_PROTOBUF_DURATION_PROTO_UPB_H_
-#define GOOGLE_PROTOBUF_DURATION_PROTO_UPB_H_
+#ifndef GOOGLE_PROTOBUF_DURATION_PROTO_UPB_H__UPB_H_
+#define GOOGLE_PROTOBUF_DURATION_PROTO_UPB_H__UPB_H_
 
 #include "upb/generated_code_support.h"
 
 #include "google/protobuf/duration.upb_minitable.h"
+
 
 // Must be last.
 #include "upb/port/def.inc"
@@ -86,11 +88,11 @@ UPB_INLINE int32_t google_protobuf_Duration_nanos(const google_protobuf_Duration
 
 UPB_INLINE void google_protobuf_Duration_set_seconds(google_protobuf_Duration *msg, int64_t value) {
   const upb_MiniTableField field = {1, 16, 0, kUpb_NoSub, 3, (int)kUpb_FieldMode_Scalar | ((int)kUpb_FieldRep_8Byte << kUpb_FieldRep_Shift)};
-  _upb_Message_SetNonExtensionField((upb_Message *)msg, &field, &value);
+  upb_Message_SetBaseField((upb_Message *)msg, &field, &value);
 }
 UPB_INLINE void google_protobuf_Duration_set_nanos(google_protobuf_Duration *msg, int32_t value) {
   const upb_MiniTableField field = {2, 8, 0, kUpb_NoSub, 5, (int)kUpb_FieldMode_Scalar | ((int)kUpb_FieldRep_4Byte << kUpb_FieldRep_Shift)};
-  _upb_Message_SetNonExtensionField((upb_Message *)msg, &field, &value);
+  upb_Message_SetBaseField((upb_Message *)msg, &field, &value);
 }
 
 #ifdef __cplusplus
@@ -99,4 +101,4 @@ UPB_INLINE void google_protobuf_Duration_set_nanos(google_protobuf_Duration *msg
 
 #include "upb/port/undef.inc"
 
-#endif  /* GOOGLE_PROTOBUF_DURATION_PROTO_UPB_H_ */
+#endif  /* GOOGLE_PROTOBUF_DURATION_PROTO_UPB_H__UPB_H_ */

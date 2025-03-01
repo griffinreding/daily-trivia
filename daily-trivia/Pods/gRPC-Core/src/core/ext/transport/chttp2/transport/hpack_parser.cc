@@ -18,6 +18,8 @@
 
 #include "src/core/ext/transport/chttp2/transport/hpack_parser.h"
 
+#include <grpc/slice.h>
+#include <grpc/support/port_platform.h>
 #include <stddef.h>
 #include <stdlib.h>
 
@@ -28,6 +30,7 @@
 
 #include "absl/base/attributes.h"
 #include "absl/log/check.h"
+#include "absl/log/log.h"
 #include "absl/status/status.h"
 #include "absl/strings/match.h"
 #include "absl/strings/str_cat.h"
@@ -35,17 +38,11 @@
 #include "absl/types/optional.h"
 #include "absl/types/span.h"
 #include "absl/types/variant.h"
-
-#include <grpc/slice.h>
-#include <grpc/support/log.h>
-#include <grpc/support/port_platform.h>
-
 #include "src/core/ext/transport/chttp2/transport/decode_huff.h"
 #include "src/core/ext/transport/chttp2/transport/hpack_constants.h"
 #include "src/core/ext/transport/chttp2/transport/hpack_parse_result.h"
 #include "src/core/ext/transport/chttp2/transport/hpack_parser_table.h"
 #include "src/core/lib/debug/trace.h"
-#include "src/core/lib/gprpp/match.h"
 #include "src/core/lib/slice/slice.h"
 #include "src/core/lib/slice/slice_refcount.h"
 #include "src/core/lib/surface/validate_metadata.h"
@@ -54,6 +51,7 @@
 #include "src/core/telemetry/call_tracer.h"
 #include "src/core/telemetry/stats.h"
 #include "src/core/telemetry/stats_data.h"
+#include "src/core/util/match.h"
 
 // IWYU pragma: no_include <type_traits>
 
@@ -405,7 +403,7 @@ absl::optional<std::vector<uint8_t>> HPackParser::String::Unbase64Loop(
   }
 
   std::vector<uint8_t> out;
-  out.reserve(3 * (end - cur) / 4 + 3);
+  out.reserve((3 * (end - cur) / 4) + 3);
 
   // Decode 4 bytes at a time while we can
   while (end - cur >= 4) {
@@ -710,20 +708,21 @@ class HPackParser::Parser {
         type = "???";
         break;
     }
-    gpr_log(
-        GPR_INFO, "HTTP:%d:%s:%s: %s%s", log_info_.stream_id, type,
-        log_info_.is_client ? "CLI" : "SVR", memento.md.DebugString().c_str(),
-        memento.parse_status == nullptr
-            ? ""
-            : absl::StrCat(" (parse error: ",
-                           memento.parse_status->Materialize().ToString(), ")")
-                  .c_str());
+    LOG(INFO) << "HTTP:" << log_info_.stream_id << ":" << type << ":"
+              << (log_info_.is_client ? "CLI" : "SVR") << ": "
+              << memento.md.DebugString()
+              << (memento.parse_status.get() == nullptr
+                      ? ""
+                      : absl::StrCat(
+                            " (parse error: ",
+                            memento.parse_status->Materialize().ToString(),
+                            ")"));
   }
 
   void EmitHeader(const HPackTable::Memento& md) {
     // Pass up to the transport
     state_.frame_length += md.md.transport_size();
-    if (md.parse_status != nullptr) {
+    if (md.parse_status.get() != nullptr) {
       // Reject any requests with invalid metadata.
       input_->SetErrorAndContinueParsing(*md.parse_status);
     }
@@ -973,7 +972,7 @@ class HPackParser::Parser {
     } else {
       const auto* memento = absl::get<const HPackTable::Memento*>(state_.key);
       key_string = memento->md.key();
-      if (state_.field_error.ok() && memento->parse_status != nullptr) {
+      if (state_.field_error.ok() && memento->parse_status.get() != nullptr) {
         input_->SetErrorAndContinueParsing(*memento->parse_status);
       }
     }
@@ -1004,9 +1003,8 @@ class HPackParser::Parser {
           if (!state_.field_error.ok()) return;
           input_->SetErrorAndContinueParsing(
               HpackParseResult::MetadataParseError(key_string));
-          gpr_log(GPR_ERROR, "Error parsing '%s' metadata: %s",
-                  std::string(key_string).c_str(),
-                  std::string(message).c_str());
+          LOG(ERROR) << "Error parsing '" << key_string
+                     << "' metadata: " << message;
         });
     HPackTable::Memento memento{
         std::move(md), state_.field_error.PersistentStreamErrorOrNullptr()};

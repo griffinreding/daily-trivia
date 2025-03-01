@@ -584,6 +584,11 @@ bool dtls1_add_message(SSL *ssl, Array<uint8_t> data) {
 }
 
 bool dtls1_add_change_cipher_spec(SSL *ssl) {
+  // DTLS 1.3 disables compatibility mode, which means that DTLS 1.3 never sends
+  // a ChangeCipherSpec message.
+  if (ssl_protocol_version(ssl) > TLS1_2_VERSION) {
+    return true;
+  }
   return add_outgoing(ssl, true /* ChangeCipherSpec */, Array<uint8_t>());
 }
 
@@ -623,12 +628,6 @@ static enum seal_result_t seal_next_message(SSL *ssl, uint8_t *out,
                                             const DTLS_OUTGOING_MESSAGE *msg) {
   assert(ssl->d1->outgoing_written < ssl->d1->outgoing_messages_len);
   assert(msg == &ssl->d1->outgoing_messages[ssl->d1->outgoing_written]);
-
-  if (msg->epoch != ssl->d1->w_epoch &&
-      (ssl->d1->w_epoch == 0 || msg->epoch != ssl->d1->w_epoch - 1)) {
-    OPENSSL_PUT_ERROR(SSL, ERR_R_INTERNAL_ERROR);
-    return seal_error;
-  }
 
   size_t overhead = dtls_max_seal_overhead(ssl, msg->epoch);
   size_t prefix = dtls_seal_prefix_len(ssl, msg->epoch);

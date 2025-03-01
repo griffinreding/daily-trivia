@@ -14,19 +14,17 @@
 #include <grpc/support/port_platform.h>
 
 #ifdef GPR_WINDOWS
-#include "absl/log/check.h"
-#include "absl/log/log.h"
-
 #include <grpc/support/alloc.h>
 #include <grpc/support/log_windows.h>
 
+#include "absl/log/check.h"
+#include "absl/log/log.h"
 #include "src/core/lib/event_engine/tcp_socket_utils.h"
 #include "src/core/lib/event_engine/thread_pool/thread_pool.h"
-#include "src/core/lib/event_engine/trace.h"
 #include "src/core/lib/event_engine/windows/win_socket.h"
-#include "src/core/lib/gprpp/debug_location.h"
-#include "src/core/lib/gprpp/sync.h"
 #include "src/core/lib/iomgr/error.h"
+#include "src/core/util/debug_location.h"
+#include "src/core/util/sync.h"
 
 #if defined(__MSYS__) && defined(GPR_ARCH_64)
 // Nasty workaround for nasty bug when using the 64 bits msys compiler
@@ -49,7 +47,8 @@ WinSocket::WinSocket(SOCKET socket, ThreadPool* thread_pool) noexcept
 
 WinSocket::~WinSocket() {
   CHECK(is_shutdown_.load());
-  GRPC_EVENT_ENGINE_ENDPOINT_TRACE("WinSocket::%p destroyed", this);
+  GRPC_TRACE_LOG(event_engine_endpoint, INFO)
+      << "WinSocket::" << this << " destroyed";
 }
 
 SOCKET WinSocket::raw_socket() { return socket_; }
@@ -57,8 +56,8 @@ SOCKET WinSocket::raw_socket() { return socket_; }
 void WinSocket::Shutdown() {
   // if already shutdown, return early. Otherwise, set the shutdown flag.
   if (is_shutdown_.exchange(true)) {
-    GRPC_EVENT_ENGINE_ENDPOINT_TRACE("WinSocket::%p already shutting down",
-                                     this);
+    GRPC_TRACE_LOG(event_engine_endpoint, INFO)
+        << "WinSocket::" << this << " already shutting down";
     return;
   }
   // Grab the function pointer for DisconnectEx for that specific socket.
@@ -86,14 +85,15 @@ void WinSocket::Shutdown() {
     }
   }
   closesocket(socket_);
-  GRPC_EVENT_ENGINE_ENDPOINT_TRACE("WinSocket::%p socket closed", this);
+  GRPC_TRACE_LOG(event_engine_endpoint, INFO)
+      << "WinSocket::" << this << " socket closed";
 }
 
 void WinSocket::Shutdown(const grpc_core::DebugLocation& location,
                          absl::string_view reason) {
-  GRPC_EVENT_ENGINE_ENDPOINT_TRACE(
-      "WinSocket::%p Shut down from %s:%d. Reason: %s", this, location.file(),
-      location.line(), reason.data());
+  GRPC_TRACE_LOG(event_engine_endpoint, INFO)
+      << "WinSocket::" << this << " Shut down from " << location.file() << ":"
+      << location.line() << ". Reason: " << reason.data();
   Shutdown();
 }
 
@@ -172,10 +172,11 @@ void WinSocket::OpState::GetOverlappedResult(SOCKET sock) {
 bool WinSocket::IsShutdown() { return is_shutdown_.load(); }
 
 WinSocket::OpState* WinSocket::GetOpInfoForOverlapped(OVERLAPPED* overlapped) {
-  GRPC_EVENT_ENGINE_POLLER_TRACE(
-      "WinSocket::%p looking for matching OVERLAPPED::%p. "
-      "read(%p) write(%p)",
-      this, overlapped, &read_info_.overlapped_, &write_info_.overlapped_);
+  GRPC_TRACE_LOG(event_engine_poller, INFO)
+      << "WinSocket::" << this
+      << " looking for matching OVERLAPPED::" << overlapped << ". read("
+      << &read_info_.overlapped_ << ") write(" << &write_info_.overlapped_
+      << ")";
   if (overlapped == &read_info_.overlapped_) return &read_info_;
   if (overlapped == &write_info_.overlapped_) return &write_info_;
   return nullptr;

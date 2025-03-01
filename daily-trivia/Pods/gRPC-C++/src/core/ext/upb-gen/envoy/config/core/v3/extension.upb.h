@@ -3,10 +3,11 @@
  *     envoy/config/core/v3/extension.proto
  *
  * Do not edit -- your changes will be discarded when the file is
- * regenerated. */
+ * regenerated.
+ * NO CHECKED-IN PROTOBUF GENCODE */
 
-#ifndef ENVOY_CONFIG_CORE_V3_EXTENSION_PROTO_UPB_H_
-#define ENVOY_CONFIG_CORE_V3_EXTENSION_PROTO_UPB_H_
+#ifndef ENVOY_CONFIG_CORE_V3_EXTENSION_PROTO_UPB_H__UPB_H_
+#define ENVOY_CONFIG_CORE_V3_EXTENSION_PROTO_UPB_H__UPB_H_
 
 #include "upb/generated_code_support.h"
 
@@ -84,6 +85,7 @@ UPB_INLINE const struct google_protobuf_Any* envoy_config_core_v3_TypedExtension
   const struct google_protobuf_Any* default_val = NULL;
   const struct google_protobuf_Any* ret;
   const upb_MiniTableField field = {2, UPB_SIZE(12, 32), 64, 0, 11, (int)kUpb_FieldMode_Scalar | ((int)UPB_SIZE(kUpb_FieldRep_4Byte, kUpb_FieldRep_8Byte) << kUpb_FieldRep_Shift)};
+  UPB_PRIVATE(_upb_MiniTable_StrongReference)(&google__protobuf__Any_msg_init);
   _upb_Message_GetNonExtensionField(UPB_UPCAST(msg), &field,
                                     &default_val, &ret);
   return ret;
@@ -95,11 +97,12 @@ UPB_INLINE bool envoy_config_core_v3_TypedExtensionConfig_has_typed_config(const
 
 UPB_INLINE void envoy_config_core_v3_TypedExtensionConfig_set_name(envoy_config_core_v3_TypedExtensionConfig *msg, upb_StringView value) {
   const upb_MiniTableField field = {1, 16, 0, kUpb_NoSub, 9, (int)kUpb_FieldMode_Scalar | ((int)kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)};
-  _upb_Message_SetNonExtensionField((upb_Message *)msg, &field, &value);
+  upb_Message_SetBaseField((upb_Message *)msg, &field, &value);
 }
 UPB_INLINE void envoy_config_core_v3_TypedExtensionConfig_set_typed_config(envoy_config_core_v3_TypedExtensionConfig *msg, struct google_protobuf_Any* value) {
   const upb_MiniTableField field = {2, UPB_SIZE(12, 32), 64, 0, 11, (int)kUpb_FieldMode_Scalar | ((int)UPB_SIZE(kUpb_FieldRep_4Byte, kUpb_FieldRep_8Byte) << kUpb_FieldRep_Shift)};
-  _upb_Message_SetNonExtensionField((upb_Message *)msg, &field, &value);
+  UPB_PRIVATE(_upb_MiniTable_StrongReference)(&google__protobuf__Any_msg_init);
+  upb_Message_SetBaseField((upb_Message *)msg, &field, &value);
 }
 UPB_INLINE struct google_protobuf_Any* envoy_config_core_v3_TypedExtensionConfig_mutable_typed_config(envoy_config_core_v3_TypedExtensionConfig* msg, upb_Arena* arena) {
   struct google_protobuf_Any* sub = (struct google_protobuf_Any*)envoy_config_core_v3_TypedExtensionConfig_typed_config(msg);
@@ -116,4 +119,4 @@ UPB_INLINE struct google_protobuf_Any* envoy_config_core_v3_TypedExtensionConfig
 
 #include "upb/port/undef.inc"
 
-#endif  /* ENVOY_CONFIG_CORE_V3_EXTENSION_PROTO_UPB_H_ */
+#endif  /* ENVOY_CONFIG_CORE_V3_EXTENSION_PROTO_UPB_H__UPB_H_ */

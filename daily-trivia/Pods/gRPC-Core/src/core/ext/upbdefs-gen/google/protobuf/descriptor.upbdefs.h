@@ -3,10 +3,11 @@
  *     google/protobuf/descriptor.proto
  *
  * Do not edit -- your changes will be discarded when the file is
- * regenerated. */
+ * regenerated.
+ * NO CHECKED-IN PROTOBUF GENCODE */
 
-#ifndef GOOGLE_PROTOBUF_DESCRIPTOR_PROTO_UPBDEFS_H_
-#define GOOGLE_PROTOBUF_DESCRIPTOR_PROTO_UPBDEFS_H_
+#ifndef GOOGLE_PROTOBUF_DESCRIPTOR_PROTO_UPB_H__UPBDEFS_H_
+#define GOOGLE_PROTOBUF_DESCRIPTOR_PROTO_UPB_H__UPBDEFS_H_
 
 #include "upb/reflection/def.h"
 #include "upb/reflection/internal/def_pool.h"
@@ -108,6 +109,11 @@ UPB_INLINE const upb_MessageDef *google_protobuf_FieldOptions_EditionDefault_get
   return upb_DefPool_FindMessageByName(s, "google.protobuf.FieldOptions.EditionDefault");
 }
 
+UPB_INLINE const upb_MessageDef *google_protobuf_FieldOptions_FeatureSupport_getmsgdef(upb_DefPool *s) {
+  _upb_DefPool_LoadDefInit(s, &google_protobuf_descriptor_proto_upbdefinit);
+  return upb_DefPool_FindMessageByName(s, "google.protobuf.FieldOptions.FeatureSupport");
+}
+
 UPB_INLINE const upb_MessageDef *google_protobuf_OneofOptions_getmsgdef(upb_DefPool *s) {
   _upb_DefPool_LoadDefInit(s, &google_protobuf_descriptor_proto_upbdefinit);
   return upb_DefPool_FindMessageByName(s, "google.protobuf.OneofOptions");
@@ -184,4 +190,4 @@ UPB_INLINE const upb_MessageDef *google_protobuf_GeneratedCodeInfo_Annotation_ge
 
 #include "upb/port/undef.inc"
 
-#endif  /* GOOGLE_PROTOBUF_DESCRIPTOR_PROTO_UPBDEFS_H_ */
+#endif  /* GOOGLE_PROTOBUF_DESCRIPTOR_PROTO_UPB_H__UPBDEFS_H_ */

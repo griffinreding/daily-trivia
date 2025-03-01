@@ -3,10 +3,11 @@
  *     envoy/config/core/v3/base.proto
  *
  * Do not edit -- your changes will be discarded when the file is
- * regenerated. */
+ * regenerated.
+ * NO CHECKED-IN PROTOBUF GENCODE */
 
-#ifndef ENVOY_CONFIG_CORE_V3_BASE_PROTO_UPBDEFS_H_
-#define ENVOY_CONFIG_CORE_V3_BASE_PROTO_UPBDEFS_H_
+#ifndef ENVOY_CONFIG_CORE_V3_BASE_PROTO_UPB_H__UPBDEFS_H_
+#define ENVOY_CONFIG_CORE_V3_BASE_PROTO_UPB_H__UPBDEFS_H_
 
 #include "upb/reflection/def.h"
 #include "upb/reflection/internal/def_pool.h"
@@ -78,6 +79,21 @@ UPB_INLINE const upb_MessageDef *envoy_config_core_v3_RuntimeFeatureFlag_getmsgd
   return upb_DefPool_FindMessageByName(s, "envoy.config.core.v3.RuntimeFeatureFlag");
 }
 
+UPB_INLINE const upb_MessageDef *envoy_config_core_v3_KeyValue_getmsgdef(upb_DefPool *s) {
+  _upb_DefPool_LoadDefInit(s, &envoy_config_core_v3_base_proto_upbdefinit);
+  return upb_DefPool_FindMessageByName(s, "envoy.config.core.v3.KeyValue");
+}
+
+UPB_INLINE const upb_MessageDef *envoy_config_core_v3_KeyValueAppend_getmsgdef(upb_DefPool *s) {
+  _upb_DefPool_LoadDefInit(s, &envoy_config_core_v3_base_proto_upbdefinit);
+  return upb_DefPool_FindMessageByName(s, "envoy.config.core.v3.KeyValueAppend");
+}
+
+UPB_INLINE const upb_MessageDef *envoy_config_core_v3_KeyValueMutation_getmsgdef(upb_DefPool *s) {
+  _upb_DefPool_LoadDefInit(s, &envoy_config_core_v3_base_proto_upbdefinit);
+  return upb_DefPool_FindMessageByName(s, "envoy.config.core.v3.KeyValueMutation");
+}
+
 UPB_INLINE const upb_MessageDef *envoy_config_core_v3_QueryParameter_getmsgdef(upb_DefPool *s) {
   _upb_DefPool_LoadDefInit(s, &envoy_config_core_v3_base_proto_upbdefinit);
   return upb_DefPool_FindMessageByName(s, "envoy.config.core.v3.QueryParameter");
@@ -113,6 +129,16 @@ UPB_INLINE const upb_MessageDef *envoy_config_core_v3_RetryPolicy_getmsgdef(upb_
   return upb_DefPool_FindMessageByName(s, "envoy.config.core.v3.RetryPolicy");
 }
 
+UPB_INLINE const upb_MessageDef *envoy_config_core_v3_RetryPolicy_RetryPriority_getmsgdef(upb_DefPool *s) {
+  _upb_DefPool_LoadDefInit(s, &envoy_config_core_v3_base_proto_upbdefinit);
+  return upb_DefPool_FindMessageByName(s, "envoy.config.core.v3.RetryPolicy.RetryPriority");
+}
+
+UPB_INLINE const upb_MessageDef *envoy_config_core_v3_RetryPolicy_RetryHostPredicate_getmsgdef(upb_DefPool *s) {
+  _upb_DefPool_LoadDefInit(s, &envoy_config_core_v3_base_proto_upbdefinit);
+  return upb_DefPool_FindMessageByName(s, "envoy.config.core.v3.RetryPolicy.RetryHostPredicate");
+}
+
 UPB_INLINE const upb_MessageDef *envoy_config_core_v3_RemoteDataSource_getmsgdef(upb_DefPool *s) {
   _upb_DefPool_LoadDefInit(s, &envoy_config_core_v3_base_proto_upbdefinit);
   return upb_DefPool_FindMessageByName(s, "envoy.config.core.v3.RemoteDataSource");
@@ -144,4 +170,4 @@ UPB_INLINE const upb_MessageDef *envoy_config_core_v3_ControlPlane_getmsgdef(upb
 
 #include "upb/port/undef.inc"
 
-#endif  /* ENVOY_CONFIG_CORE_V3_BASE_PROTO_UPBDEFS_H_ */
+#endif  /* ENVOY_CONFIG_CORE_V3_BASE_PROTO_UPB_H__UPBDEFS_H_ */

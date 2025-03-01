@@ -17,6 +17,8 @@
 
 #include <stdlib.h>
 
+#include <openssl_grpc/aes.h>
+
 #include "../../internal.h"
 
 #if defined(__cplusplus)

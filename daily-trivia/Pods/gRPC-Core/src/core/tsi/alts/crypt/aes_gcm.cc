@@ -16,10 +16,8 @@
 //
 //
 
-#include <string.h>
-
-#include <memory>
-
+#include <grpc/support/alloc.h>
+#include <grpc/support/port_platform.h>
 #if COCOAPODS==1
   #include <openssl_grpc/bio.h>
 #else
@@ -45,12 +43,11 @@
 #else
   #include <openssl/hmac.h>
 #endif
+#include <string.h>
+
+#include <memory>
 
 #include "absl/types/span.h"
-
-#include <grpc/support/alloc.h>
-#include <grpc/support/port_platform.h>
-
 #include "src/core/tsi/alts/crypt/gsec.h"
 
 constexpr size_t kKdfKeyLen = 32;

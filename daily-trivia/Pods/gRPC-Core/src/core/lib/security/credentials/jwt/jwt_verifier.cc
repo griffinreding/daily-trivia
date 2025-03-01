@@ -18,16 +18,8 @@
 
 #include "src/core/lib/security/credentials/jwt/jwt_verifier.h"
 
+#include <grpc/support/port_platform.h>
 #include <limits.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include <map>
-#include <memory>
-#include <string>
-#include <utility>
-#include <vector>
-
 #if COCOAPODS==1
   #include <openssl_grpc/bio.h>
 #else
@@ -63,8 +55,14 @@
 #else
   #include <openssl/x509.h>
 #endif
+#include <stdlib.h>
+#include <string.h>
 
-#include <grpc/support/port_platform.h>
+#include <map>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 #if OPENSSL_VERSION_NUMBER >= 0x30000000L
 #if COCOAPODS==1
   #include <openssl_grpc/param_build.h>
@@ -73,22 +71,18 @@
 #endif
 #endif
 
-#include "absl/log/check.h"
-#include "absl/log/log.h"
-#include "absl/status/status.h"
-#include "absl/status/statusor.h"
-#include "absl/strings/escaping.h"
-#include "absl/strings/string_view.h"
-
 #include <grpc/slice.h>
 #include <grpc/support/alloc.h>
 #include <grpc/support/json.h>
 #include <grpc/support/string_util.h>
 #include <grpc/support/time.h>
 
-#include "src/core/lib/gprpp/manual_constructor.h"
-#include "src/core/lib/gprpp/memory.h"
-#include "src/core/lib/gprpp/orphanable.h"
+#include "absl/log/check.h"
+#include "absl/log/log.h"
+#include "absl/status/status.h"
+#include "absl/status/statusor.h"
+#include "absl/strings/escaping.h"
+#include "absl/strings/string_view.h"
 #include "src/core/lib/iomgr/closure.h"
 #include "src/core/lib/iomgr/error.h"
 #include "src/core/lib/iomgr/exec_ctx.h"
@@ -97,13 +91,16 @@
 #include "src/core/lib/security/credentials/credentials.h"  // IWYU pragma: keep
 #include "src/core/lib/slice/slice.h"
 #include "src/core/lib/slice/slice_internal.h"
-#include "src/core/lib/uri/uri_parser.h"
 #include "src/core/tsi/ssl_types.h"
 #include "src/core/util/http_client/httpcli.h"
 #include "src/core/util/http_client/httpcli_ssl_credentials.h"
 #include "src/core/util/http_client/parser.h"
 #include "src/core/util/json/json_reader.h"
+#include "src/core/util/manual_constructor.h"
+#include "src/core/util/memory.h"
+#include "src/core/util/orphanable.h"
 #include "src/core/util/string.h"
+#include "src/core/util/uri.h"
 
 using grpc_core::Json;
 
@@ -360,7 +357,7 @@ grpc_jwt_verifier_status grpc_jwt_claims_check(const grpc_jwt_claims* claims,
     return GRPC_JWT_VERIFIER_TIME_CONSTRAINT_FAILURE;
   }
 
-  // This should be probably up to the upper layer to decide but let's harcode
+  // This should be probably up to the upper layer to decide but let's hardcode
   // the 99% use case here for email issuers, where the JWT must be self
   // issued.
   if (grpc_jwt_issuer_email_domain(claims->iss) != nullptr &&

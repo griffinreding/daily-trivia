@@ -57,6 +57,7 @@
 #define OPENSSL_HEADER_PKCS8_INTERNAL_H
 
 #include <openssl_grpc/base.h>
+#include <openssl_grpc/stack.h>
 
 #if defined(__cplusplus)
 extern "C" {
