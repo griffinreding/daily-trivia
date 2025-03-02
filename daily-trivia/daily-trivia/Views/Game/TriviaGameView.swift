@@ -18,7 +18,6 @@ struct TriviaGameView: View {
     @State private var errorMessage: String?
     @State private var answerText: String = ""
     @State private var resultMessage: String?
-    @State private var submittedAnswer: SubmittedAnswer?
     @State private var warnedAboutEmptyAnswer: Bool = false
     @State private var showUsernameEntry: Bool = false
     @State private var isShowingBugAlert: Bool = false
@@ -31,7 +30,7 @@ struct TriviaGameView: View {
             VStack(spacing: 20) {
                 if isLoading {
                     ProgressView("Loading...")
-                } else if let answer = submittedAnswer  {
+                } else if let answer = gameService.submittedAnswer {
                     if answer.answerOutcome, let question = gameService.currentQuestion {
                         CorrectAnswerView(submittedAnswer: answer,
                                           question: question)
@@ -63,10 +62,7 @@ struct TriviaGameView: View {
                         //I've checked the load question function and it's not doing anything I could see that would cause this
                         
                         //try using .task instead
-                        if let answer = try await GameService().checkResponseExists(for: Date().dateFormattedForDb(),
-                                                                                    username: authService.currentUser?.username) {
-                            self.submittedAnswer = answer
-                        }
+                        try await GameService().checkResponseExists(username: authService.currentUser?.username)
                         
                         showUsernameEntry = authService.currentUser?.username == nil
                         
@@ -216,11 +212,11 @@ struct TriviaGameView: View {
             
             do {
                 if let question = gameService.currentQuestion, let username = authService.currentUser?.username {
-                    submittedAnswer = try await GameService().submitAnswer(question: question,
-                                                                           answerText: answerText,
-                                                                           username: username)
+                    try await GameService().submitAnswer(question: question,
+                                                         answerText: answerText,
+                                                         username: username)
                     
-                    if let outcome = submittedAnswer?.answerOutcome {
+                    if let outcome = gameService.submittedAnswer?.answerOutcome {
                         try await authService.updateCurrentUsersStreak(streak: outcome ?
                                                                        (authService.currentUser?.streak ?? 0) + 1 : 0)
                     }

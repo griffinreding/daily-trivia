@@ -13,6 +13,8 @@ class GameService: ObservableObject {
     @Published var currentQuestion: TriviaQuestion?
     @Published var submittedAnswer: SubmittedAnswer?
     
+//    @AppStorage("lastSeenDate") private var lastSeenDate = ""
+    
     //clean up queries using these docs when i'm done being lazy
     //https://firebase.google.com/docs/firestore/query-data/queries?hl=en&authuser=1
     
@@ -31,10 +33,10 @@ class GameService: ObservableObject {
         }
     }
     
-    func checkResponseExists(for datefordb: String, username: String?) async throws -> SubmittedAnswer? {
+    func checkResponseExists(username: String?) async throws {
         guard let username = username else {
             print("Username not available")
-            return nil
+            return
         }
         
         let today = Date().dateFormattedForDb()
@@ -43,13 +45,13 @@ class GameService: ObservableObject {
         let snapshot = try await db.collection("responses").document(username).collection("responses").document(today).getDocument()
         
         if let answerDate = snapshot.data()?["date"] as? String, today == answerDate {
-            return try snapshot.data(as: SubmittedAnswer.self)
+            submittedAnswer = try snapshot.data(as: SubmittedAnswer.self)
         }
         
-        return nil
+        return
     }
     
-    func submitAnswer(question: TriviaQuestion, answerText: String, username: String) async throws -> SubmittedAnswer {
+    func submitAnswer(question: TriviaQuestion, answerText: String, username: String) async throws {
         let userAnswerClean = answerText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let correctAnswerClean = question.correctAnswer.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let isCorrect = userAnswerClean == correctAnswerClean
@@ -73,7 +75,7 @@ class GameService: ObservableObject {
 
         try await responseDocRef.setData(responseData)
         
-        return SubmittedAnswer(date: question.date,
+        submittedAnswer = SubmittedAnswer(date: question.date,
                                answerOutcome: isCorrect,
                                userAnswer: answerText)
     }
@@ -166,8 +168,7 @@ class GameService: ObservableObject {
         
         return true
     }
-    
-
-
 }
+
+
 

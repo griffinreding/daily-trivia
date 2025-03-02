@@ -179,6 +179,4 @@ class AuthService: ObservableObject {
         
         currentUser?.streak = streak
     }
-
-
 }
