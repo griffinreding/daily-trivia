@@ -12,7 +12,7 @@ import FirebaseFirestore
 
 struct TriviaGameView: View {
     @EnvironmentObject var authService: AuthService
-    @State private var question: TriviaQuestion?
+    @StateObject var gameService = GameService()
     @State private var isLoading: Bool = true
     @State private var isShowingAlert: Bool = false
     @State private var errorMessage: String?
@@ -32,16 +32,16 @@ struct TriviaGameView: View {
                 if isLoading {
                     ProgressView("Loading...")
                 } else if let answer = submittedAnswer  {
-                    if answer.answerOutcome, let question = question {
+                    if answer.answerOutcome, let question = gameService.currentQuestion {
                         CorrectAnswerView(submittedAnswer: answer,
                                           question: question)
                     } else {
-                        if let question = question {
+                        if let question = gameService.currentQuestion {
                             IncorrectAnswerView(submittedAnswer: answer,
                                                 question: question)
                         }
                     }
-                } else if let question = question {
+                } else if let question = gameService.currentQuestion {
                     questionView(questionString: question.question)
                 }
                 else {
@@ -197,7 +197,7 @@ struct TriviaGameView: View {
     
     func loadQuestion() async {
         do {
-            self.question = try await GameService().fetchTodaysQuestion()
+            try await GameService().fetchTodaysQuestion()
         }
         catch {
             isLoading = false
@@ -215,7 +215,7 @@ struct TriviaGameView: View {
             isLoading = true
             
             do {
-                if let question = question, let username = authService.currentUser?.username {
+                if let question = gameService.currentQuestion, let username = authService.currentUser?.username {
                     submittedAnswer = try await GameService().submitAnswer(question: question,
                                                                            answerText: answerText,
                                                                            username: username)

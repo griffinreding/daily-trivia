@@ -9,23 +9,25 @@ import Foundation
 import FirebaseFirestore
 import SwiftUI
 
-class GameService {
+class GameService: ObservableObject {
+    @Published var currentQuestion: TriviaQuestion?
+    @Published var submittedAnswer: SubmittedAnswer?
     
     //clean up queries using these docs when i'm done being lazy
     //https://firebase.google.com/docs/firestore/query-data/queries?hl=en&authuser=1
     
-    func fetchTodaysQuestion() async throws -> TriviaQuestion? {
+    func fetchTodaysQuestion() async throws {
         let db = Firestore.firestore()
 
-        let docRef = db.collection("questions").document(Date().dateFormattedForDb())
+        let docRef = db.collection("questions").document("20250301")
         
         let snapshot = try await docRef.getDocumentAsync()
         if snapshot.exists {
             print("Question snapshot exists!")
-            return try snapshot.data(as: TriviaQuestion.self)
+            currentQuestion = try snapshot.data(as: TriviaQuestion.self)
         } else {
             print("Question snapshot does not exist.")
-            return nil
+            return
         }
     }
     
