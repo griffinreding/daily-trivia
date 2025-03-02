@@ -53,7 +53,7 @@ struct TriviaGameView: View {
                 Task {
                     do {
                         isLoading = true
-                        
+                        await gameService.refreshData()
                         await loadQuestion()
                         
                         //This is the wildest thing, the if statement below, has to be after loadQuestion() or it won't work
@@ -62,7 +62,7 @@ struct TriviaGameView: View {
                         //I've checked the load question function and it's not doing anything I could see that would cause this
                         
                         //try using .task instead
-                        try await GameService().checkResponseExists(username: authService.currentUser?.username)
+                        try await gameService.checkResponseExists(username: authService.currentUser?.username)
                         
                         showUsernameEntry = authService.currentUser?.username == nil
                         
@@ -193,7 +193,7 @@ struct TriviaGameView: View {
     
     func loadQuestion() async {
         do {
-            try await GameService().fetchTodaysQuestion()
+            try await gameService.fetchTodaysQuestion()
         }
         catch {
             isLoading = false
@@ -212,7 +212,7 @@ struct TriviaGameView: View {
             
             do {
                 if let question = gameService.currentQuestion, let username = authService.currentUser?.username {
-                    try await GameService().submitAnswer(question: question,
+                    try await gameService.submitAnswer(question: question,
                                                          answerText: answerText,
                                                          username: username)
                     

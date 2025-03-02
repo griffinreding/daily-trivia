@@ -13,11 +13,11 @@ class GameService: ObservableObject {
     @Published var currentQuestion: TriviaQuestion?
     @Published var submittedAnswer: SubmittedAnswer?
     
-//    @AppStorage("lastSeenDate") private var lastSeenDate = ""
+    @AppStorage("lastSeenDate") private var lastSeenDate = ""
     
     //clean up queries using these docs when i'm done being lazy
     //https://firebase.google.com/docs/firestore/query-data/queries?hl=en&authuser=1
-    
+    @MainActor
     func fetchTodaysQuestion() async throws {
         let db = Firestore.firestore()
 
@@ -33,6 +33,7 @@ class GameService: ObservableObject {
         }
     }
     
+    @MainActor
     func checkResponseExists(username: String?) async throws {
         guard let username = username else {
             print("Username not available")
@@ -51,6 +52,7 @@ class GameService: ObservableObject {
         return
     }
     
+    @MainActor
     func submitAnswer(question: TriviaQuestion, answerText: String, username: String) async throws {
         let userAnswerClean = answerText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let correctAnswerClean = question.correctAnswer.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
@@ -170,5 +172,20 @@ class GameService: ObservableObject {
     }
 }
 
+extension GameService {
+    @MainActor
+    func refreshData() async {
+        let today = Date().dateFormattedForDb()
+        
+        print("Last seen date: \(lastSeenDate)")
+        print("Today: \(today)")
+        
+        if lastSeenDate != today {
+            lastSeenDate = today
+            self.currentQuestion = nil
+            self.submittedAnswer = nil // Clear old response
+        }
+    }
+}
 
 
