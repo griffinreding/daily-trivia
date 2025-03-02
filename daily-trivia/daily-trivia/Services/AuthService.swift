@@ -162,9 +162,6 @@ class AuthService: ObservableObject {
         }
     }
 
-
-
-    
     func updateCurrentUsersStreak(streak: Int) async throws {
         guard let username = currentUser?.username else {
             throw NSError(domain: "UserError", code: 0, userInfo: [NSLocalizedDescriptionKey: "User email not available."])

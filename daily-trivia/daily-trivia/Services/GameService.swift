@@ -21,7 +21,7 @@ class GameService: ObservableObject {
     func fetchTodaysQuestion() async throws {
         let db = Firestore.firestore()
 
-        let docRef = db.collection("questions").document("20250301")
+        let docRef = db.collection("questions").document(Date().dateFormattedForDb())
         
         let snapshot = try await docRef.getDocumentAsync()
         if snapshot.exists {
@@ -82,26 +82,38 @@ class GameService: ObservableObject {
                                userAnswer: answerText)
     }
     
-    //need refactor
+    //this doesn't work, and hasn't worked with the new data structure
+    //just had an idea, maybe just store total correct answers on the streak doc, maybe rename it to stats
     func fetchCorrectAnswersLeaderboard() async throws -> [LeaderboardEntry] {
         let db = Firestore.firestore()
         var leaderboard: [String: Int] = [:]
-        
-        let snapshot = try await db.collection("responses")
-            .whereField("answerOutcome", isEqualTo: true)
-            .getDocuments()
-        
-        for document in snapshot.documents {
-            let data = document.data()
-            let username = data["username"] as? String ?? "Unknown"
-            
-            leaderboard[username, default: 0] += 1
+
+        let usersSnapshot = try await db.collection("responses").getDocuments()
+
+        print("Found \(usersSnapshot.documents.count) users in responses collection")
+
+        for userDoc in usersSnapshot.documents {
+            let username = userDoc.documentID
+            print("📌 Processing user: \(username)")
+
+            let userResponsesCollection = db.collection("responses").document(username).collection("responses")
+
+            let correctAnswersSnapshot = try await userResponsesCollection
+                .whereField("answerOutcome", isEqualTo: true)
+                .getDocuments()
+
+            print("✅ User: \(username), Correct Answers Found: \(correctAnswersSnapshot.documents.count)")
+
+            let correctCount = correctAnswersSnapshot.documents.count
+            if correctCount > 0 {
+                leaderboard[username] = correctCount
+            }
         }
-        
-        let sortedLeaderboard = leaderboard.map { LeaderboardEntry(username: $0.key, value: $0.value) }
+
+        let sortedLeaderboard = leaderboard
+            .map { LeaderboardEntry(username: $0.key, value: $0.value) }
             .sorted { $0.value > $1.value }
-//            .prefix(20)
-        
+
         return sortedLeaderboard
     }
     
@@ -121,6 +133,7 @@ class GameService: ObservableObject {
         }
         
         let sortedLeaderboard = leaderboard.map { LeaderboardEntry(username: $0.key, value: $0.value) }
+            .filter { $0.value != 0 }
             .sorted { $0.value > $1.value }
         
         return sortedLeaderboard
