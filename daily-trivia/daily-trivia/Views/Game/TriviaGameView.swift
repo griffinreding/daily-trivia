@@ -12,13 +12,12 @@ import FirebaseFirestore
 
 struct TriviaGameView: View {
     @EnvironmentObject var authService: AuthService
-    @State private var question: TriviaQuestion?
+    @StateObject var gameService = GameService()
     @State private var isLoading: Bool = true
     @State private var isShowingAlert: Bool = false
     @State private var errorMessage: String?
     @State private var answerText: String = ""
     @State private var resultMessage: String?
-    @State private var submittedAnswer: SubmittedAnswer?
     @State private var warnedAboutEmptyAnswer: Bool = false
     @State private var showUsernameEntry: Bool = false
     @State private var isShowingBugAlert: Bool = false
@@ -31,17 +30,17 @@ struct TriviaGameView: View {
             VStack(spacing: 20) {
                 if isLoading {
                     ProgressView("Loading...")
-                } else if let answer = submittedAnswer  {
-                    if answer.answerOutcome, let question = question {
+                } else if let answer = gameService.submittedAnswer {
+                    if answer.answerOutcome, let question = gameService.currentQuestion {
                         CorrectAnswerView(submittedAnswer: answer,
                                           question: question)
                     } else {
-                        if let question = question {
+                        if let question = gameService.currentQuestion {
                             IncorrectAnswerView(submittedAnswer: answer,
                                                 question: question)
                         }
                     }
-                } else if let question = question {
+                } else if let question = gameService.currentQuestion {
                     questionView(questionString: question.question)
                 }
                 else {
@@ -52,24 +51,28 @@ struct TriviaGameView: View {
             .padding()
             .onAppear {
                 Task {
-                    isLoading = true
-                    
-                    await loadQuestion()
-                    
-                    //This is the wildest thing, the if statement below, has to be after loadQuestion() or it won't work
-                    //It's like the environment object isn't available at the top of the block
-                    //and gets initialized in the middle of this function.
-                    //I've checked the load question function and it's not doing anything I could see that would cause this
-                    
-                    //try using .task instead
-                    if let answer = await GameService().checkResponseExists(for: Date().dateFormattedForDb(),
-                                                                            username: authService.currentUser?.username) {
-                        self.submittedAnswer = answer
+                    do {
+                        isLoading = true
+                        await gameService.refreshData()
+                        await loadQuestion()
+                        
+                        //This is the wildest thing, the if statement below, has to be after loadQuestion() or it won't work
+                        //It's like the environment object isn't available at the top of the block
+                        //and gets initialized in the middle of this function.
+                        //I've checked the load question function and it's not doing anything I could see that would cause this
+                        
+                        //try using .task instead
+                        try await gameService.checkResponseExists(username: authService.currentUser?.username)
+                        
+                        showUsernameEntry = authService.currentUser?.username == nil
+                        
+                        isLoading = false
                     }
-                    
-                    showUsernameEntry = authService.currentUser?.username == nil
-                    
-                    isLoading = false
+                    catch {
+                        isLoading = false
+                        errorMessage = error.localizedDescription
+                        isShowingAlert = true
+                    }
                 }
             }
             .alert(isPresented: $isShowingAlert) {
@@ -190,7 +193,7 @@ struct TriviaGameView: View {
     
     func loadQuestion() async {
         do {
-            self.question = try await GameService().fetchTodaysQuestion()
+            try await gameService.fetchTodaysQuestion()
         }
         catch {
             isLoading = false
@@ -208,12 +211,12 @@ struct TriviaGameView: View {
             isLoading = true
             
             do {
-                if let question = question, let username = authService.currentUser?.username {
-                    submittedAnswer = try await GameService().submitAnswer(question: question,
-                                                                           answerText: answerText,
-                                                                           username: username)
+                if let question = gameService.currentQuestion, let username = authService.currentUser?.username {
+                    try await gameService.submitAnswer(question: question,
+                                                         answerText: answerText,
+                                                         username: username)
                     
-                    if let outcome = submittedAnswer?.answerOutcome {
+                    if let outcome = gameService.submittedAnswer?.answerOutcome {
                         try await authService.updateCurrentUsersStreak(streak: outcome ?
                                                                        (authService.currentUser?.streak ?? 0) + 1 : 0)
                     }

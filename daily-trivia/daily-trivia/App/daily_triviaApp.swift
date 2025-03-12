@@ -39,12 +39,13 @@ struct daily_triviaApp: App {
                                     try await authService.fetchUserStreak()
                                 }
                                 catch {
-                                    //another unhandled error
+                                    print("Error signing in with Firebase: \(error.localizedDescription)")
+                                    return //need a better solution here
                                 }
                             }
                         }
                         else {
-                            GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in //unhandled error
+                            GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
                                 Task {
                                     do {
                                         if let user = user {
@@ -53,7 +54,8 @@ struct daily_triviaApp: App {
                                             try await authService.fetchUserStreak()
                                         }
                                     } catch {
-                                        //another unhandled error
+                                        print("Error signing in with Google: \(error.localizedDescription)")
+                                        return //need a better solution here
                                     }
                                 }
                             }
